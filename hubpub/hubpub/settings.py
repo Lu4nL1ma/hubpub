@@ -73,8 +73,15 @@ USE_TZ = True
 
 # 7. ARQUIVOS ESTÁTICOS E MÍDIA
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+
+# MUDANÇA: O ROOT deve apontar para uma pasta de DESTINO (ex: staticfiles)
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# MUDANÇA: O DIRS deve apontar para a pasta de ORIGEM (static)
+# Se você tiver uma pasta 'static' na raiz do projeto, use assim:
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
