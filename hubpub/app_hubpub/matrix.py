@@ -19,8 +19,8 @@ DB_CONFIG = {
     'charset': 'utf8mb4'
 }
 
-CAMINHO_MEDIA_LOCAL = os.path.join(BASE_DIR, 'media') 
-BASE_URL_PUBLICA = "https://infinitycursos.site/media/"
+CAMINHO_MEDIA_LOCAL = os.path.join(BASE_DIR, 'media')
+BASE_URL_PUBLICA = "https://lu4nl1ma.pythonanywhere.com/media/"
 
 # --- 2. CREDENCIAIS META ---
 PAGE_ACCESS_TOKEN = 'EAAUB01Agx2YBQza2bbgTBeFh7WlDy93fs6UabSLr5Kp9uwyyqfHpAXnNpOEmZADshM1tweiZCPoSkJ1PnKdDhYnvu3pJfFmQHwAlg6Wr8Pz5EecUIfJghYAXQvermuRDiITE0YeBarWiCngZBPyY7zCvLSPJcZBVklnRWJII3p5Ab4GaIORYy550SxsSYNvCKRuM6Ds5'
@@ -56,7 +56,7 @@ def postar_instagram(url, texto, tipo='Feed'):
     payload = {'image_url': url, 'access_token': PAGE_ACCESS_TOKEN}
     if tipo == 'Story': payload['media_type'] = 'STORIES'
     else: payload['caption'] = texto
-    
+
     try:
         res_c = get_session().post(url_c, data=payload).json()
         if 'id' in res_c:
@@ -78,8 +78,8 @@ try:
 
     # Busca agendamentos (A query é quase idêntica, mas MySQL usa %s em vez de ?)
     query = """
-        SELECT * FROM app_hubpub_divulgacao_agend 
-        WHERE hora <= %s 
+        SELECT * FROM app_hubpub_divulgacao_agend
+        WHERE hora <= %s
         AND (ultima_publicacao IS NULL OR ultima_publicacao != %s)
         ORDER BY hora ASC
     """
@@ -109,7 +109,7 @@ try:
             cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", (dia_atual, row['id']))
             conn.commit()
             print(f"✅ Post {row['id']} ({row['rede_social']}) OK.")
-            time.sleep(5) 
+            time.sleep(5)
         else:
             print(f"❌ Falha no post {row['id']}.")
 
