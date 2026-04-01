@@ -15,7 +15,7 @@ DB_CONFIG = {
     'host': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
     'user': 'Lu4nL1ma',
     'passwd': '123lux456',  # A mesma que você colocou no settings.py
-    'db': 'Lu4nL1ma$hubpub_db',
+    'db': 'Lu4nL1ma$app_hubpub',
     'charset': 'utf8mb4'
 }
 
