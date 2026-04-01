@@ -243,3 +243,62 @@ input::-webkit-calendar-picker-indicator {
         font-size: 1.5rem;
     }
 }
+
+/* --- Mantenha todo o seu código anterior e adicione/ajuste estas partes --- */
+
+/* Estilo para o Checkbox Customizado */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--cor-suave);
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container input {
+    margin-right: 12px;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer;
+    accent-color: var(--cor-acento);
+}
+
+.checkbox-container:hover {
+    color: var(--cor-acento);
+}
+
+/* Container do Campo Extra com borda de destaque */
+#wrapper-repeticao {
+    display: none;
+    padding: 15px;
+    background: rgba(0, 212, 255, 0.03);
+    border-left: 3px solid var(--cor-acento);
+    border-radius: 0 10px 10px 0;
+    margin-top: 5px;
+}
+
+/* Animação suave ao aparecer */
+.field-animated {
+    animation: fadeInSlide 0.4s ease forwards;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajuste de espaçamento para o botão submit quando houver repetição */
+.btn-submit {
+    margin-top: 20px;
+}
