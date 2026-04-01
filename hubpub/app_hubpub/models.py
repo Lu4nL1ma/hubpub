@@ -15,7 +15,7 @@ class divulgacao_agend(models.Model):
     midia = models.ImageField(upload_to='divulgacao/', null=True, blank=True)
     
     # auto_now_add já define o default como "agora" na criação
-    data_criacao = models.DateField(auto_now_add=False)
+    data = models.DateField(auto_now_add=False)
 
     # Para CharField de hora, defini um valor padrão de texto
     hora = models.CharField(max_length=100, default='00:00')
