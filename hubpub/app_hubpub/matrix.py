@@ -1,22 +1,28 @@
 import os
-import sqlite3
+import MySQLdb  # Substitui o sqlite3
 import requests
 import pytz
 import time
 from datetime import datetime
 import sys
 
-# --- 1. CONFIGURAÇÕES DE CAMINHO (CORREÇÃO CHAVE) ---
-# Pega a pasta onde o matrix.py está (app_hubpub)
+# --- 1. CONFIGURAÇÕES DE CAMINHO ---
 PASTA_ATUAL = os.path.dirname(os.path.abspath(__file__))
-# SOBE UM NÍVEL para a raiz do projeto onde o db.sqlite3 realmente mora
 BASE_DIR = os.path.dirname(PASTA_ATUAL)
 
-CAMINHO_DB = os.path.join(BASE_DIR, 'db.sqlite3')
+# Agora o caminho do banco não é mais um arquivo, mas os dados da aba Databases
+DB_CONFIG = {
+    'host': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
+    'user': 'Lu4nL1ma',
+    'passwd': '123lux456',  # A mesma que você colocou no settings.py
+    'db': 'Lu4nL1ma$hubpub_db',
+    'charset': 'utf8mb4'
+}
+
 CAMINHO_MEDIA_LOCAL = os.path.join(BASE_DIR, 'media') 
 BASE_URL_PUBLICA = "https://infinitycursos.site/media/"
 
-# --- 2. CREDENCIAIS DIRETAS (HARDCODED) ---
+# --- 2. CREDENCIAIS META ---
 PAGE_ACCESS_TOKEN = 'EAAUB01Agx2YBQza2bbgTBeFh7WlDy93fs6UabSLr5Kp9uwyyqfHpAXnNpOEmZADshM1tweiZCPoSkJ1PnKdDhYnvu3pJfFmQHwAlg6Wr8Pz5EecUIfJghYAXQvermuRDiITE0YeBarWiCngZBPyY7zCvLSPJcZBVklnRWJII3p5Ab4GaIORYy550SxsSYNvCKRuM6Ds5'
 FACEBOOK_PAGE_ID = '1044548165403490'
 INSTA_BUSINESS_ID = '17841467620559548'
@@ -54,7 +60,7 @@ def postar_instagram(url, texto, tipo='Feed'):
     try:
         res_c = get_session().post(url_c, data=payload).json()
         if 'id' in res_c:
-            time.sleep(10) # Tempo para processamento da Meta
+            time.sleep(10)
             res_p = get_session().post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish", data={'creation_id': res_c['id'], 'access_token': PAGE_ACCESS_TOKEN})
             return res_p.status_code == 200
     except: return False
@@ -62,20 +68,22 @@ def postar_instagram(url, texto, tipo='Feed'):
 
 # --- 4. EXECUÇÃO ---
 
-print(f"🔍 Conectando no banco em: {CAMINHO_DB}")
+print(f"🔍 Conectando ao MySQL: {DB_CONFIG['db']}")
 
 try:
-    conn = sqlite3.connect(CAMINHO_DB)
-    conn.row_factory = sqlite3.Row 
-    cursor = conn.cursor()
+    # Conexão MySQL
+    conn = MySQLdb.connect(**DB_CONFIG)
+    # Cursor DictCursor faz o mesmo que o row_factory=sqlite3.Row (permite acessar por nome da coluna)
+    cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    # Busca agendamentos atrasados ou na hora
-    cursor.execute("""
+    # Busca agendamentos (A query é quase idêntica, mas MySQL usa %s em vez de ?)
+    query = """
         SELECT * FROM app_hubpub_divulgacao_agend 
-        WHERE hora <= ? 
-        AND (ultima_publicacao IS NULL OR ultima_publicacao != ?)
+        WHERE hora <= %s 
+        AND (ultima_publicacao IS NULL OR ultima_publicacao != %s)
         ORDER BY hora ASC
-    """, (hora_atual, dia_atual))
+    """
+    cursor.execute(query, (hora_atual, dia_atual))
 
     rows = cursor.fetchall()
 
@@ -97,7 +105,8 @@ try:
             sucesso = postar_instagram(url_img, row['legenda'], row['tipo_post'])
 
         if sucesso:
-            cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = ? WHERE id = ?", (dia_atual, row['id']))
+            # Update usando %s para o MySQL
+            cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", (dia_atual, row['id']))
             conn.commit()
             print(f"✅ Post {row['id']} ({row['rede_social']}) OK.")
             time.sleep(5) 
@@ -107,4 +116,4 @@ try:
 except Exception as e:
     print(f"❌ Erro: {e}")
 finally:
-    if 'conn' in locals(): conn.close()
+    if 'conn' in locals() and conn.open: conn.close()
