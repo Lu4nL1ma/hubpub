@@ -15,7 +15,7 @@ BASE_DIR = os.path.dirname(PASTA_ATUAL)
 DB_CONFIG = {
     'host': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
     'user': 'Lu4nL1ma',
-    'passwd': '123lux456', 
+    'passwd': '123lux456',
     'db': 'Lu4nL1ma$app_hubpub',
     'charset': 'utf8mb4'
 }
@@ -54,10 +54,10 @@ def postar_facebook(caminho, texto):
 def postar_instagram(url, texto, tipo='Feed'):
     url_c = f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media"
     payload = {'image_url': url, 'access_token': PAGE_ACCESS_TOKEN}
-    
-    if tipo == 'Story': 
+
+    if tipo == 'Story':
         payload['media_type'] = 'STORIES'
-    else: 
+    else:
         payload['caption'] = texto
 
     try:
@@ -65,8 +65,8 @@ def postar_instagram(url, texto, tipo='Feed'):
         if 'id' in res_c:
             creation_id = res_c['id']
             # Aguarda o processamento da mídia pelo Instagram
-            time.sleep(15) 
-            res_p = session.post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish", 
+            time.sleep(15)
+            res_p = session.post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish",
                                  data={'creation_id': creation_id, 'access_token': PAGE_ACCESS_TOKEN})
             return res_p.status_code == 200
     except Exception as e:
@@ -76,39 +76,38 @@ def postar_instagram(url, texto, tipo='Feed'):
 
 # --- 4. EXECUÇÃO ---
 
-print(f"📅 Data: {dia_atual} | ⏰ Hora: {hora_atual}")
-print(f"🔍 Buscando agendamentos pendentes...")
+print(f"📅 Data Hoje: {dia_atual} | ⏰ Hora Agora: {hora_atual}")
+print(f"🔍 Buscando agendamentos pendentes para hoje...")
 
 try:
     conn = MySQLdb.connect(**DB_CONFIG)
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    # QUERY CORRIGIDA: 
-    # 1. Filtra pelo dia de hoje (data = %s)
-    # 2. Filtra pela hora (hora <= %s)
-    # 3. Garante que ainda não foi publicado (IS NULL)
+    # QUERY LIMPA: Busca apenas o que é de HOJE, já passou da HORA e NUNCA foi publicado
     query = """
-        SELECT * FROM app_hubpub_divulgacao_agend 
-        WHERE data_criacao = %s 
-        AND hora <= %s 
+        SELECT * FROM app_hubpub_divulgacao_agend
+        WHERE data = %s
+        AND hora <= %s
         AND ultima_publicacao IS NULL
         ORDER BY hora ASC
     """
+    
+    # Passamos exatamente 2 argumentos para preencher os 2 '%s' da query
     cursor.execute(query, (dia_atual, hora_atual))
     rows = cursor.fetchall()
 
     if not rows:
-        print(f"☕ Nada para postar neste momento.")
+        print(f"☕ Nada agendado para este exato momento.")
         sys.exit()
 
-    print(f"🚀 {len(rows)} post(s) encontrado(s) para processar.")
+    print(f"🚀 {len(rows)} post(s) encontrado(s). Iniciando processamento...")
 
     for row in rows:
         path_local = os.path.join(CAMINHO_MEDIA_LOCAL, row['midia'])
         url_img = BASE_URL_PUBLICA + row['midia']
         sucesso = False
 
-        print(f"📸 Tentando post {row['id']} - Rede: {row['rede_social']}")
+        print(f"📸 Processando ID {row['id']} para {row['rede_social']}...")
 
         if row['rede_social'] == 'Facebook':
             sucesso = postar_facebook(path_local, row['legenda'])
@@ -116,17 +115,17 @@ try:
             sucesso = postar_instagram(url_img, row['legenda'], row['tipo_post'])
 
         if sucesso:
-            # Atualiza para a data atual, tirando o registro do estado NULL
+            # Marca como finalizado para não repetir nunca mais
             cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", (dia_atual, row['id']))
             conn.commit()
             print(f"✅ Post {row['id']} publicado com sucesso!")
-            time.sleep(5) # Delay entre posts para evitar spam
+            time.sleep(5) 
         else:
-            print(f"❌ Falha ao publicar post {row['id']}. Tentará novamente na próxima execução.")
+            print(f"❌ Falha ao publicar post {row['id']}. Ficará para a próxima tentativa.")
 
 except Exception as e:
-    print(f"❌ Erro crítico no banco de dados: {e}")
+    print(f"❌ Erro crítico: {e}")
 finally:
-    if 'conn' in locals() and conn.open: 
+    if 'conn' in locals() and conn.open:
         conn.close()
-        print("🔌 Conexão encerrada.")
+        print("🔌 Conexão com banco encerrada.")
