@@ -1,0 +1,322 @@
+/* --- CONFIGURAÇÕES GERAIS --- */
+:root {
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* --- CABEÇALHO (HEADER) --- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Diminuí o padding vertical para 10px para compensar a logo maior */
+    padding: 10px 8%; 
+    background: rgba(10, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.8rem; /* Aumentado para dar destaque ao nome */
+    color: var(--cor-acento);
+}
+
+.logo img {
+    height: 60px; /* Logo aumentada (era 40px) */
+    margin-right: 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+/* --- NAVEGAÇÃO MAIS PRÓXIMA --- */
+nav ul { 
+    display: flex; 
+    align-items: center; /* Alinha os textos verticalmente com a logo */
+}
+
+nav ul li { 
+    /* Diminuímos o espaço à esquerda de cada item */
+    margin-left: 15px; /* Se quiser ainda mais perto, tente 10px */
+}
+
+nav ul li a {
+    font-size: 0.95rem; /* Um tamanho de fonte levemente menor ajuda na proximidade */
+    padding: 5px 0;    /* Área de clique vertical sem afastar os lados */
+    transition: 0.3s;
+}
+
+.btn-aluno {
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-left: 20px; /* Espaço entre o último link e o botão */
+}
+
+.btn-aluno:hover {
+    background: #fff;
+    box-shadow: 0 0 15px var(--cor-acento);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(10, 15, 30, 0.8), rgba(10, 15, 30, 0.8)), 
+                url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 0 5%;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero h1 span { color: var(--cor-acento); }
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--cor-suave);
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+/* --- SEÇÃO DE CURSOS --- */
+.cursos { padding: 80px 8%; text-align: center; }
+.cursos h2 { font-size: 2.5rem; margin-bottom: 40px; }
+
+.grid-cursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card-curso {
+    background: var(--cor-secundaria);
+    padding: 40px 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.4s;
+}
+
+.card-curso:hover {
+    transform: translateY(-10px);
+    border-color: var(--cor-acento);
+}
+
+.card-curso i {
+    font-size: 2.5rem;
+    color: var(--cor-acento);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.card-curso h3 { margin-bottom: 15px; font-size: 1.5rem; }
+.card-curso p { color: var(--cor-suave); margin-bottom: 25px; }
+
+.btn-saber-mais {
+    border: 1px solid var(--cor-acento);
+    padding: 8px 20px;
+    border-radius: 4px;
+    color: var(--cor-acento);
+    transition: 0.3s;
+}
+
+/* --- WIDGET DE CHAT BATE-PAPO --- */
+.chat-container {
+    position: fixed; bottom: 30px; right: 30px; z-index: 2000;
+    display: flex; flex-direction: column; align-items: flex-end;
+}
+
+.chat-janela {
+    width: 320px; height: 420px; background: var(--cor-secundaria);
+    border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 15px;
+    margin-bottom: 20px; display: none; flex-direction: column;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6); overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.chat-header {
+    background: var(--cor-acento); color: var(--cor-primaria);
+    padding: 15px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;
+}
+
+.chat-header button { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--cor-primaria); }
+
+.chat-mensagens {
+    flex-grow: 1; padding: 15px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 10px; background: #0d1425;
+}
+
+.msg { padding: 8px 12px; border-radius: 10px; max-width: 85%; font-size: 0.85rem; }
+.msg.bot { background: var(--cor-secundaria); align-self: flex-start; color: white; border-left: 3px solid var(--cor-acento); }
+.msg.user { background: var(--cor-acento); color: var(--cor-primaria); align-self: flex-end; font-weight: 500; }
+
+.chat-input-area {
+    display: flex; padding: 10px; background: var(--cor-secundaria); border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.chat-input-area input {
+    flex-grow: 1; background: #0a0f1e; border: 1px solid #333;
+    color: white; padding: 10px; border-radius: 5px; outline: none;
+}
+
+.chat-input-area button {
+    background: var(--cor-acento); border: none; width: 40px;
+    margin-left: 10px; border-radius: 5px; cursor: pointer; color: var(--cor-primaria);
+}
+
+.chat-botao {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--cor-acento); border: none; color: var(--cor-primaria);
+    font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    display: flex; align-items: center; justify-content: center;
+    animation: pulsar 2s infinite;
+}
+
+@keyframes pulsar {
+    0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(0, 212, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+/* --- RODAPÉ --- */
+footer {
+    background: #050810;
+    padding: 50px 8% 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-content {
+    display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 40px;
+}
+
+.footer-section { margin-bottom: 20px; min-width: 200px; }
+.footer-section h4 { color: var(--cor-acento); margin-bottom: 20px; }
+.footer-section p { color: var(--cor-suave); font-size: 0.9rem; }
+
+.copyright {
+    text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px; font-size: 0.8rem; color: var(--cor-suave);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    header { padding: 10px 5%; }
+    nav { display: none; } /* Oculta menu no mobile, ideal seria um menu hambúrguer futuramente */
+    .hero h1 { font-size: 2.2rem; }
+    .logo img { height: 50px; } /* Logo um pouco menor no celular para caber tudo */
+}
+
+/* --- CONTAINER DO DROPDOWN (PAI) --- */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* --- BOTÃO PRINCIPAL (ACESSOS RESTRITOS) --- */
+.dropbtn {
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 220px;           /* Largura fixa para alinhar com a lista */
+    display: block;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+/* --- A JANELA SUSPENSA (DROPDOWN CONTENT) --- */
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    background-color: var(--cor-secundaria);
+    width: 220px;           /* Mesma largura do botão de cima */
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.6);
+    z-index: 1001;
+    border-radius: 0 0 12px 12px; /* Arredonda apenas a base */
+    
+    /* Posicionamento Colado */
+    top: 100%; 
+    left: 0;
+    padding: 10px 0;        /* Espaço interno no topo e no fundo da lista */
+    margin: 0;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-top: none;       /* Remove a linha divisória entre botão e lista */
+}
+
+/* --- BOTÕES INTERNOS (ALUNO, PROFESSOR, STAFF) --- */
+.dropdown-content a {
+    color: var(--cor-texto) !important;
+    padding: 14px 0;        /* Deixa o botão mais "gordinho" verticalmente */
+    text-decoration: none;
+    display: block;         /* Garante que fiquem um embaixo do outro */
+    width: 90%;             /* Ocupa quase toda a largura da caixinha */
+    margin: 8px auto;       /* ESPAÇAMENTO VERTICAL ENTRE OS BOTÕES */
+    text-align: center; 
+    border-radius: 6px; 
+    transition: 0.3s ease;
+    background: rgba(255, 255, 255, 0.03); /* Fundo sutil */
+    font-size: 0.9rem;
+}
+
+/* --- EFEITOS DE INTERAÇÃO --- */
+.dropdown-content a:hover {
+    background-color: var(--cor-acento) !important;
+    color: var(--cor-primaria) !important;
+    transform: translateY(-2px); /* Leve subida ao passar o mouse */
+}
+
+/* Mantém o menu aberto quando o mouse está sobre ele */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Ajuste estético no botão principal quando o menu abre */
+.dropdown:hover .dropbtn {
+    border-radius: 5px 5px 0 0; /* Tira o arredondamento de baixo para "encaixar" */
+    box-shadow: 0 0 15px var(--cor-acento);
+}

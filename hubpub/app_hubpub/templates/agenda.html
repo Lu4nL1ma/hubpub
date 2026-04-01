@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/agd.css' %}">
+    <title>Agenda de Divulgação</title>
+</head>
+<body>
+    
+    <h1 class="main-title">AGENDA DE <span>DIVULGAÇÃO</span></h1>
+
+    <a href="{% url "staff" %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+
+<div class="header">
+    <div class="month-name" id="monthDisplay">Mês Ano</div>
+    <div class="nav-btns">
+        <button class="btn btn-add" onclick="window.location.href='{% url "forms_agenda" %}'"> ➕ Inserir </button>
+        <button class="btn" onclick="changeWeek(-7)">◄</button>
+        <button class="btn" onclick="changeWeek(7)">►</button>
+    </div>
+</div>
+
+<div class="week-container" id="weekContainer"></div>
+
+<script id="planner-data" type="application/json">
+    {{ db_demandas_json|safe }}
+</script>
+
+<script>
+    // Capturamos o JSON do script acima de forma segura
+    const dbDemandas = JSON.parse(document.getElementById('planner-data').textContent) || {};
+    console.log("Dados carregados do banco:", dbDemandas);
+</script>
+
+<script src="{% static 'js/agd.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Form-Divulgação</title>
+     <link rel="stylesheet" href="{% static "css/frm-agd.css" %}">
+</head>
+<body>
+
+        <a href="{% url "agenda" %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Voltar
+       </a>
+<div class="form-container">
+
+    <div class="form-header">
+        <h2>INFINITY <span>DIVULGAÇÃO</span></h2>
+        <p style="color: var(--cor-suave); margin-top: 5px;">Cadastro de Dados e Mídia</p>
+    </div>
+
+   <form action="{% url 'forms_agenda' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %} <div class="form-group">
+        <label for="rede_social"> Rede Social </label>
+        <select name="rede_social" id="rede_social">
+            {% for r in redes %}
+                <option value="{{ r }}"> {{ r }} </option>
+            {% endfor %}
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label for="tipo_post"> Tipo de Publicação </label>
+                <select name="tipo" id="tipo">
+            {% for t in tipos %}
+                <option value="{{ t }}"> {{ t }} </option>
+            {% endfor %}
+        </select>
+
+
+    </div>
+
+    <div class="form-group">
+        <label for="midia"> Imagem de Divulgação</label>
+        <input type="file" id="midia" name="midia" accept="image/*">
+    </div>
+
+    <div class="form-group">
+        <label for="legenda"> Legenda do Post </label>
+        <textarea id="legenda" name="legenda" rows="4"></textarea>
+    </div>
+
+    <div class="form-row" style="display: flex; gap: 15px;">
+        <div class="form-group" style="flex: 2;">
+            <label for="data_pub"> Data de Divulgação </label>
+            <input type="date" id="data_pub" name="data_pub" required>
+        </div>
+
+        <div class="form-group" style="flex: 1;">
+            <label for="hora_pub"> Hora </label>
+            <input type="time" id="hora_pub" name="hora_pub" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Salvar Registro</button>
+</form>
+
+    <div class="form-footer">
+        <p>© 2026 Infty Proj - Sistema de Gestão</p>
+    </div>
+</div>
+
+</body>
+</html>

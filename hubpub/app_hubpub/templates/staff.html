@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Staff Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stf.css' %}">
+</head>
+<body>
+
+    <main class="main-hub">
+        <header class="header-staff">
+            <div class="brand-section">
+                <h1>INFI<span>NITY</span></h1>
+                <p>Management System Dashboard</p>
+            </div>
+            
+            <div class="header-right">
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=00d4ff&color=0a0f1e" alt="User">
+                    <div class="user-details">
+                        <strong>{{ user.username|title }}</strong>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+                
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout-top">
+                        <i class="fas fa-power-off"></i> ENCERRAR SESSÃO
+                    </button>
+                </form>
+            </div>
+        </header>
+
+        <div class="hub-grid">
+            <div class="hub-card">
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="card-info">
+                    <h3>Agenda de Divulgação</h3>
+                    <p>Controle estratégico de postagens, tráfego e cronograma semanal de mídias.</p>
+                </div>
+                <a href="{% url 'agenda' %}" class="btn-access">ENTRAR <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="hub-card">
+                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="card-info">
+                    <h3>Gestão de Cursos</h3>
+                    <p>Administração de módulos, upload de aulas e organização de materiais didáticos.</p>
+                </div>
+                <a href="#" class="btn-access">ENTRAR <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="hub-card">
+                <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="card-info">
+                    <h3>Métricas & Dados</h3>
+                    <p>Relatórios de performance, conversão de alunos e engajamento da plataforma.</p>
+                </div>
+                <a href="#" class="btn-access">ENTRAR <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="hub-card">
+                <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+                <div class="card-info">
+                    <h3>Segurança & Logs</h3>
+                    <p>Monitoramento de acessos, permissões de usuários e integridade do sistema.</p>
+                </div>
+                <a href="#" class="btn-access">ENTRAR <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <footer class="hub-footer">
+            <div class="footer-left">
+                <span class="status-dot"></span> SISTEMA OPERACIONAL ATIVO
+            </div>
+            <span>INFINITY PROJECT &copy; 2026</span>
+        </footer>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Cursos | Transforme seu Futuro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="{% static "img/1000143293.jpg" %}" alt="Logo">
+            <span>INFINITY</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#cursos">Cursos</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Depoimentos</a></li>
+            </ul>
+        </nav>
+<div class="dropdown">
+    <button class="dropbtn">Institucional</button>
+    
+    <div class="dropdown-content">
+        <a href="#" class="btn-aluno">Área do Aluno</a>
+        <a href="#" class="btn-aluno">Área do Professor</a>
+        <a href="staff" class="btn-aluno">Staff</a>
+    </div>
+</div>
+
+    </header>
+
+    <section class="hero">
+        <h1>TRANSFORME SEU FUTURO COM <span>CONHECIMENTO</span></h1>
+        <p>A plataforma líder em cursos profissionalizantes. Aprenda com especialistas e conquiste sua vaga no mercado de trabalho.</p>
+        <a href="#cursos" class="btn-aluno" style="padding: 15px 40px; font-size: 1.1rem;">Explorar Cursos</a>
+    </section>
+
+    <section class="cursos" id="cursos">
+        <h2>Nossos Cursos Populares</h2>
+        <div class="grid-cursos">
+            <div class="card-curso">
+                <i class="fas fa-code"></i>
+                <h3>Desenvolvimento Web</h3>
+                <p>HTML5, CSS3, JavaScript e as tecnologias mais modernas do mercado.</p>
+                <a href="#" class="btn-saber-mais">Saiba Mais</a>
+            </div>
+
+            <div class="card-curso">
+                <i class="fas fa-chart-line"></i>
+                <h3>Análise de Dados</h3>
+                <p>Domine Python, SQL e Power BI para tomar decisões estratégicas.</p>
+                <a href="#" class="btn-saber-mais">Saiba Mais</a>
+            </div>
+
+            <div class="card-curso">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Design Gráfico</h3>
+                <p>Criação visual profissional com Photoshop, Illustrator e Figma.</p>
+                <a href="#" class="btn-saber-mais">Saiba Mais</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-container">
+        <div class="chat-janela" id="chatJanela">
+            <div class="chat-header">
+                <span><i class="fas fa-robot"></i> Infinity Assistente</span>
+                <button onclick="toggleChat()">&times;</button>
+            </div>
+            <div class="chat-mensagens" id="chatMsgs">
+                <div class="msg bot">Olá! 👋 Sou o assistente da Infinity. Como posso te ajudar hoje?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="userInput" placeholder="Digite sua mensagem..." onkeypress="handleKey(event)">
+                <button onclick="enviarMensagem()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+        
+        <button class="chat-botao" onclick="toggleChat()">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+            <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+            </svg>
+        </button>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Infinity Cursos</h4>
+                <p>Capacitando mentes para o<br>mercado de amanhã.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Úteis</h4>
+                <ul>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Suporte</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p>Email: contato@infinity.com</p>
+                <p>WhatsApp: (00) 00000-0000</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Infinity Cursos Profissionalizantes. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        function toggleChat() {
+            const janela = document.getElementById('chatJanela');
+            janela.style.display = (janela.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function enviarMensagem() {
+            const input = document.getElementById('userInput');
+            const texto = input.value.trim();
+            if (texto !== "") {
+                adicionarMensagem(texto, 'user');
+                input.value = "";
+                setTimeout(() => responderBot(texto), 800);
+            }
+        }
+
+        function handleKey(e) { if (e.key === 'Enter') enviarMensagem(); }
+
+        function adicionarMensagem(texto, tipo) {
+            const container = document.getElementById('chatMsgs');
+            const div = document.createElement('div');
+            div.className = `msg ${tipo}`;
+            div.innerText = texto;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function responderBot(texto) {
+            const t = texto.toLowerCase();
+            let r = "Não entendi, mas posso te transferir para um consultor. Deseja?";
+            if (t.includes("oi") || t.includes("olá")) r = "Olá! Como vai? Qual curso você busca?";
+            else if (t.includes("curso")) r = "Temos Desenvolvimento Web, Dados e Design. Qual você prefere?";
+            else if (t.includes("preço") || t.includes("valor")) r = "Nossas mensalidades são super acessíveis! Qual curso você quer saber o valor?";
+            adicionarMensagem(r, 'bot');
+        }
+    </script>
+</body>
+</html>

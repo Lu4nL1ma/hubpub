@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity | Login Staff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/log.css' %}">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>INFI<span>NITY</span></h1>
+                <p>Painel de Controle Interno</p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="error-msg">
+                    <i class="fas fa-exclamation-circle"></i> Usuário ou senha incorretos.
+                </div>
+                {% endif %}
+
+                <div class="input-group">
+                    <label for="id_username">Usuário</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="username" id="id_username" placeholder="Digite seu usuário" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="id_password">Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="id_password" placeholder="Digite sua senha" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">Entrar no Sistema</button>
+            </form>
+
+            <div class="login-footer">
+                <p>&copy; 2026 Infty Proj - Acesso Restrito</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
