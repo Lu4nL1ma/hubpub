@@ -89,7 +89,7 @@ try:
     # 3. Garante que ainda não foi publicado (IS NULL)
     query = """
         SELECT * FROM app_hubpub_divulgacao_agend 
-        WHERE data = %s 
+        WHERE data_criacao = %s 
         AND hora <= %s 
         AND ultima_publicacao IS NULL
         ORDER BY hora ASC
