@@ -59,14 +59,14 @@ def form_agenda(request):
 
         # 3. Cria o Primeiro Registro (Data Principal)
         divulgacao_agend.objects.create(
-            data_criacao=data_principal,
+            data=data_principal,
             **dados_comuns
         )
 
         # 4. Condicional: Cria o Segundo Registro (Repetição) apenas se houver data
         if data_repeticao:
             divulgacao_agend.objects.create(
-                data_criacao=data_repeticao,
+                data=data_repeticao,
                 **dados_comuns
             )
 
