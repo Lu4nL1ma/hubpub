@@ -11,7 +11,7 @@ import sys
 PASTA_ATUAL = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PASTA_ATUAL)
 
-# Configurações do MySQL (Verifique se a senha está correta)
+# Configurações do MySQL
 DB_CONFIG = {
     'host': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
     'user': 'Lu4nL1ma',
@@ -29,73 +29,86 @@ FACEBOOK_PAGE_ID = '1044548165403490'
 INSTA_BUSINESS_ID = '17841467620559548'
 API_VERSION = 'v22.0'
 
-# Ajuste de Fuso Horário
+# Ajuste de Fuso Horário (Brasil - São Paulo)
 fuso_br = pytz.timezone('America/Sao_Paulo')
-hoje = datetime.now(fuso_br)
-dia_atual = hoje.strftime("%Y-%m-%d")
-hora_atual = hoje.strftime("%H:%M")
+agora = datetime.now(fuso_br)
+dia_atual = agora.strftime("%Y-%m-%d")
+hora_atual = agora.strftime("%H:%M")
 
-session = None
-def get_session():
-    global session
-    if session is None: session = requests.Session()
-    return session
+session = requests.Session()
 
 # --- 3. FUNÇÕES DE POSTAGEM ---
 def postar_facebook(caminho, texto):
     try:
         if not os.path.exists(caminho):
-            print(f"❌ Arquivo não encontrado: {caminho}")
+            print(f"❌ Arquivo local não encontrado: {caminho}")
             return False
         with open(caminho, 'rb') as foto:
             payload = {'caption': texto, 'access_token': PAGE_ACCESS_TOKEN}
-            res = get_session().post(f"https://graph.facebook.com/{API_VERSION}/{FACEBOOK_PAGE_ID}/photos", data=payload, files={'source': foto})
+            res = session.post(f"https://graph.facebook.com/{API_VERSION}/{FACEBOOK_PAGE_ID}/photos", data=payload, files={'source': foto})
             return res.status_code == 200
-    except: return False
+    except Exception as e:
+        print(f"Erro FB: {e}")
+        return False
 
 def postar_instagram(url, texto, tipo='Feed'):
     url_c = f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media"
     payload = {'image_url': url, 'access_token': PAGE_ACCESS_TOKEN}
-    if tipo == 'Story': payload['media_type'] = 'STORIES'
-    else: payload['caption'] = texto
+    
+    if tipo == 'Story': 
+        payload['media_type'] = 'STORIES'
+    else: 
+        payload['caption'] = texto
+
     try:
-        res_c = get_session().post(url_c, data=payload).json()
+        res_c = session.post(url_c, data=payload).json()
         if 'id' in res_c:
-            time.sleep(10)
-            res_p = get_session().post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish", data={'creation_id': res_c['id'], 'access_token': PAGE_ACCESS_TOKEN})
+            creation_id = res_c['id']
+            # Aguarda o processamento da mídia pelo Instagram
+            time.sleep(15) 
+            res_p = session.post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish", 
+                                 data={'creation_id': creation_id, 'access_token': PAGE_ACCESS_TOKEN})
             return res_p.status_code == 200
-    except: return False
+    except Exception as e:
+        print(f"Erro IG: {e}")
+        return False
     return False
 
 # --- 4. EXECUÇÃO ---
 
-print(f"🔍 [Lógica: Post Único] Conectando ao MySQL...")
+print(f"📅 Data: {dia_atual} | ⏰ Hora: {hora_atual}")
+print(f"🔍 Buscando agendamentos pendentes...")
 
 try:
     conn = MySQLdb.connect(**DB_CONFIG)
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    # A MUDANÇA ESTÁ AQUI: Só pega quem nunca foi publicado (IS NULL)
+    # QUERY CORRIGIDA: 
+    # 1. Filtra pelo dia de hoje (data = %s)
+    # 2. Filtra pela hora (hora <= %s)
+    # 3. Garante que ainda não foi publicado (IS NULL)
     query = """
-        SELECT * FROM app_hubpub_divulgacao_agend
-        WHERE hora <= %s
+        SELECT * FROM app_hubpub_divulgacao_agend 
+        WHERE data = %s 
+        AND hora <= %s 
         AND ultima_publicacao IS NULL
         ORDER BY hora ASC
     """
-    cursor.execute(query, (hora_atual,))
-
+    cursor.execute(query, (dia_atual, hora_atual))
     rows = cursor.fetchall()
 
     if not rows:
-        print(f"☕ [{hora_atual}] Nada pendente para postar.")
+        print(f"☕ Nada para postar neste momento.")
         sys.exit()
 
-    print(f"🚀 Processando {len(rows)} agendamento(s).")
+    print(f"🚀 {len(rows)} post(s) encontrado(s) para processar.")
 
     for row in rows:
         path_local = os.path.join(CAMINHO_MEDIA_LOCAL, row['midia'])
         url_img = BASE_URL_PUBLICA + row['midia']
         sucesso = False
+
+        print(f"📸 Tentando post {row['id']} - Rede: {row['rede_social']}")
 
         if row['rede_social'] == 'Facebook':
             sucesso = postar_facebook(path_local, row['legenda'])
@@ -103,15 +116,17 @@ try:
             sucesso = postar_instagram(url_img, row['legenda'], row['tipo_post'])
 
         if sucesso:
-            # Marca como finalizado gravando a data (deixa de ser NULL)
+            # Atualiza para a data atual, tirando o registro do estado NULL
             cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", (dia_atual, row['id']))
             conn.commit()
-            print(f"✅ Post {row['id']} finalizado e marcado no banco.")
-            time.sleep(5)
+            print(f"✅ Post {row['id']} publicado com sucesso!")
+            time.sleep(5) # Delay entre posts para evitar spam
         else:
-            print(f"❌ Falha no post {row['id']}. Permanecerá na fila (NULL).")
+            print(f"❌ Falha ao publicar post {row['id']}. Tentará novamente na próxima execução.")
 
 except Exception as e:
-    print(f"❌ Erro crítico: {e}")
+    print(f"❌ Erro crítico no banco de dados: {e}")
 finally:
-    if 'conn' in locals() and conn.open: conn.close()
+    if 'conn' in locals() and conn.open: 
+        conn.close()
+        print("🔌 Conexão encerrada.")
