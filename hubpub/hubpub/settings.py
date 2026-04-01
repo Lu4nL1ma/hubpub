@@ -4,12 +4,12 @@ import os
 # 1. BASE_DIR - Localização raiz do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 2. CONFIGURAÇÕES DE SEGURANÇA (Valores diretos no código)
+# 2. CONFIGURAÇÕES DE SEGURANÇA
 SECRET_KEY = 'django-insecure-swlfypx8o#*1y$**q7li-o0fu^(-p1@p82(qyx^k&3i0&3!ud%'
 
-DEBUG = True
+DEBUG = True # Mantenha True enquanto estiver configurando, mude para False depois.
 
-ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['lu4nl1ma.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 # 3. DEFINIÇÃO DE APPS
 INSTALLED_APPS = [
@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_hubpub',
+    'app_hubpub', # Seu app principal
 ]
 
 MIDDLEWARE = [
@@ -34,11 +34,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hubpub.urls'
 
-# 4. CONFIGURAÇÃO DE TEMPLATES (Ajustado para DIRS não ficar vazio)
+# 4. CONFIGURAÇÃO DE TEMPLATES
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], 
+        'DIRS': [BASE_DIR / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -53,11 +53,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hubpub.wsgi.application'
 
-# 5. BANCO DE DADOS
+# 5. BANCO DE DADOS (Configurado para MySQL do PythonAnywhere)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Lu4nL1ma$app_hubpub',      # Nome que você criou na aba Databases
+        'USER': 'Lu4nL1ma',                # Seu usuário do PythonAnywhere
+        'PASSWORD': 'lux123',      # A senha que você definiu para o BANCO
+        'HOST': 'Lu4nL1ma.mysql.pythonanywhere-services.com', 
+        'PORT': '3306',
     }
 }
 
@@ -68,20 +72,16 @@ USE_I18N = True
 USE_TZ = True
 
 # 7. ARQUIVOS ESTÁTICOS E MÍDIA
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.exists(os.path.join(BASE_DIR, 'static')) else []
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # 8. CORREÇÃO CSRF (Trusted Origins)
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'https://localhost:8000',
-    'https://127.0.0.1:8000',
-    'https://*.pythonanywhere.com',
+    'https://lu4nl1ma.pythonanywhere.com',
 ]
 
 # 9. REDIRECIONAMENTOS
@@ -89,7 +89,7 @@ LOGIN_REDIRECT_URL = '/staff/'
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/login/'
 
-# 10. CREDENCIAIS META (Para consulta se necessário)
+# 10. CREDENCIAIS META
 PAGE_ACCESS_TOKEN = 'EAAUB01Agx2YBQza2bbgTBeFh7WlDy93fs6UabSLr5Kp9uwyyqfHpAXnNpOEmZADshM1tweiZCPoSkJ1PnKdDhYnvu3pJfFmQHwAlg6Wr8Pz5EecUIfJghYAXQvermuRDiITE0YeBarWiCngZBPyY7zCvLSPJcZBVklnRWJII3p5Ab4GaIORYy550SxsSYNvCKRuM6Ds5'
 FACEBOOK_PAGE_ID = '1044548165403490'
 INSTA_BUSINESS_ID = '17841467620559548'
