@@ -59,7 +59,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Lu4nL1ma$app_hubpub',      # Nome que você criou na aba Databases
         'USER': 'Lu4nL1ma',                # Seu usuário do PythonAnywhere
-        'PASSWORD': 'lux123',      # A senha que você definiu para o BANCO
+        'PASSWORD': '123lux456',      # A senha que você definiu para o BANCO
         'HOST': 'Lu4nL1ma.mysql.pythonanywhere-services.com', 
         'PORT': '3306',
     }
