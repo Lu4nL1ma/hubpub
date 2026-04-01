@@ -1,5 +1,6 @@
 import os
-import MySQLdb  # Substitui o sqlite3
+import MySQLdb
+import MySQLdb.cursors
 import requests
 import pytz
 import time
@@ -10,11 +11,11 @@ import sys
 PASTA_ATUAL = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PASTA_ATUAL)
 
-# Agora o caminho do banco não é mais um arquivo, mas os dados da aba Databases
+# Configurações do MySQL (Verifique se a senha está correta)
 DB_CONFIG = {
     'host': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
     'user': 'Lu4nL1ma',
-    'passwd': '123lux456',  # A mesma que você colocou no settings.py
+    'passwd': '123lux456', 
     'db': 'Lu4nL1ma$app_hubpub',
     'charset': 'utf8mb4'
 }
@@ -28,6 +29,7 @@ FACEBOOK_PAGE_ID = '1044548165403490'
 INSTA_BUSINESS_ID = '17841467620559548'
 API_VERSION = 'v22.0'
 
+# Ajuste de Fuso Horário
 fuso_br = pytz.timezone('America/Sao_Paulo')
 hoje = datetime.now(fuso_br)
 dia_atual = hoje.strftime("%Y-%m-%d")
@@ -43,7 +45,7 @@ def get_session():
 def postar_facebook(caminho, texto):
     try:
         if not os.path.exists(caminho):
-            print(f"❌ Arquivo local não encontrado: {caminho}")
+            print(f"❌ Arquivo não encontrado: {caminho}")
             return False
         with open(caminho, 'rb') as foto:
             payload = {'caption': texto, 'access_token': PAGE_ACCESS_TOKEN}
@@ -56,7 +58,6 @@ def postar_instagram(url, texto, tipo='Feed'):
     payload = {'image_url': url, 'access_token': PAGE_ACCESS_TOKEN}
     if tipo == 'Story': payload['media_type'] = 'STORIES'
     else: payload['caption'] = texto
-
     try:
         res_c = get_session().post(url_c, data=payload).json()
         if 'id' in res_c:
@@ -68,31 +69,28 @@ def postar_instagram(url, texto, tipo='Feed'):
 
 # --- 4. EXECUÇÃO ---
 
-print(f"🔍 Conectando ao MySQL: {DB_CONFIG['db']}")
+print(f"🔍 [Lógica: Post Único] Conectando ao MySQL...")
 
 try:
-    # Conexão MySQL
     conn = MySQLdb.connect(**DB_CONFIG)
-    # Cursor DictCursor faz o mesmo que o row_factory=sqlite3.Row (permite acessar por nome da coluna)
     cursor = conn.cursor(MySQLdb.cursors.DictCursor)
 
-    # Busca agendamentos (A query é quase idêntica, mas MySQL usa %s em vez de ?)
+    # A MUDANÇA ESTÁ AQUI: Só pega quem nunca foi publicado (IS NULL)
     query = """
         SELECT * FROM app_hubpub_divulgacao_agend
         WHERE hora <= %s
-        AND (ultima_publicacao IS NULL OR ultima_publicacao != %s)
+        AND ultima_publicacao IS NULL
         ORDER BY hora ASC
     """
-    cursor.execute(query, (hora_atual, dia_atual))
+    cursor.execute(query, (hora_atual,))
 
     rows = cursor.fetchall()
 
     if not rows:
-        print(f"☕ [{hora_atual}] Nada pendente agora.")
-        conn.close()
+        print(f"☕ [{hora_atual}] Nada pendente para postar.")
         sys.exit()
 
-    print(f"🚀 Encontrados {len(rows)} posts.")
+    print(f"🚀 Processando {len(rows)} agendamento(s).")
 
     for row in rows:
         path_local = os.path.join(CAMINHO_MEDIA_LOCAL, row['midia'])
@@ -105,15 +103,15 @@ try:
             sucesso = postar_instagram(url_img, row['legenda'], row['tipo_post'])
 
         if sucesso:
-            # Update usando %s para o MySQL
+            # Marca como finalizado gravando a data (deixa de ser NULL)
             cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", (dia_atual, row['id']))
             conn.commit()
-            print(f"✅ Post {row['id']} ({row['rede_social']}) OK.")
+            print(f"✅ Post {row['id']} finalizado e marcado no banco.")
             time.sleep(5)
         else:
-            print(f"❌ Falha no post {row['id']}.")
+            print(f"❌ Falha no post {row['id']}. Permanecerá na fila (NULL).")
 
 except Exception as e:
-    print(f"❌ Erro: {e}")
+    print(f"❌ Erro crítico: {e}")
 finally:
     if 'conn' in locals() and conn.open: conn.close()
