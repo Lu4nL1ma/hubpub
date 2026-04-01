@@ -37,22 +37,39 @@ def agenda(request):
 def form_agenda(request):
     rede = ['Instagram', 'Facebook', 'Whatsapp', 'Tiktok', 'E-mail']
     tipo = ['Feed', 'Story', 'Mensagem']
+    
     if request.method == 'POST':
-        # Captura os dados do formulário (verifique se o 'name' no HTML é 'data_pub')
-        data_do_form = request.POST.get('data_pub') 
-        
-        # Se o usuário não preencheu a data, podemos usar a de hoje como fallback
-        if not data_do_form:
-            data_do_form = timezone.now().date()
+        # 1. Captura os dados básicos que são iguais para ambos os posts
+        dados_comuns = {
+            'rede_social': request.POST.get('rede_social'),
+            'tipo_post': request.POST.get('tipo'), # No seu HTML o name é 'tipo'
+            'legenda': request.POST.get('legenda'),
+            'hora': request.POST.get('hora_pub'),
+            'midia': request.FILES.get('midia'),
+            'ultima_publicacao': None  # Garante que o matrix.py veja como pendente
+        }
 
+        # 2. Captura as datas do formulário
+        data_principal = request.POST.get('data_pub')
+        data_repeticao = request.POST.get('data_rep') # Campo novo do JS
+
+        # Fallback de segurança para a data principal
+        if not data_principal:
+            data_principal = timezone.now().date()
+
+        # 3. Cria o Primeiro Registro (Data Principal)
         divulgacao_agend.objects.create(
-            rede_social=request.POST.get('rede_social'),
-            tipo_post=request.POST.get('tipo'),
-            legenda=request.POST.get('legenda'),
-            hora=request.POST.get('hora_pub'),
-            midia=request.FILES.get('midia'),
-            data_criacao=data_do_form  # Enviando manualmente o valor
+            data_criacao=data_principal,
+            **dados_comuns
         )
+
+        # 4. Condicional: Cria o Segundo Registro (Repetição) apenas se houver data
+        if data_repeticao:
+            divulgacao_agend.objects.create(
+                data_criacao=data_repeticao,
+                **dados_comuns
+            )
+
         return redirect('agenda')
     
     return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo})
