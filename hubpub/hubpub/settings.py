@@ -73,7 +73,7 @@ USE_TZ = True
 
 # 7. ARQUIVOS ESTÁTICOS E MÍDIA
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
 MEDIA_URL = '/media/'
