@@ -17,9 +17,9 @@ def agenda(request):
 
     for item in agendamentos:
         # IMPORTANTE: Verifique se o valor não é None antes de formatar
-        if item.data_criacao:
+        if item.data:
             # Transforma a data do banco em '2026-03-28' (formato que o JS espera)
-            data_str = item.data_criacao.strftime('%Y-%m-%d')
+            data_str = item.data.strftime('%Y-%m-%d')
             
             if data_str not in dados_dict:
                 dados_dict[data_str] = []
