@@ -13,4 +13,4 @@ class DivulgacaoAgendAdmin(admin.ModelAdmin):
     search_fields = ('rede_social', 'legenda')
     
     # Ordenação padrão (mais recentes primeiro)
-    ordering = ('-data_criacao',)
+    ordering = ('-data',)
