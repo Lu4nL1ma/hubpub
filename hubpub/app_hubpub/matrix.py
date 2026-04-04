@@ -55,7 +55,7 @@ def ajustar_imagem_meta(caminho_imagem, tipo_post='Feed'):
             # Configura as dimensões da 'tela' de fundo
             if tipo_post == 'Story':
                 largura_fundo, altura_fundo = 1080, 1920
-                tamanho_max_foto = 900  # Tamanho da miniatura no centro
+                tamanho_max_foto = 200  # Tamanho da miniatura no centro
             else:
                 largura_fundo, altura_fundo = 1080, 1080
                 tamanho_max_foto = 1080 # Ocupa o quadrado todo
