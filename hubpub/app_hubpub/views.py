@@ -60,14 +60,14 @@ def form_agenda(request):
                     
                     # --- CONFIGURAÇÃO DE COR ESTÁTICA (#050D35) ---
                     # Convertido de Hex para RGB: (5, 13, 53)
-                    cor_fundo_estatica = (5, 13, 53)
+                    cor_fundo_estatica = (0, 137, 196)
                     
                     tipo_check = str(tipo_post).strip().capitalize()
                     
                     if tipo_check == 'Story':
                         largura_f, altura_f = 1080, 1920
                         # Aumentado para 1050 (deixa apenas uma margem mínima de 15px lateral)
-                        tamanho_max_foto = 1320
+                        tamanho_max_foto = 1335
                     else:
                         largura_f, altura_f = 1080, 1080
                         # No Feed, 1080 ocupa a largura total (sem bordas laterais)
