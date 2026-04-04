@@ -67,7 +67,7 @@ def form_agenda(request):
                     if tipo_check == 'Story':
                         largura_f, altura_f = 1080, 1920
                         # Aumentado para 1050 (deixa apenas uma margem mínima de 15px lateral)
-                        tamanho_max_foto = 1050 
+                        tamanho_max_foto = 1150
                     else:
                         largura_f, altura_f = 1080, 1080
                         # No Feed, 1080 ocupa a largura total (sem bordas laterais)
