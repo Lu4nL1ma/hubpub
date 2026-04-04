@@ -58,38 +58,41 @@ def form_agenda(request):
                     img = Image.open(midia_original)
                     img = img.convert('RGB')
                     
-                    # Extrair a cor predominante
-                    cor_fundo = img.resize((1, 1)).getpixel((0, 0))
+                    # --- CONFIGURAÇÃO DE COR ESTÁTICA (#050D35) ---
+                    # Convertido de Hex para RGB: (5, 13, 53)
+                    cor_fundo_estatica = (5, 13, 53)
                     
                     tipo_check = str(tipo_post).strip().capitalize()
                     
-                    # --- AJUSTE DE TAMANHO AQUI ---
                     if tipo_check == 'Story':
                         largura_f, altura_f = 1080, 1920
-                        # Aumentei de 850 para 1000 (ocupa quase toda a largura)
-                        tamanho_max_foto = 1000 
+                        # Aumentado para 1050 (deixa apenas uma margem mínima de 15px lateral)
+                        tamanho_max_foto = 1050 
                     else:
                         largura_f, altura_f = 1080, 1080
-                        # No Feed, deixamos 1080 para ser um quadrado sangrado (sem bordas)
-                        # Se quiser uma pequena borda no Feed também, mude para 1000
+                        # No Feed, 1080 ocupa a largura total (sem bordas laterais)
                         tamanho_max_foto = 1080 
 
                     # Redimensionar sem distorcer
                     img.thumbnail((tamanho_max_foto, tamanho_max_foto), Image.Resampling.LANCZOS)
                     
-                    # Criar fundo e centralizar
-                    novo_fundo = Image.new("RGB", (largura_f, altura_f), cor_fundo)
+                    # Criar fundo com a cor azul Marinho Estática
+                    novo_fundo = Image.new("RGB", (largura_f, altura_f), cor_fundo_estatica)
+                    
+                    # Centralizar a foto no fundo
                     pos_x = (largura_f - img.size[0]) // 2
                     pos_y = (altura_f - img.size[1]) // 2
                     novo_fundo.paste(img, (pos_x, pos_y))
                     
+                    # Salvar com alta fidelidade
                     buffer = io.BytesIO()
-                    novo_fundo.save(buffer, format='JPEG', quality=95) # Qualidade alta
+                    novo_fundo.save(buffer, format='JPEG', quality=98) 
                     midia_final = ContentFile(buffer.getvalue(), name=midia_original.name)
                     
                 except Exception as e:
                     print(f"Erro ao processar imagem: {e}")
 
+        # --- DADOS PARA O BANCO ---
         dados_comuns = {
             'rede_social': rede_social,
             'tipo_post': tipo_post,
