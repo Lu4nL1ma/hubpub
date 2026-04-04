@@ -26,3 +26,20 @@ class divulgacao_agend(models.Model):
     def __str__(self):
         # Corrigido para retornar um campo que existe (rede_social)
         return self.rede_social
+
+
+class  cursos(models.Model):
+    # Default 'Geral' evita erro em registros antigos
+    curso = models.CharField(max_length=100, default='Não Especificada')
+
+    # Default 'Post' para preencher a coluna tipo_post
+    turno = models.CharField(max_length=100, default='Post Simples')
+    
+    # blank/null já lidam com o "vazio", mas o default='' garante consistência
+    vagas = models.TextField(blank=True, null=True, default='')
+
+    # blank/null já lidam com o "vazio", mas o default='' garante consistência
+    inscritos = models.TextField(blank=True, null=True, default='')
+    
+    # auto_now_add já define o default como "agora" na criação
+    data_inicio = models.DateField(auto_now_add=False)
