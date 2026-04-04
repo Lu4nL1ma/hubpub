@@ -43,62 +43,59 @@ def form_agenda(request):
     tipo = ['Feed', 'Story', 'Mensagem']
     
     if request.method == 'POST':
-        # 1. Captura os dados brutos
         rede_social = request.POST.get('rede_social')
         tipo_post = request.POST.get('tipo')
         legenda = request.POST.get('legenda')
         hora = request.POST.get('hora_pub')
         midia_original = request.FILES.get('midia')
         
-        # 2. Processamento de Imagem (Pillow) dentro da View
         midia_final = midia_original
         
         if midia_original:
             ext = os.path.splitext(midia_original.name)[1].lower()
-            # Só processamos se for imagem
             if ext in ['.jpg', '.jpeg', '.png']:
                 try:
-                    # Abre a imagem que está na memória
                     img = Image.open(midia_original)
                     img = img.convert('RGB')
                     
-                    # A) Extrair a cor predominante (média da imagem)
+                    # Extrair a cor predominante
                     cor_fundo = img.resize((1, 1)).getpixel((0, 0))
                     
-                    # B) Definir as dimensões da "Tela"
                     tipo_check = str(tipo_post).strip().capitalize()
+                    
+                    # --- AJUSTE DE TAMANHO AQUI ---
                     if tipo_check == 'Story':
                         largura_f, altura_f = 1080, 1920
-                        tamanho_max_foto = 850 # Miniatura centralizada
+                        # Aumentei de 850 para 1000 (ocupa quase toda a largura)
+                        tamanho_max_foto = 1000 
                     else:
                         largura_f, altura_f = 1080, 1080
-                        tamanho_max_foto = 1080 # Quadrado cheio
+                        # No Feed, deixamos 1080 para ser um quadrado sangrado (sem bordas)
+                        # Se quiser uma pequena borda no Feed também, mude para 1000
+                        tamanho_max_foto = 1080 
 
-                    # C) Redimensionar a foto sem distorcer
+                    # Redimensionar sem distorcer
                     img.thumbnail((tamanho_max_foto, tamanho_max_foto), Image.Resampling.LANCZOS)
                     
-                    # D) Criar o fundo colorido e centralizar a foto
+                    # Criar fundo e centralizar
                     novo_fundo = Image.new("RGB", (largura_f, altura_f), cor_fundo)
                     pos_x = (largura_f - img.size[0]) // 2
                     pos_y = (altura_f - img.size[1]) // 2
                     novo_fundo.paste(img, (pos_x, pos_y))
                     
-                    # E) Transformar o resultado de volta em um arquivo para o Django
                     buffer = io.BytesIO()
-                    novo_fundo.save(buffer, format='JPEG', quality=90)
+                    novo_fundo.save(buffer, format='JPEG', quality=95) # Qualidade alta
                     midia_final = ContentFile(buffer.getvalue(), name=midia_original.name)
                     
                 except Exception as e:
                     print(f"Erro ao processar imagem: {e}")
-                    # Caso dê erro, o midia_final continua sendo o midia_original
 
-        # 3. Organiza os dados para criação no banco
         dados_comuns = {
             'rede_social': rede_social,
             'tipo_post': tipo_post,
             'legenda': legenda,
             'hora': hora,
-            'midia': midia_final, # Salva a imagem já formatada
+            'midia': midia_final,
             'ultima_publicacao': None
         }
 
@@ -108,21 +105,12 @@ def form_agenda(request):
         if not data_principal:
             data_principal = timezone.now().date()
 
-        # 4. Criação dos registros no Banco de Dados
-        # Registro 01
-        divulgacao_agend.objects.create(
-            data=data_principal,
-            **dados_comuns
-        )
+        # Criação dos registros
+        divulgacao_agend.objects.create(data=data_principal, **dados_comuns)
 
-        # Registro 02 (Repetição)
         if data_repeticao:
-            divulgacao_agend.objects.create(
-                data=data_repeticao,
-                **dados_comuns
-            )
+            divulgacao_agend.objects.create(data=data_repeticao, **dados_comuns)
 
         return redirect('agenda')
     
     return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo})
-
