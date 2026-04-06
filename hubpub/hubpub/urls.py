@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('staff/agenda/', agenda, name='agenda'),
     path('staff/agenda/form-agenda/', form_agenda, name='forms_agenda'),
+    path('cursos/', listar_cursos, name='painel_cursos'),
+    path('cursos/novo/', cadastrar_curso, name='cadastrar_curso'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('admin/', admin.site.urls),
 ]

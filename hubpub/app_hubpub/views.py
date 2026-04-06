@@ -117,3 +117,23 @@ def form_agenda(request):
         return redirect('agenda')
     
     return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo})
+
+
+def listar_cursos(request):
+    # Busca todos os cursos no banco
+    todos_cursos = cursos.objects.all().order_by('data_inicio')
+    return render(request, 'cursos/painel.html', {'cursos': todos_cursos})
+
+def cadastrar_curso(request):
+    if request.method == 'POST':
+        # Captura os dados do formulário
+        cursos.objects.create(
+            curso=request.POST.get('curso'),
+            turno=request.POST.get('turno'),
+            vagas=request.POST.get('vagas') or 0,
+            inscritos=request.POST.get('inscritos') or 0,
+            data_inicio=request.POST.get('data_inicio')
+        )
+        return redirect('painel_cursos')
+    
+    return render(request, 'cursos/form_curso.html')

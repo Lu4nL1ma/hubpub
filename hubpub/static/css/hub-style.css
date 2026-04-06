@@ -1,0 +1,186 @@
+/* --- PADRÃO HUBPUB / INFTY PROJ --- */
+:root {
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --cor-erro: #ff4d4d;
+    --transparencia: rgba(255, 255, 255, 0.05);
+    --sombra: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    min-height: 100vh;
+    padding: 40px;
+}
+
+/* --- HEADER DO PAINEL --- */
+.header-staff {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--transparencia);
+}
+
+.header-staff h2 span {
+    color: var(--cor-acento);
+}
+
+/* --- GRID DE CARDS DE CURSOS --- */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.hub-card {
+    background: var(--cor-secundaria);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid var(--transparencia);
+    text-align: center;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hub-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--cor-acento);
+    box-shadow: var(--sombra);
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.card-icon i {
+    font-size: 2rem;
+    color: var(--cor-acento);
+}
+
+/* --- BARRA DE PROGRESSO (VAGAS) --- */
+.progress-container {
+    width: 100%;
+    background: var(--cor-primaria);
+    border-radius: 10px;
+    height: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+    border: 1px solid var(--transparencia);
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--cor-acento);
+    box-shadow: 0 0 10px var(--cor-acento);
+    transition: width 0.5s ease;
+}
+
+/* --- FORMULÁRIO (ESTILO FRM-AGD) --- */
+.form-container {
+    background: var(--cor-secundaria);
+    padding: 45px;
+    border-radius: 25px;
+    border: 1px solid var(--transparencia);
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.form-group { margin-bottom: 20px; }
+.form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+.form-row .form-group { flex: 1; }
+
+label {
+    display: block;
+    color: var(--cor-suave);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    background: var(--cor-primaria);
+    border: 1px solid var(--transparencia);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus { border-color: var(--cor-acento); }
+
+/* --- BOTÃO VOLTAR (AMPLIADO) --- */
+.btn-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    background: rgba(255,255,255,0.03);
+    padding: 12px 20px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--transparencia);
+}
+
+.btn-back:hover { 
+    color: var(--cor-acento); 
+    border-color: var(--cor-acento);
+    transform: translateX(-5px);
+}
+
+/* --- BOTÃO SUBMIT / AÇÃO --- */
+.btn-submit, .btn-hub {
+    width: 100%;
+    padding: 20px;
+    background: transparent;
+    border: 2px solid var(--cor-acento);
+    color: var(--cor-acento);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.4s;
+    text-align: center;
+}
+
+.btn-submit:hover, .btn-hub:hover {
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 600px) {
+    body { padding: 15px; }
+    .form-row { flex-direction: column; }
+    .header-staff { flex-direction: column; gap: 20px; text-align: center; }
+    .form-container { padding-top: 80px; }
+}

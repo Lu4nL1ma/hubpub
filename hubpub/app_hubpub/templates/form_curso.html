@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Curso | Infty Proj</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}"> </head>
+<body>
+<div class="form-container">
+    <a href="{% url 'painel_cursos' %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> VOLTAR
+    </a>
+
+    <div class="form-header">
+        <h2>CADASTRO DE <span>CURSO</span></h2>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label><i class="fas fa-book"></i> Nome do Curso</label>
+            <input type="text" name="curso" placeholder="Ex: Power BI Avançado" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label><i class="fas fa-clock"></i> Turno</label>
+                <input type="text" name="turno" placeholder="Manhã/Noite" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-calendar-day"></i> Data de Início</label>
+                <input type="date" name="data_inicio" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label><i class="fas fa-users"></i> Vagas Totais</label>
+                <input type="number" name="vagas" value="0">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-user-check"></i> Inscritos</label>
+                <input type="number" name="inscritos" value="0">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">CADASTRAR CURSO</button>
+    </form>
+</div>
+</body>
+</html>
