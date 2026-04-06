@@ -122,7 +122,7 @@ def form_agenda(request):
 def listar_cursos(request):
     # Busca todos os cursos no banco
     todos_cursos = cursos.objects.all().order_by('data_inicio')
-    return render(request, 'cursos/painel.html', {'cursos': todos_cursos})
+    return render(request, 'painel.html', {'cursos': todos_cursos})
 
 def cadastrar_curso(request):
     if request.method == 'POST':
@@ -136,4 +136,4 @@ def cadastrar_curso(request):
         )
         return redirect('painel_cursos')
     
-    return render(request, 'cursos/form_curso.html')
+    return render(request, 'form_curso.html')
