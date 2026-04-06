@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 
 class divulgacao_agend(models.Model):
+    #cursos
+    curso = models.CharField(max_length=100, default='Não Especificado')
+
     # Default 'Geral' evita erro em registros antigos
     rede_social = models.CharField(max_length=100, default='Não Especificada')
 

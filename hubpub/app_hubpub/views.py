@@ -39,15 +39,18 @@ def agenda(request):
     
 @login_required
 def form_agenda(request):
+    todos_cursos = cursos.objects.all().order_by('data_inicio')
     rede = ['Instagram', 'Facebook', 'Whatsapp', 'Tiktok', 'E-mail']
     tipo = ['Feed', 'Story', 'Mensagem']
     
     if request.method == 'POST':
+        curso = request.POST.get('curs')
         rede_social = request.POST.get('rede_social')
         tipo_post = request.POST.get('tipo')
         legenda = request.POST.get('legenda')
         hora = request.POST.get('hora_pub')
         midia_original = request.FILES.get('midia')
+
         
         midia_final = midia_original
         
@@ -94,6 +97,7 @@ def form_agenda(request):
 
         # --- DADOS PARA O BANCO ---
         dados_comuns = {
+            'curso': curso,
             'rede_social': rede_social,
             'tipo_post': tipo_post,
             'legenda': legenda,
@@ -116,7 +120,7 @@ def form_agenda(request):
 
         return redirect('agenda')
     
-    return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo})
+    return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo, 'todos_cursos': todos_cursos})
 
 
 def listar_cursos(request):

@@ -21,6 +21,15 @@
 
         <form action="{% url 'forms_agenda' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+
+            <div class="form-group">
+                <label for="curs"> Curso </label>
+                <select name="curs" id="curs">
+                    {% for tc in todos_cursos %}
+                        <option value="{{ tc.curso }}"> {{ tc.curso }} </option>
+                    {% endfor %}
+                </select>
+            </div>
             
             <div class="form-group">
                 <label for="rede_social"> Rede Social </label>
