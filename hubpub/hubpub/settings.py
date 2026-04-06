@@ -57,11 +57,15 @@ WSGI_APPLICATION = 'hubpub.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Lu4nL1ma$app_hubpub',      # Nome que você criou na aba Databases
-        'USER': 'Lu4nL1ma',                # Seu usuário do PythonAnywhere
-        'PASSWORD': '123lux456',      # A senha que você definiu para o BANCO
-        'HOST': 'Lu4nL1ma.mysql.pythonanywhere-services.com', 
+        'NAME': 'Lu4nL1ma$app_hubpub',
+        'USER': 'Lu4nL1ma',
+        'PASSWORD': '123lux456',
+        'HOST': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
         'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'",
+        },
     }
 }
 
