@@ -28,7 +28,7 @@ class divulgacao_agend(models.Model):
 
     def __str__(self):
         # Corrigido para retornar um campo que existe (rede_social)
-        return self.rede_social
+        return f"{self.curso} - {self.rede_social} - {self.tipo_post}"
 
 
 class  cursos(models.Model):
