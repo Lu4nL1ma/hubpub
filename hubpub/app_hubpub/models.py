@@ -30,16 +30,16 @@ class divulgacao_agend(models.Model):
 
 class  cursos(models.Model):
     # Default 'Geral' evita erro em registros antigos
-    curso = models.CharField(max_length=100, default='Não Especificada')
+    curso = models.CharField(max_length=100, default='Não Especificado')
 
     # Default 'Post' para preencher a coluna tipo_post
-    turno = models.CharField(max_length=100, default='Post Simples')
+    turno = models.CharField(max_length=100, default='Não Definido')
     
     # blank/null já lidam com o "vazio", mas o default='' garante consistência
-    vagas = models.TextField(blank=True, null=True, default='')
+    vagas = models.IntegerField(default=0, blank=True, null=True)
 
     # blank/null já lidam com o "vazio", mas o default='' garante consistência
-    inscritos = models.TextField(blank=True, null=True, default='')
+    inscritos = models.IntegerField(default=0, blank=True, null=True)
     
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
