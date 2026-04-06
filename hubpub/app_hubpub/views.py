@@ -29,7 +29,7 @@ def agenda(request):
                 dados_dict[data_str] = []
             
             # Formata a string que aparece no card
-            texto = f"{item.hora} - {item.rede_social}"
+            texto = f"{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
             dados_dict[data_str].append(texto)
 
     # Converte o dicionário Python para uma string JSON que o JS entende
