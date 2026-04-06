@@ -71,7 +71,7 @@ def postar_instagram(url, texto, tipo='Feed'):
         if 'id' in res_c:
             creation_id = res_c['id']
             # Aguarda o processamento da mídia pelo Instagram
-            time.sleep(20)
+            time.sleep(60)
             res_p = session.post(f"https://graph.facebook.com/{API_VERSION}/{INSTA_BUSINESS_ID}/media_publish",
                                  data={'creation_id': creation_id, 'access_token': PAGE_ACCESS_TOKEN})
             return res_p.status_code == 200
@@ -123,7 +123,7 @@ try:
                            (dia_atual, row['id']))
             conn.commit()
             print(f"✅ Post {row['id']} publicado com sucesso!")
-            time.sleep(5) 
+            time.sleep(60) 
         else:
             print(f"❌ Falha ao publicar post {row['id']}.")
 
