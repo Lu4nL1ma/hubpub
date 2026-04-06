@@ -14,3 +14,20 @@ class DivulgacaoAgendAdmin(admin.ModelAdmin):
     
     # Ordenação padrão (mais recentes primeiro)
     ordering = ('-data',)
+
+@admin.register(cursos)
+class CursosAdmin(admin.ModelAdmin):
+    # Colunas que aparecerão na listagem principal
+    list_display = ('id', 'curso', 'turno', 'data_inicio')
+    
+    # Filtros laterais para facilitar a busca
+    list_filter = ('turno', 'data_inicio')
+    
+    # Campos que permitem clicar para entrar na edição
+    list_display_links = ('id', 'curso')
+    
+    # Barra de busca (pesquisa pelo nome do curso ou turno)
+    search_fields = ('curso', 'turno')
+    
+    # Ordenação padrão (mais recentes primeiro)
+    ordering = ('-data_inicio',)
