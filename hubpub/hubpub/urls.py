@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from app_hubpub  import views  #home, staff, agenda, form_agenda, listar_cursos, cadastrar_curso
+from app_hubpub.views import home, staff, agenda, form_agenda, listar_cursos, cadastrar_curso, detalhe_curso
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
