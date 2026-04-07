@@ -64,9 +64,16 @@
                     <td><i class="far fa-calendar-alt" style="margin-right: 5px; opacity: 0.5;"></i> {{ aluno.data_nascimento|date:"d/m/Y" }}</td>
                     <td style="color: var(--cor-suave);">{{ aluno.email }}</td>
                     <td style="text-align: center;">
-                        <button class="btn-action edit" title="Editar"><i class="fas fa-user-edit"></i></button>
-                        <button class="btn-action delete" title="Remover"><i class="fas fa-trash-alt"></i></button>
-                    </td>
+                    <button class="btn-action edit" title="Editar">
+                    <i class="fas fa-user-edit"></i>
+                    </button>
+                    <a href="{% url 'excluir_aluno' curso.id aluno.id %}" 
+                    class="btn-action delete" 
+                    title="Remover"
+                    onclick="return confirm('Deseja mesmo remover {{ aluno.nome }}?')">
+                    <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
                 </tr>
                 {% empty %}
                 <tr>

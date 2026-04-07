@@ -195,4 +195,20 @@ def inserir_aluno(request, curso_id):
         'curso': curso,
         'alunos': alunos
     })
-    
+
+def excluir_aluno(request, curso_id, aluno_id):
+
+    # 1. Busca o aluno ou retorna 404
+    aluno = get_object_or_404(Aluno, id=aluno_id, curso_id=curso_id)
+    curso = get_object_or_404(cursos, id=curso_id)
+
+    # 2. Deleta o registro
+    aluno.delete()
+
+    # 3. Atualiza o contador de inscritos do curso (Opcional, mas recomendado)
+    if curso.inscritos > 0:
+        curso.inscritos -= 1
+        curso.save()
+        
+    # 4. Redireciona de volta para a lista de alunos
+    return redirect('inserir_aluno', curso_id=curso_id)

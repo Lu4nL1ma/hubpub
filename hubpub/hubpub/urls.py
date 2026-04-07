@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from app_hubpub.views import home, staff, agenda, form_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno
+from app_hubpub.views import home, staff, agenda, form_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,6 +15,7 @@ urlpatterns = [
     path('cursos/novo/', cadastrar_curso, name='cadastrar_curso'),
     path('cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('cursos/<int:curso_id>/inserir', inserir_aluno, name='inserir_aluno'),
+    path('cursos/<int:curso_id>/excluir-aluno/<int:aluno_id>/', excluir_aluno, name='excluir_aluno'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('admin/', admin.site.urls),
 ]
