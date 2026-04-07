@@ -164,6 +164,8 @@ def inserir_aluno(request, curso_id):
         cpf = request.POST.get('cpf')
         data_nasc = request.POST.get('data_nascimento')
 
+        nome = str(nome).title()
+
         # 3. Tratamento simples para data (evita erro se o campo vier vazio)
         if not data_nasc:
             data_nasc = timezone.now().date()
