@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import divulgacao_agend, cursos
+from .models import divulgacao_agend, cursos, aluno
 from django.utils import timezone
 import json
 import io
@@ -151,3 +151,46 @@ def detalhe_curso(request, curso_id):
         'curso': curso_selecionado,
     }
     return render(request, 'detalhe_curso.html', context)
+
+
+def inserir_aluno(request, curso_id):
+    # 1. Busca o curso ou retorna 404
+    curso = get_object_or_404(cursos, id=curso_id)
+    
+    if request.method == 'POST':
+        # 2. Captura os dados do formulário POST
+        nome = request.POST.get('nome_aluno')
+        email = request.POST.get('email_aluno')
+        cpf = request.POST.get('cpf')
+        data_nasc = request.POST.get('data_nascimento')
+
+        # 3. Tratamento simples para data (evita erro se o campo vier vazio)
+        if not data_nasc:
+            data_nasc = timezone.now().date()
+
+        # 4. Salva o novo aluno vinculado ao curso
+        Aluno.objects.create(
+            curso=curso, 
+            nome=nome, 
+            email=email,
+            cpf=cpf,
+            data_nascimento=data_nasc
+        )
+
+        # 5. Atualiza o contador de inscritos do curso automaticamente
+        # Isso faz a barra de progresso no painel principal subir sozinha
+        curso.inscritos += 1
+        curso.save()
+
+        # 6. Redireciona para a mesma página para limpar o formulário e atualizar a lista
+        return redirect('inserir_aluno', curso_id=curso.id)
+
+    # 7. Busca todos os alunos deste curso (os mais novos primeiro)
+    alunos = aluno.objects.filter(curso=curso).order_by('-id')
+    
+    # 8. Renderiza o template híbrido (Formulário + Tabela)
+    return render(request, 'inserir_aluno.html', {
+        'curso': curso,
+        'alunos': alunos
+    })
+    

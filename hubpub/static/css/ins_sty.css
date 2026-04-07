@@ -1,0 +1,55 @@
+/* Estilos específicos para a Tabela e Form em Linha */
+.table-container {
+    margin-top: 30px;
+    background: var(--cor-primaria);
+    border-radius: 15px;
+    overflow-x: auto; /* Garante que não quebre no celular/tablet */
+    border: 1px solid var(--transparencia);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--cor-texto);
+    min-width: 800px; /* Evita esmagar os dados */
+}
+th {
+    background: rgba(0, 212, 255, 0.05);
+    color: var(--cor-acento);
+    text-align: left;
+    padding: 18px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--transparencia);
+}
+td {
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--transparencia);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+.btn-action {
+    background: none;
+    border: none;
+    color: var(--cor-suave);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    margin: 0 8px;
+}
+.btn-action.delete:hover { color: var(--cor-erro); }
+.btn-action.edit:hover { color: var(--cor-acento); }
+
+/* Ajuste do form de inserção rápida */
+.quick-insert-bar {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid var(--transparencia);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 0.8fr; /* Distribuição proporcional */
+    gap: 15px;
+    align-items: flex-end;
+}
