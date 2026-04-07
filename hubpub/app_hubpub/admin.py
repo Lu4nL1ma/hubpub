@@ -31,3 +31,23 @@ class CursosAdmin(admin.ModelAdmin):
     
     # Ordenação padrão (mais recentes primeiro)
     ordering = ('-data_inicio',)
+
+@admin.register(aluno)
+class AlunoAdmin(admin.ModelAdmin):
+    # Colunas que aparecerão na lista de alunos
+    list_display = ('nome', 'cpf', 'curso', 'data_matricula', 'ativo')
+    
+    # Campos que permitem clicar para entrar na edição
+    list_display_links = ('nome', 'cpf')
+    
+    # Filtros laterais
+    list_filter = ('curso', 'ativo', 'data_matricula')
+    
+    # Barra de busca (pesquisa por nome ou CPF)
+    search_fields = ('nome', 'cpf')
+    
+    # Itens por página
+    list_per_page = 20
+    
+    # Permite editar o status "ativo" diretamente na lista
+    list_editable = ('ativo',)
