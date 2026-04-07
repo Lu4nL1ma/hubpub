@@ -46,3 +46,27 @@ class  cursos(models.Model):
     
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
+
+class aluno(models.Model):
+
+    curso = models.CharField(max_length=150, default='Aluno sem Nome')
+
+    nome = models.CharField(max_length=150, default='Aluno sem Nome')
+
+    email = models.EmailField(max_length=150, default='contato@exemplo.com')
+    
+    cpf = models.CharField(max_length=14, default='000.000.000-00')
+    
+    data_nascimento = models.DateField(default=timezone.now)
+    
+    ativo = models.BooleanField(default=True)
+
+    data_matricula = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        nome_curso = self.curso.curso if self.curso else "Sem Curso"
+        return f"{self.nome} - CPF: {self.cpf} ({nome_curso})"
+
+    class Meta:
+        verbose_name = "Aluno"
+        verbose_name_plural = "Alunos"
