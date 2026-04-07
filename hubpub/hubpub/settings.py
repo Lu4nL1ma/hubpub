@@ -57,7 +57,7 @@ WSGI_APPLICATION = 'hubpub.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Lu4nL1ma$app_hubpub',
+        'NAME': 'Lu4nL1ma$hub_infinity',
         'USER': 'Lu4nL1ma',
         'PASSWORD': '123lux456',
         'HOST': 'Lu4nL1ma.mysql.pythonanywhere-services.com',
