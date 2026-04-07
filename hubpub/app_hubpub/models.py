@@ -48,25 +48,27 @@ class  cursos(models.Model):
     data_inicio = models.DateField(auto_now_add=False)
 
 class aluno(models.Model):
-
-    curso = models.CharField(max_length=150, default='Aluno sem Nome')
+    # CORREÇÃO: Transformando em ForeignKey para ligar com o model 'cursos'
+    curso = models.ForeignKey(
+        'cursos', 
+        on_delete=models.CASCADE, 
+        related_name='alunos_matriculados',
+        null=True, 
+        blank=True
+    )
 
     nome = models.CharField(max_length=150, default='Aluno sem Nome')
-
     email = models.EmailField(max_length=150, default='contato@exemplo.com')
-    
     cpf = models.CharField(max_length=14, default='000.000.000-00')
-    
     data_nascimento = models.DateField(default=timezone.now)
-    
     ativo = models.BooleanField(default=True)
-
     data_matricula = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        # Linha 67 (com 8 espaços ou 2 TABs de recuo)
-        nome_curso = self.curso.curso if self.curso else "Sem Curso"
-        return f"{self.nome} - {nome_curso}"
+        # Agora que é ForeignKey, podemos acessar o campo 'curso' do model ligado
+        # Se o campo de nome no seu model 'cursos' se chamar 'curso', fica assim:
+        nome_do_curso = self.curso.curso if self.curso else "Sem Curso"
+        return f"{self.nome} - {nome_do_curso}"
         
     class Meta:
         verbose_name = "Aluno"
