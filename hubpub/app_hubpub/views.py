@@ -197,18 +197,18 @@ def inserir_aluno(request, curso_id):
     })
 
 def excluir_aluno(request, curso_id, aluno_id):
-    # 1. Mude o nome da variável para 'registro' ou 'aluno_instancia'
-    # Use o seu model 'aluno' (minúsculo) dentro do parêntese
-    registro = get_object_or_404(aluno, id=aluno_id, curso_id=curso_id)
+    # O erro era o 'curso_id'. No Django, filtramos pelo nome do campo no Model.
+    # Como seu campo se chama 'curso', usamos curso=curso_id
+    registro = get_object_or_404(aluno, id=aluno_id, curso=curso_id)
     
-    curso = get_object_or_404(cursos, id=curso_id)
+    curso_obj = get_object_or_404(cursos, id=curso_id)
 
-    # 2. Agora você deleta o 'registro'
+    # Deleta o registro do aluno
     registro.delete()
 
-    # 3. Atualiza o contador
-    if curso.inscritos > 0:
-        curso.inscritos -= 1
-        curso.save()
+    # Atualiza o contador de inscritos do curso
+    if curso_obj.inscritos > 0:
+        curso_obj.inscritos -= 1
+        curso_obj.save()
         
     return redirect('inserir_aluno', curso_id=curso_id)
