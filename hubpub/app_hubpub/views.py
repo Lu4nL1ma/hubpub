@@ -141,3 +141,14 @@ def cadastrar_curso(request):
         return redirect('painel_cursos')
     
     return render(request, 'form_curso.html')
+
+def detalhe_curso(request, curso_id):
+    # Busca o curso pelo ID que veio da URL
+    curso_selecionado = get_object_or_404(cursos, id=curso_id)
+    
+    # Por enquanto, passamos apenas o curso. 
+    # Depois incluiremos a lista de alunos e o financeiro aqui.
+    context = {
+        'curso': curso_selecionado,
+    }
+    return render(request, 'detalhe_curso.html', context)

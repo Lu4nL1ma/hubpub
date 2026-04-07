@@ -184,3 +184,10 @@ input:focus { border-color: var(--cor-acento); }
     .header-staff { flex-direction: column; gap: 20px; text-align: center; }
     .form-container { padding-top: 80px; }
 }
+
+.hub-card:hover {
+    cursor: pointer;
+    border-color: var(--cor-acento);
+    transform: translateY(-5px);
+    transition: 0.3s;
+}

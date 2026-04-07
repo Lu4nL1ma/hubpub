@@ -1,0 +1,151 @@
+/* --- PADRÃO HUBPUB / INFTY PROJ --- */
+:root {
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-sucesso: #00ff88;
+    --cor-extra: #ff00ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --transparencia: rgba(255, 255, 255, 0.05);
+    --sombra: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    min-height: 100vh;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- CONTAINER MESTRE --- */
+.form-container {
+    background: var(--cor-secundaria);
+    padding: 45px;
+    border-radius: 25px;
+    border: 1px solid var(--transparencia);
+    width: 100%;
+    position: relative;
+    box-shadow: var(--sombra);
+}
+
+/* --- BOTÃO VOLTAR (O QUE VOCÊ PEDIU GIGANTE) --- */
+.btn-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 20px;
+    border-radius: 10px;
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--transparencia);
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.btn-back:hover {
+    color: var(--cor-acento);
+    border-color: var(--cor-acento);
+    transform: translateX(-5px);
+    background: rgba(0, 212, 255, 0.05);
+}
+
+/* --- HEADER --- */
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-header h2 span {
+    color: var(--cor-acento);
+}
+
+/* --- GRID DE CARDS (DASHBOARD) --- */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.hub-card {
+    background: var(--cor-primaria);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--transparencia);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hub-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Ícones dos Cards */
+.card-icon {
+    background: var(--transparencia);
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card-icon i {
+    font-size: 1.4rem;
+    color: var(--cor-acento);
+}
+
+/* --- BOTÕES DE AÇÃO --- */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 2px solid var(--cor-acento);
+    color: var(--cor-acento);
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* --- FOOTER --- */
+.form-footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--cor-suave);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 600px) {
+    body { padding: 15px; }
+    .form-container { padding: 25px; padding-top: 80px; }
+    .btn-back { top: 15px; left: 15px; width: calc(100% - 30px); justify-content: center; }
+}

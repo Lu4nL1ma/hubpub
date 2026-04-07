@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>Painel de Cursos | Infty Proj</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}"> </head>
+    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}"> 
+</head>
 <body class="main-content">
 
     <div class="header-staff">
@@ -17,20 +18,22 @@
 
     <div class="hub-grid">
         {% for c in cursos %}
-        <div class="hub-card">
-            <div class="card-icon">
-                <i class="fas fa-graduation-cap"></i>
+        <a href="{% url 'detalhe_curso' c.id %}" style="text-decoration: none; color: inherit;">
+            <div class="hub-card">
+                <div class="card-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>{{ c.curso }}</h3>
+                <p><strong>Turno:</strong> {{ c.turno }}</p>
+                
+                <div style="width: 100%; background: #0a0f1e; border-radius: 5px; margin: 15px 0;">
+                    <div style="width: {% widthratio c.inscritos c.vagas 100 %}%; background: var(--cor-acento); height: 8px; border-radius: 5px;"></div>
+                </div>
+                
+                <p>{{ c.inscritos }} / {{ c.vagas }} Inscritos</p>
+                <p><i class="far fa-calendar-alt"></i> Início: {{ c.data_inicio|date:"d/m/Y" }}</p>
             </div>
-            <h3>{{ c.curso }}</h3>
-            <p><strong>Turno:</strong> {{ c.turno }}</p>
-            
-            <div style="width: 100%; background: #0a0f1e; border-radius: 5px; margin: 15px 0;">
-                <div style="width: {% widthratio c.inscritos c.vagas 100 %}%; background: var(--cor-acento); height: 8px; border-radius: 5px;"></div>
-            </div>
-            
-            <p>{{ c.inscritos }} / {{ c.vagas }} Inscritos</p>
-            <p><i class="far fa-calendar-alt"></i> Início: {{ c.data_inicio|date:"d/m/Y" }}</p>
-        </div>
+        </a>
         {% empty %}
         <p style="color: var(--cor-suave)">Nenhum curso cadastrado no momento.</p>
         {% endfor %}
