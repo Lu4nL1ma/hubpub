@@ -169,7 +169,7 @@ def inserir_aluno(request, curso_id):
             data_nasc = timezone.now().date()
 
         # 4. Salva o novo aluno vinculado ao curso
-        Aluno.objects.create(
+        aluno.objects.create(
             curso=curso, 
             nome=nome, 
             email=email,
