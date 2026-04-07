@@ -64,9 +64,10 @@ class aluno(models.Model):
     data_matricula = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        nome_curso = self.curso.curso if self.curso else "Sem Curso"
-        return f"{self.nome} - CPF: {self.cpf} ({nome_curso})"
-
+    # Removido o ".curso", pois self.curso já é a própria string
+    nome_curso = self.curso if self.curso else "Sem Curso"
+    return f"{self.nome} - CPF: {self.cpf} ({nome_curso})"
+    
     class Meta:
         verbose_name = "Aluno"
         verbose_name_plural = "Alunos"
