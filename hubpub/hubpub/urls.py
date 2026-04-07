@@ -13,7 +13,7 @@ urlpatterns = [
     path('staff/agenda/form-agenda/', form_agenda, name='forms_agenda'),
     path('cursos/', listar_cursos, name='painel_cursos'),
     path('cursos/novo/', cadastrar_curso, name='cadastrar_curso'),
-    path('cursos/<int:curso_id>/', views.detalhe_curso, name='detalhe_curso'),
+    path('cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('admin/', admin.site.urls),
 ]
