@@ -66,15 +66,17 @@ def form_agenda(request):
                     cor_fundo_estatica = (16, 26, 75)
                     
                     tipo_check = str(tipo_post).strip().capitalize()
-                    
+
+                    # --- Trecho Corrigido dentro do seu IF ---
                     if tipo_check == 'Story':
                         largura_f, altura_f = 1080, 1920
-                        # Aumentado para 1050 (deixa apenas uma margem mínima de 15px lateral)
-                        tamanho_max_foto = 1335
+                        limite_redimensionar = (1080, 1920) # Tupla correta
                     else:
                         largura_f, altura_f = 1080, 1080
-                        # No Feed, 1080 ocupa a largura total (sem bordas laterais)
-                        tamanho_max_foto = 1080 
+                        limite_redimensionar = (1080, 1080) # Tupla correta
+
+                    # Redimensionar usando a tupla definida acima
+                    img.thumbnail(limite_redimensionar, Image.Resampling.LANCZOS)
 
                     # Redimensionar sem distorcer
                     img.thumbnail((tamanho_max_foto, tamanho_max_foto), Image.Resampling.LANCZOS)
