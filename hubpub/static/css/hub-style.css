@@ -223,3 +223,55 @@ input:focus { border-color: var(--cor-acento); }
     border-color: var(--cor-acento);
     transform: translateX(-5px);
 }
+
+/* --- NOVA NAVBAR --- */
+.hub-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--cor-secundaria);
+    padding: 15px 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 1px solid var(--transparencia);
+}
+
+.nav-link {
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.nav-link:hover { color: var(--cor-acento); }
+
+.nav-title h2 { font-size: 1.2rem; }
+.nav-title span { color: var(--cor-acento); }
+
+/* --- BOTÃO NOVO CURSO (VERSÃO PEQUENA) --- */
+.btn-new-small {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--cor-acento);
+    color: var(--cor-acento);
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-new-small:hover {
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Ajuste para remover o position absolute do botão voltar antigo */
+.btn-back { display: none; } /* Pode remover do HTML se usar a navbar */

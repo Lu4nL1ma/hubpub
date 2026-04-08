@@ -9,15 +9,21 @@
 </head>
 <body class="main-content">
 
-    <a href="{% url 'painel_cursos' %}" class="btn-back">
-        <i class="fas fa-arrow-left"></i> VOLTAR
-    </a>
-
-    <div class="header-staff">
-        <a href="{% url 'cadastrar_curso' %}" class="btn-hub" style="text-decoration: none;">
-            <i class="fas fa-plus"></i> NOVO CURSO
+    <nav class="hub-navbar">
+        <a href="{% url 'painel_cursos' %}" class="nav-link">
+            <i class="fas fa-arrow-left"></i> VOLTAR
         </a>
-    </div>
+        
+        <div class="nav-title">
+            <h2>Gestão de <span>Cursos</span></h2>
+        </div>
+
+        <div class="nav-actions">
+            <a href="{% url 'cadastrar_curso' %}" class="btn-new-small">
+                <i class="fas fa-plus"></i> NOVO CURSO
+            </a>
+        </div>
+    </nav>
 
     <div class="hub-grid">
         {% for c in cursos %}
@@ -29,8 +35,8 @@
                 <h3>{{ c.curso }}</h3>
                 <p><strong>Turno:</strong> {{ c.turno }}</p>
                 
-                <div style="width: 100%; background: #0a0f1e; border-radius: 5px; margin: 15px 0;">
-                    <div style="width: {% widthratio c.inscritos c.vagas 100 %}%; background: var(--cor-acento); height: 8px; border-radius: 5px;"></div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: {% widthratio c.inscritos c.vagas 100 %}%"></div>
                 </div>
                 
                 <p>{{ c.inscritos }} / {{ c.vagas }} Inscritos</p>
@@ -38,7 +44,9 @@
             </div>
         </a>
         {% empty %}
-        <p style="color: var(--cor-suave)">Nenhum curso cadastrado no momento.</p>
+        <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+            <p style="color: var(--cor-suave)">Nenhum curso cadastrado no momento.</p>
+        </div>
         {% endfor %}
     </div>
 
