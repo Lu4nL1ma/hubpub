@@ -1,141 +1,193 @@
-/* --- PALETA DE CORES INFTY PROJ --- */
+/* --- PADRÃO HUBPUB / INFTY PROJ --- */
 :root {
-    --bg-main: #0a0f1e;
-    --bg-card: #161d2f;
-    --primary: #00d4ff;
-    --text-main: #ffffff;
-    --text-muted: #b0b3b8;
-    --success: #00ff88;
-    --danger: #ff4d4d;
-    --border: rgba(255, 255, 255, 0.05);
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --cor-erro: #ff4d4d;
+    --cor-sucesso: #00ff88;
+    --transparencia: rgba(255, 255, 255, 0.05);
+    --sombra: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-body.main-content {
-    background-color: var(--bg-main);
-    color: var(--text-main);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    min-height: 100vh;
     padding: 20px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* --- NAVBAR AJUSTADA --- */
+/* --- NAVBAR UNIFICADA --- */
 .hub-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg-card);
-    padding: 15px 30px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
+    background: var(--cor-secundaria);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid var(--transparencia);
     margin-bottom: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.nav-title h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
-.nav-title span { color: var(--primary); }
-.nav-title small { display: block; color: var(--text-muted); font-size: 0.75rem; }
+.nav-link, .nav-link-back {
+    color: var(--cor-acento);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
 
-.date-wrapper {
-    display: flex;
-    align-items: center;
-    background: var(--bg-main);
-    padding: 5px 12px;
+.nav-center { text-align: center; }
+.nav-main-title { font-size: 1.1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+.nav-main-title span { color: var(--cor-acento); }
+.nav-sub-title { font-size: 0.75rem; color: var(--cor-suave); display: block; }
+
+.nav-right { display: flex; gap: 12px; align-items: center; }
+
+/* --- COMPONENTES DE INTERAÇÃO --- */
+.date-box { 
+    background: var(--cor-primaria); 
+    padding: 6px 12px; 
+    border-radius: 8px; 
+    border: 1px solid var(--transparencia); 
+}
+
+.date-input { 
+    background: transparent; 
+    border: none; 
+    color: white; 
+    outline: none; 
+    font-size: 0.85rem; 
+    cursor: pointer; 
+}
+
+.btn-new-small, .btn-save-presenca {
+    padding: 10px 20px;
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    border: none;
     border-radius: 8px;
-    border: 1px solid var(--border);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
     gap: 8px;
 }
 
-.date-wrapper i { color: var(--primary); }
-.input-date-nav { background: transparent; border: none; color: white; outline: none; font-size: 0.85rem; }
-
-.btn-save {
-    background: var(--primary);
-    color: var(--bg-main);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex; align-items: center; gap: 8px;
+.btn-new-small:hover, .btn-save-presenca:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
-.btn-save:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
 
-/* --- GRID DE PRESENÇA --- */
-.attendance-container { max-width: 900px; margin: 0 auto; }
-.attendance-header { margin-bottom: 20px; }
-.attendance-header h3 span { color: var(--primary); }
-.attendance-header p { color: var(--text-muted); font-size: 0.85rem; }
-
-.attendance-grid {
+/* --- GRID DE CURSOS (PAINEL PRINCIPAL) --- */
+.hub-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.attendance-card { cursor: pointer; position: relative; }
-.attendance-input { display: none; }
-
-.card-content {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.hub-card {
+    background: var(--cor-secundaria);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid var(--transparencia);
+    text-align: center;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.student-avatar {
-    width: 45px; height: 45px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--primary); font-size: 1.2rem;
+.hub-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--cor-acento);
 }
 
-.student-details { flex: 1; }
-.student-name { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
-.status-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; transition: 0.3s; }
-
-/* --- TOGGLE INDICATOR --- */
-.status-indicator {
-    width: 40px; height: 20px;
-    background: #2a2f3b; border-radius: 20px;
-    position: relative; transition: 0.3s;
-}
-.toggle-dot {
-    width: 14px; height: 14px; background: #fff;
-    border-radius: 50%; position: absolute;
-    top: 3px; left: 3px; transition: 0.3s;
+/* --- LISTA DE PRESENÇA (ESTABILIDADE TOTAL) --- */
+.list-wrapper { 
+    background: var(--cor-secundaria); 
+    border-radius: 16px; 
+    border: 1px solid var(--transparencia); 
+    overflow: hidden; 
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-/* --- ESTADOS ATIVOS (LOGICA VISUAL) --- */
-/* Quando está PRESENTE */
-.attendance-input:checked + .card-content {
-    border-color: var(--primary);
-    background: rgba(0, 212, 255, 0.03);
-}
-.attendance-input:checked + .card-content .status-label { color: var(--success); }
-.attendance-input:checked + .card-content .status-label::after { content: ' • Online'; }
-.attendance-input:checked + .card-content .status-indicator { background: var(--primary); }
-.attendance-input:checked + .card-content .toggle-dot { left: 23px; }
-
-/* Quando está AUSENTE */
-.attendance-input:not(:checked) + .card-content {
-    opacity: 0.6;
-}
-.attendance-input:not(:checked) + .card-content .status-label { color: var(--danger); }
-.attendance-input:not(:checked) + .card-content .status-label::after { content: ' • Faltou'; }
-
-.attendance-card:hover .card-content {
-    transform: translateY(-3px);
-    border-color: var(--primary);
+.list-header { 
+    background: rgba(255,255,255,0.02); 
+    padding: 18px 25px; 
+    border-bottom: 1px solid var(--transparencia);
+    display: flex; justify-content: space-between; align-items: center;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-    .hub-navbar { flex-direction: column; padding: 20px; gap: 15px; }
-    .nav-actions { width: 100%; flex-direction: column; }
-    .date-wrapper, .btn-save { width: 100%; justify-content: center; }
+.student-item { 
+    display: block; 
+    cursor: pointer; 
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: 0.2s;
+}
+
+.item-content { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 18px 25px; 
+}
+
+.info-group { display: flex; align-items: center; gap: 15px; }
+.avatar-mini { 
+    width: 36px; height: 36px; 
+    background: rgba(0,212,255,0.1); 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center; 
+    color: var(--cor-acento); 
+}
+
+.name-text { font-weight: 600; font-size: 1.05rem; }
+
+/* --- SWITCH (TOGGLE) --- */
+.hidden-check { display: none; }
+.status-text::after { content: 'FALTOU'; font-size: 0.7rem; font-weight: 800; color: var(--cor-erro); }
+
+.switch { 
+    width: 46px; height: 24px; 
+    background: #2a2f3b; 
+    border-radius: 20px; 
+    position: relative; 
+    transition: 0.3s; 
+}
+.switch-dot { 
+    width: 18px; height: 18px; 
+    background: #fff; 
+    border-radius: 50%; 
+    position: absolute; 
+    top: 3px; left: 3px; 
+    transition: 0.3s; 
+}
+
+/* LÓGICA DE ATIVAÇÃO */
+.hidden-check:checked + .item-content { background: rgba(0, 212, 255, 0.03); }
+.hidden-check:checked + .item-content .status-text::after { content: 'PRESENTE'; color: var(--cor-sucesso); }
+.hidden-check:checked + .item-content .switch { background: var(--cor-acento); }
+.hidden-check:checked + .item-content .switch-dot { left: 25px; }
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .hub-navbar { flex-direction: column; gap: 15px; padding: 20px; }
+    .nav-right { width: 100%; flex-direction: column; }
+    .date-box, .btn-save-presenca { width: 100%; text-align: center; }
+    .item-content { padding: 15px; }
+    .name-text { font-size: 0.9rem; }
 }

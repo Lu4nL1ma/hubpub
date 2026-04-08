@@ -4,64 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chamada | {{ curso.curso }}</title>
+    <title>Chamada | Infty Proj</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/pres_styl.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pres-styl.css' %}">
 </head>
-<body class="main-content">
+<body class="attendance-body">
 
-    <form method="POST">
+    <form method="POST" class="attendance-form">
         {% csrf_token %}
         
         <nav class="hub-navbar">
-            <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link">
+            <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link-back">
                 <i class="fas fa-chevron-left"></i> VOLTAR
             </a>
             
-            <div class="nav-title">
-                <h2>Chamada <span>Diária</span></h2>
-                <small>{{ curso.curso }}</small>
+            <div class="nav-center">
+                <h2 class="nav-main-title">CHAMADA <span>DIÁRIA</span></h2>
+                <span class="nav-sub-title">{{ curso.curso }}</span>
             </div>
 
-            <div class="nav-actions">
-                <div class="date-wrapper">
-                    <i class="far fa-calendar-alt"></i>
-                    <input type="date" name="data_presenca" value="{{ hoje }}" class="input-date-nav">
+            <div class="nav-right">
+                <div class="date-box">
+                    <input type="date" name="data_presenca" value="{{ hoje }}" class="date-input">
                 </div>
-                <button type="submit" class="btn-save">
-                    <i class="fas fa-check-double"></i> SALVAR
+                <button type="submit" class="btn-save-presenca">
+                    <i class="fas fa-save"></i> SALVAR
                 </button>
             </div>
         </nav>
 
-        <div class="attendance-container">
-            <div class="attendance-header">
-                <h3>Lista de Alunos <span>({{ alunos.count }})</span></h3>
-                <p>Toque no card para alternar entre Presente e Ausente</p>
+        <div class="list-wrapper">
+            <div class="list-header">
+                <span><i class="fas fa-users"></i> Alunos Matriculados</span>
+                <span class="count-badge">{{ alunos.count }}</span>
             </div>
 
-            <div class="attendance-grid">
+            <div class="students-list">
                 {% for a in alunos %}
-                <label class="attendance-card">
-                    <input type="checkbox" name="aluno_{{ a.id }}" checked class="attendance-input">
-                    <div class="card-content">
-                        <div class="student-avatar">
-                            <i class="fas fa-user-graduate"></i>
+                <label class="student-item">
+                    <input type="checkbox" name="aluno_{{ a.id }}" checked class="hidden-check">
+                    <div class="item-content">
+                        <div class="info-group">
+                            <div class="avatar-mini"><i class="fas fa-user"></i></div>
+                            <span class="name-text">{{ a.nome }}</span>
                         </div>
-                        <div class="student-details">
-                            <span class="student-name">{{ a.nome }}</span>
-                            <span class="status-label">Presente</span>
-                        </div>
-                        <div class="status-indicator">
-                            <div class="toggle-dot"></div>
+                        <div class="status-group">
+                            <span class="status-text"></span>
+                            <div class="switch">
+                                <div class="switch-dot"></div>
+                            </div>
                         </div>
                     </div>
                 </label>
                 {% empty %}
-                <div class="empty-state">
-                    <i class="fas fa-users-slash"></i>
-                    <p>Nenhum aluno matriculado para este curso.</p>
-                </div>
+                <div class="empty-list">Nenhum aluno encontrado.</div>
                 {% endfor %}
             </div>
         </div>
