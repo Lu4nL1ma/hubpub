@@ -11,7 +11,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('staff/agenda/', agenda, name='agenda'),
     path('staff/agenda/form-agenda/', form_agenda, name='forms_agenda'),
-    path('cursos/', listar_cursos, name='painel_cursos'),
+    path('staff/cursos/', listar_cursos, name='painel_cursos'),
     path('cursos/novo/', cadastrar_curso, name='cadastrar_curso'),
     path('cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('cursos/<int:curso_id>/inserir', inserir_aluno, name='inserir_aluno'),
