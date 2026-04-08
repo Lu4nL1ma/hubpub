@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/agd.css' %}">
-    <title>Agenda de Divulgação</title>
+    <title>Agenda de Divulgação | Infty Proj</title>
 </head>
 <body>
     
@@ -33,7 +33,8 @@
         </div>
     </nav>
 
-    <div class="week-container" id="weekContainer"></div>
+    <div class="week-container" id="weekContainer">
+        </div>
 
     <script id="planner-data" type="application/json">
         {{ db_demandas_json|safe }}
@@ -41,7 +42,6 @@
 
     <script>
         const dbDemandas = JSON.parse(document.getElementById('planner-data').textContent) || {};
-        console.log("Dados carregados do banco:", dbDemandas);
     </script>
 
     <script src="{% static 'js/agd.js' %}"></script>
