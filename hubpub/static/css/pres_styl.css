@@ -1,3 +1,40 @@
+/* --- VARIÁVEIS DO SISTEMA --- */
+:root {
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --transparencia: rgba(255, 255, 255, 0.05);
+}
+
+/* --- ESTILO DA NAVBAR (REPETIDO PARA GARANTIR ALINHAMENTO) --- */
+.hub-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--cor-secundaria);
+    padding: 15px 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 1px solid var(--transparencia);
+}
+
+.input-date-nav {
+    background: var(--cor-primaria);
+    border: 1px solid var(--transparencia);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.input-date-nav:focus {
+    border-color: var(--cor-acento);
+}
+
 /* --- CONTROLE DE PRESENÇA --- */
 .attendance-list {
     max-width: 800px;
@@ -5,6 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding-bottom: 50px;
 }
 
 .attendance-card {
@@ -16,12 +54,14 @@
     align-items: center;
     cursor: pointer;
     border: 1px solid var(--transparencia);
-    transition: 0.3s;
+    transition: 0.3s ease;
+    user-select: none; /* Evita selecionar o texto ao clicar rápido */
 }
 
 .attendance-card:hover {
     border-color: var(--cor-acento);
     background: rgba(0, 212, 255, 0.05);
+    transform: translateX(5px);
 }
 
 .student-info {
@@ -29,48 +69,77 @@
     align-items: center;
     gap: 15px;
     font-weight: 600;
+    color: var(--cor-texto);
 }
 
-.student-info i { color: var(--cor-acento); }
+.student-info i { 
+    font-size: 1.2rem;
+    color: var(--cor-acento); 
+}
 
-/* Esconde o checkbox original e cria o customizado */
-.checkbox-wrapper input { display: none; }
+/* --- TOGGLE SWITCH (CHECKBOX CUSTOMIZADO) --- */
+.checkbox-wrapper input { 
+    display: none; 
+}
 
 .custom-check {
     width: 50px;
     height: 26px;
-    background: #333;
+    background: #2a2f3b; /* Fundo do switch desligado */
     border-radius: 20px;
     position: relative;
-    transition: 0.3s;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
+    border: 1px solid var(--transparencia);
 }
 
 .custom-check::after {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background: white;
+    width: 18px;
+    height: 18px;
+    background: #fff;
     border-radius: 50%;
     top: 3px;
-    left: 3px;
-    transition: 0.3s;
+    left: 4px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
+/* Estado Ativado (Presente) */
 .checkbox-wrapper input:checked + .custom-check {
     background: var(--cor-acento);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
 .checkbox-wrapper input:checked + .custom-check::after {
-    left: 27px;
+    left: 26px;
 }
 
-.input-date-nav {
-    background: var(--cor-primaria);
-    border: 1px solid var(--transparencia);
-    color: white;
-    padding: 8px;
-    border-radius: 5px;
-    outline: none;
+/* Estilo para Aluno Ausente (Opcional: escurece o card se desmarcar) */
+.attendance-card:has(input:not(:checked)) {
+    opacity: 0.7;
+    border-left: 4px solid #333;
+}
+
+.attendance-card:has(input:checked) {
+    border-left: 4px solid var(--cor-acento);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .hub-navbar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .attendance-card {
+        padding: 15px;
+    }
 }
