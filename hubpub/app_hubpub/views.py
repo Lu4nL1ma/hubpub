@@ -220,24 +220,28 @@ def excluir_aluno(request, curso_id, aluno_id):
 def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     lista_alunos = aluno.objects.filter(curso=curso_obj)
-    hoje = date.today().strftime('%Y-%m-%d')
+    hoje = date.today()
 
     if request.method == "POST":
-        data_selecionada = request.POST.get('data_presenca')
+        data_selecionada = request.POST.get('data_presenca', hoje)
+        
         for a in lista_alunos:
-            # Verifica se o checkbox do aluno foi marcado
-            esta_presente = request.POST.get(f'aluno_{a.id}') == 'on'
+            veio = request.POST.get(f'aluno_{a.id}') == 'on'
             
-            # Salva ou atualiza a presença
-            Presenca.objects.update_or_create(
+            # Usando o nome da classe em minúsculo conforme solicitado
+            presenca.objects.update_or_create(
                 aluno=a, 
+                curso=curso_obj, 
                 data=data_selecionada,
-                defaults={'presente': esta_presente, 'curso': curso_obj}
+                defaults={
+                    'presente': veio,
+                    'status': 'P' if veio else 'A'
+                }
             )
         return redirect('detalhe_curso', curso_id=curso_id)
 
     return render(request, 'controle_presenca.html', {
-        'curso': curso_obj,
-        'alunos': lista_alunos,
-        'hoje': hoje
+        'curso': curso_obj, 
+        'alunos': lista_alunos, 
+        'hoje': hoje.strftime('%Y-%m-%d')
     })

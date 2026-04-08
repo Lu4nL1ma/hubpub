@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import date
 
 class divulgacao_agend(models.Model):
     #cursos
@@ -73,3 +74,25 @@ class aluno(models.Model):
     class Meta:
         verbose_name = "Aluno"
         verbose_name_plural = "Alunos"
+
+class presenca(models.Model):
+    STATUS_CHOICES = [
+        ('P', 'Presente'),
+        ('A', 'Ausente'),
+        ('J', 'Justificado'),
+    ]
+
+    aluno = models.ForeignKey('aluno', on_delete=models.CASCADE, related_name='frequencias')
+    curso = models.ForeignKey('cursos', on_delete=models.CASCADE, related_name='chamadas')
+    data = models.DateField(default=date.today)
+    presente = models.BooleanField(default=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+    observacao = models.TextField(blank=True, null=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'app_hubpub_presenca' # Força o nome da tabela no MySQL
+        unique_together = ('aluno', 'curso', 'data')
+
+    def __str__(self):
+        return f"{self.aluno.nome} - {self.data}"

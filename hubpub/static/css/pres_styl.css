@@ -1,145 +1,141 @@
-/* --- VARIÁVEIS DO SISTEMA --- */
+/* --- PALETA DE CORES INFTY PROJ --- */
 :root {
-    --cor-primaria: #0a0f1e;
-    --cor-secundaria: #161d2f;
-    --cor-acento: #00d4ff;
-    --cor-texto: #ffffff;
-    --cor-suave: #b0b3b8;
-    --transparencia: rgba(255, 255, 255, 0.05);
+    --bg-main: #0a0f1e;
+    --bg-card: #161d2f;
+    --primary: #00d4ff;
+    --text-main: #ffffff;
+    --text-muted: #b0b3b8;
+    --success: #00ff88;
+    --danger: #ff4d4d;
+    --border: rgba(255, 255, 255, 0.05);
 }
 
-/* --- ESTILO DA NAVBAR (REPETIDO PARA GARANTIR ALINHAMENTO) --- */
+body.main-content {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    padding: 20px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* --- NAVBAR AJUSTADA --- */
 .hub-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--cor-secundaria);
+    background: var(--bg-card);
     padding: 15px 30px;
-    border-radius: 15px;
-    margin-bottom: 40px;
-    border: 1px solid var(--transparencia);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-.input-date-nav {
-    background: var(--cor-primaria);
-    border: 1px solid var(--transparencia);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    outline: none;
-    font-family: inherit;
-    cursor: pointer;
-}
+.nav-title h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+.nav-title span { color: var(--primary); }
+.nav-title small { display: block; color: var(--text-muted); font-size: 0.75rem; }
 
-.input-date-nav:focus {
-    border-color: var(--cor-acento);
-}
-
-/* --- CONTROLE DE PRESENÇA --- */
-.attendance-list {
-    max-width: 800px;
-    margin: 0 auto;
+.date-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 50px;
-}
-
-.attendance-card {
-    background: var(--cor-secundaria);
-    padding: 20px 30px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    background: var(--bg-main);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    gap: 8px;
+}
+
+.date-wrapper i { color: var(--primary); }
+.input-date-nav { background: transparent; border: none; color: white; outline: none; font-size: 0.85rem; }
+
+.btn-save {
+    background: var(--primary);
+    color: var(--bg-main);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 800;
     cursor: pointer;
-    border: 1px solid var(--transparencia);
-    transition: 0.3s ease;
-    user-select: none; /* Evita selecionar o texto ao clicar rápido */
+    transition: 0.3s;
+    display: flex; align-items: center; gap: 8px;
+}
+.btn-save:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+
+/* --- GRID DE PRESENÇA --- */
+.attendance-container { max-width: 900px; margin: 0 auto; }
+.attendance-header { margin-bottom: 20px; }
+.attendance-header h3 span { color: var(--primary); }
+.attendance-header p { color: var(--text-muted); font-size: 0.85rem; }
+
+.attendance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
 }
 
-.attendance-card:hover {
-    border-color: var(--cor-acento);
-    background: rgba(0, 212, 255, 0.05);
-    transform: translateX(5px);
-}
+.attendance-card { cursor: pointer; position: relative; }
+.attendance-input { display: none; }
 
-.student-info {
+.card-content {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     gap: 15px;
-    font-weight: 600;
-    color: var(--cor-texto);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.student-info i { 
-    font-size: 1.2rem;
-    color: var(--cor-acento); 
+.student-avatar {
+    width: 45px; height: 45px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary); font-size: 1.2rem;
 }
 
-/* --- TOGGLE SWITCH (CHECKBOX CUSTOMIZADO) --- */
-.checkbox-wrapper input { 
-    display: none; 
+.student-details { flex: 1; }
+.student-name { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
+.status-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; transition: 0.3s; }
+
+/* --- TOGGLE INDICATOR --- */
+.status-indicator {
+    width: 40px; height: 20px;
+    background: #2a2f3b; border-radius: 20px;
+    position: relative; transition: 0.3s;
+}
+.toggle-dot {
+    width: 14px; height: 14px; background: #fff;
+    border-radius: 50%; position: absolute;
+    top: 3px; left: 3px; transition: 0.3s;
 }
 
-.custom-check {
-    width: 50px;
-    height: 26px;
-    background: #2a2f3b; /* Fundo do switch desligado */
-    border-radius: 20px;
-    position: relative;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: block;
-    border: 1px solid var(--transparencia);
+/* --- ESTADOS ATIVOS (LOGICA VISUAL) --- */
+/* Quando está PRESENTE */
+.attendance-input:checked + .card-content {
+    border-color: var(--primary);
+    background: rgba(0, 212, 255, 0.03);
 }
+.attendance-input:checked + .card-content .status-label { color: var(--success); }
+.attendance-input:checked + .card-content .status-label::after { content: ' • Online'; }
+.attendance-input:checked + .card-content .status-indicator { background: var(--primary); }
+.attendance-input:checked + .card-content .toggle-dot { left: 23px; }
 
-.custom-check::after {
-    content: '';
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: #fff;
-    border-radius: 50%;
-    top: 3px;
-    left: 4px;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+/* Quando está AUSENTE */
+.attendance-input:not(:checked) + .card-content {
+    opacity: 0.6;
 }
+.attendance-input:not(:checked) + .card-content .status-label { color: var(--danger); }
+.attendance-input:not(:checked) + .card-content .status-label::after { content: ' • Faltou'; }
 
-/* Estado Ativado (Presente) */
-.checkbox-wrapper input:checked + .custom-check {
-    background: var(--cor-acento);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
-}
-
-.checkbox-wrapper input:checked + .custom-check::after {
-    left: 26px;
-}
-
-/* Estilo para Aluno Ausente (Opcional: escurece o card se desmarcar) */
-.attendance-card:has(input:not(:checked)) {
-    opacity: 0.7;
-    border-left: 4px solid #333;
-}
-
-.attendance-card:has(input:checked) {
-    border-left: 4px solid var(--cor-acento);
+.attendance-card:hover .card-content {
+    transform: translateY(-3px);
+    border-color: var(--primary);
 }
 
 /* Responsividade */
 @media (max-width: 600px) {
-    .hub-navbar {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .attendance-card {
-        padding: 15px;
-    }
+    .hub-navbar { flex-direction: column; padding: 20px; gap: 15px; }
+    .nav-actions { width: 100%; flex-direction: column; }
+    .date-wrapper, .btn-save { width: 100%; justify-content: center; }
 }
