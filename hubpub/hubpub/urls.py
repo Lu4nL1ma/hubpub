@@ -15,6 +15,7 @@ urlpatterns = [
     path('staff/cursos/form/', cadastrar_curso, name='cadastrar_curso'),
     path('cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('cursos/<int:curso_id>/inserir', inserir_aluno, name='inserir_aluno'),
+    path('cursos/<int:curso_id>/cntrl-pres', controle_presenca, name='controle_presenca'),
     path('cursos/<int:curso_id>/excluir-aluno/<int:aluno_id>/', excluir_aluno, name='excluir_aluno'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('admin/', admin.site.urls),

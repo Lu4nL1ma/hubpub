@@ -1,0 +1,76 @@
+/* --- CONTROLE DE PRESENÇA --- */
+.attendance-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.attendance-card {
+    background: var(--cor-secundaria);
+    padding: 20px 30px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--transparencia);
+    transition: 0.3s;
+}
+
+.attendance-card:hover {
+    border-color: var(--cor-acento);
+    background: rgba(0, 212, 255, 0.05);
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+}
+
+.student-info i { color: var(--cor-acento); }
+
+/* Esconde o checkbox original e cria o customizado */
+.checkbox-wrapper input { display: none; }
+
+.custom-check {
+    width: 50px;
+    height: 26px;
+    background: #333;
+    border-radius: 20px;
+    position: relative;
+    transition: 0.3s;
+    display: block;
+}
+
+.custom-check::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: 0.3s;
+}
+
+.checkbox-wrapper input:checked + .custom-check {
+    background: var(--cor-acento);
+}
+
+.checkbox-wrapper input:checked + .custom-check::after {
+    left: 27px;
+}
+
+.input-date-nav {
+    background: var(--cor-primaria);
+    border: 1px solid var(--transparencia);
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    outline: none;
+}

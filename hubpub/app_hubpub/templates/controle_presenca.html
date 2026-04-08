@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Presença: {{ curso.curso }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/pres_styl.css' %}">
+</head>
+<body class="main-content">
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <nav class="hub-navbar">
+            <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link">
+                <i class="fas fa-arrow-left"></i> VOLTAR
+            </a>
+            
+            <div class="nav-title">
+                <h2>Chamada: <span>{{ curso.curso }}</span></h2>
+            </div>
+
+            <div class="nav-actions">
+                <input type="date" name="data_presenca" value="{{ hoje }}" class="input-date-nav">
+                <button type="submit" class="btn-new-small">
+                    <i class="fas fa-save"></i> SALVAR
+                </button>
+            </div>
+        </nav>
+
+        <div class="attendance-list">
+            {% for a in alunos %}
+            <label class="attendance-card">
+                <div class="student-info">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>{{ a.nome }}</span>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="aluno_{{ a.id }}" checked>
+                    <span class="custom-check"></span>
+                </div>
+            </label>
+            {% empty %}
+            <p style="color: var(--cor-suave); text-align: center;">Nenhum aluno matriculado neste curso.</p>
+            {% endfor %}
+        </div>
+    </form>
+
+</body>
+</html>
