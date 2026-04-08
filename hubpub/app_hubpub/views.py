@@ -14,6 +14,7 @@ def home(request):
 @login_required
 def staff(request):
   return render(request, 'staff.html')
+  
 @login_required
 def agenda(request):
     agendamentos = divulgacao_agend.objects.all()

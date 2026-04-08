@@ -191,3 +191,35 @@ input:focus { border-color: var(--cor-acento); }
     transform: translateY(-5px);
     transition: 0.3s;
 }
+
+/* --- BOTÃO VOLTAR --- */
+.btn-back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--transparencia);
+}
+
+.btn-back i {
+    font-size: 1.3rem;
+    color: var(--cor-acento);
+}
+
+.btn-back:hover {
+    color: var(--cor-acento);
+    background: rgba(0, 212, 255, 0.08);
+    border-color: var(--cor-acento);
+    transform: translateX(-5px);
+}
