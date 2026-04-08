@@ -4,39 +4,47 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'css/agd.css' %}">
     <title>Agenda de Divulgação</title>
 </head>
 <body>
     
-    <h1 class="main-title">AGENDA DE <span>DIVULGAÇÃO</span></h1>
+    <nav class="hub-navbar">
+        <a href="{% url 'staff' %}" class="nav-link">
+            <i class="fas fa-arrow-left"></i> VOLTAR
+        </a>
+        
+        <div class="nav-title">
+            <h2 id="monthDisplay">Mês <span>Ano</span></h2>
+        </div>
 
-    <a href="{% url "staff" %}" class="btn-back">
-        <i class="fas fa-arrow-left"></i> Voltar
-    </a>
+        <div class="nav-actions">
+            <button class="btn-nav-circle" onclick="changeWeek(-7)" title="Semana Anterior">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="btn-nav-circle" onclick="changeWeek(7)" title="Próxima Semana">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <a href="{% url 'forms_agenda' %}" class="btn-new-small">
+                <i class="fas fa-plus"></i> INSERIR
+            </a>
+        </div>
+    </nav>
 
-<div class="header">
-    <div class="month-name" id="monthDisplay">Mês Ano</div>
-    <div class="nav-btns">
-        <button class="btn btn-add" onclick="window.location.href='{% url "forms_agenda" %}'"> ➕ Inserir </button>
-        <button class="btn" onclick="changeWeek(-7)">◄</button>
-        <button class="btn" onclick="changeWeek(7)">►</button>
-    </div>
-</div>
+    <div class="week-container" id="weekContainer"></div>
 
-<div class="week-container" id="weekContainer"></div>
+    <script id="planner-data" type="application/json">
+        {{ db_demandas_json|safe }}
+    </script>
 
-<script id="planner-data" type="application/json">
-    {{ db_demandas_json|safe }}
-</script>
+    <script>
+        const dbDemandas = JSON.parse(document.getElementById('planner-data').textContent) || {};
+        console.log("Dados carregados do banco:", dbDemandas);
+    </script>
 
-<script>
-    // Capturamos o JSON do script acima de forma segura
-    const dbDemandas = JSON.parse(document.getElementById('planner-data').textContent) || {};
-    console.log("Dados carregados do banco:", dbDemandas);
-</script>
-
-<script src="{% static 'js/agd.js' %}"></script>
+    <script src="{% static 'js/agd.js' %}"></script>
 
 </body>
 </html>
