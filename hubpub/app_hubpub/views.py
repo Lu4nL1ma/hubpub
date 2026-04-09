@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from .models import divulgacao_agend, cursos, aluno, presenca
 from django.utils import timezone
@@ -11,7 +12,28 @@ import io
 import os
 from PIL import Image
 from django.core.files.base import ContentFile
+from functools import wraps
 
+#DECORADOR
+def professor_do_curso_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        # 1. Pegamos o ID do curso que está na URL
+        curso_id = kwargs.get('curso_id')
+        
+        # 2. Buscamos o curso na base de dados
+        curso = get_object_or_404(cursos, id=curso_id)
+
+        # 3. VERIFICAÇÃO: Se o professor do curso NÃO for o utilizador logado...
+        # ... e se ele também NÃO for um administrador (superuser)
+        if curso.professor != request.user and not request.user.is_superuser:
+            # Lança o erro 403 (Proibido)
+            raise PermissionDenied("Acesso Negado: Não és o responsável por este curso.")
+
+        # Se passar no teste, ele executa a view normalmente
+        return view_func(request, *args, **kwargs)
+    
+    return _wrapped_view
 
 #MINHAS VIEWS!!!
 
@@ -19,10 +41,12 @@ def home(request):
   return render(request, 'home.html')
 
 @login_required
+@professor_do_curso_required
 def staff(request):
   return render(request, 'staff.html')
   
 @login_required
+@professor_do_curso_required
 def agenda(request):
     agendamentos = divulgacao_agend.objects.all()
     dados_dict = {}
@@ -46,6 +70,7 @@ def agenda(request):
     return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
     
 @login_required
+@professor_do_curso_required
 def form_agenda(request):
     todos_cursos = cursos.objects.all().order_by('data_inicio')
     rede = ['Instagram', 'Facebook', 'Whatsapp', 'Tiktok', 'E-mail']
@@ -132,12 +157,15 @@ def form_agenda(request):
     
     return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo, 'todos_cursos': todos_cursos})
 
-
+@login_required
+@professor_do_curso_required
 def listar_cursos(request):
     # Busca todos os cursos no banco
     todos_cursos = cursos.objects.all().order_by('data_inicio')
     return render(request, 'painel.html', {'cursos': todos_cursos})
 
+@login_required
+@professor_do_curso_required
 def cadastrar_curso(request):
     if request.method == 'POST':
         # Captura os dados do formulário
@@ -152,6 +180,8 @@ def cadastrar_curso(request):
     
     return render(request, 'form_curso.html')
 
+@login_required
+@professor_do_curso_required
 def detalhe_curso(request, curso_id):
     # Busca o curso pelo ID que veio da URL
     curso_selecionado = get_object_or_404(cursos, id=curso_id)
@@ -162,6 +192,8 @@ def detalhe_curso(request, curso_id):
     }
     return render(request, 'detalhe_curso.html', context)
 
+@login_required
+@professor_do_curso_required
 def gestao_alunos(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     alunos_count = aluno.objects.filter(curso=curso_obj).count()
@@ -170,7 +202,8 @@ def gestao_alunos(request, curso_id):
         'alunos_count': alunos_count
     })
 
-
+@login_required
+@professor_do_curso_required
 def inserir_aluno(request, curso_id):
     # 1. Busca o curso ou retorna 404
     curso = get_object_or_404(cursos, id=curso_id)
@@ -214,6 +247,8 @@ def inserir_aluno(request, curso_id):
         'alunos': alunos
     })
 
+@login_required
+@professor_do_curso_required
 def excluir_aluno(request, curso_id, aluno_id):
     # O erro era o 'curso_id'. No Django, filtramos pelo nome do campo no Model.
     # Como seu campo se chama 'curso', usamos curso=curso_id
@@ -231,6 +266,8 @@ def excluir_aluno(request, curso_id, aluno_id):
         
     return redirect('inserir_aluno', curso_id=curso_id)
 
+@login_required
+@professor_do_curso_required
 def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     lista_alunos = aluno.objects.filter(curso=curso_obj)
@@ -260,6 +297,8 @@ def controle_presenca(request, curso_id):
         'hoje': hoje.strftime('%Y-%m-%d')
     })
 
+@login_required
+@professor_do_curso_required
 class MeuLoginView(LoginView):
     # Mantemos o comportamento original, mas mudamos o destino de sucesso
     def get_success_url(self):
