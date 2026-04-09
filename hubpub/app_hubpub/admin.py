@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import divulgacao_agend, cursos, aluno
+from .models import divulgacao_agend, cursos, aluno, presenca
 
 @admin.register(divulgacao_agend)
 class DivulgacaoAgendAdmin(admin.ModelAdmin):
@@ -51,3 +51,18 @@ class AlunoAdmin(admin.ModelAdmin):
     
     # Permite editar o status "ativo" diretamente na lista
     list_editable = ('ativo',)
+
+
+@admin.register(presenca)
+class PresencaAdmin(admin.ModelAdmin):
+    # Colunas que aparecem na lista de presenças
+    list_display = ('aluno', 'curso', 'data', 'status', 'presente')
+    
+    # Filtros para facilitar a busca por data e status
+    list_filter = ('data', 'status', 'curso')
+    
+    # Permite pesquisar pelo nome do aluno diretamente na frequência
+    search_fields = ('aluno__nome',)
+    
+    # Organiza por data mais recente
+    ordering = ('-data',)
