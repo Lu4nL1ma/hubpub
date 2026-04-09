@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from datetime import date
@@ -47,6 +48,9 @@ class  cursos(models.Model):
     
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
+
+    # professor 
+    professor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Professor Responsável")
 
     def __str__(self):
         return self.nome
