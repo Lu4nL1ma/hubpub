@@ -91,9 +91,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # 8. CORREÇÃO CSRF (Trusted Origins)
-CSRF_TRUSTED_ORIGINS = [
-    'www.infinitycursos.site',
-]
+CSRF_TRUSTED_ORIGINS = ['https://www.infinitycursos.site', 'https://infinitycursos.site']
 
 # 9. REDIRECIONAMENTOS
 LOGIN_REDIRECT_URL = '/staff/' 
