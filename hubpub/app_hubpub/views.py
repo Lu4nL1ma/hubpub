@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
 from .models import divulgacao_agend, cursos, aluno, presenca
 from django.utils import timezone
 from datetime import date
@@ -9,6 +11,9 @@ import io
 import os
 from PIL import Image
 from django.core.files.base import ContentFile
+
+
+#MINHAS VIEWS!!!
 
 def home(request):
   return render(request, 'home.html')
@@ -254,3 +259,22 @@ def controle_presenca(request, curso_id):
         'alunos': lista_alunos, 
         'hoje': hoje.strftime('%Y-%m-%d')
     })
+
+class MeuLoginView(LoginView):
+    # Mantemos o comportamento original, mas mudamos o destino de sucesso
+    def get_success_url(self):
+        user = self.request.user
+        
+        # Procura se o utilizador é professor de algum curso
+        curso_vinculado = cursos.objects.filter(professor=user).first()
+        
+        if curso_vinculado:
+            # Se encontrar, gera a URL dinâmica para o curso dele
+            return reverse('controle_presenca', kwargs={'curso_id': curso_vinculado.id})
+        
+        # Se for admin e não tiver curso, vai para o admin
+        if user.is_staff:
+            return '/admin/'
+            
+        # Caso contrário, vai para a página padrão (ex: home)
+        return reverse('home')
