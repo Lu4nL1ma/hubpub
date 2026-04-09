@@ -48,6 +48,9 @@ class  cursos(models.Model):
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
 
+    def __str__(self):
+        return self.nome
+
 class aluno(models.Model):
     # CORREÇÃO: Transformando em ForeignKey para ligar com o model 'cursos'
     curso = models.ForeignKey(
