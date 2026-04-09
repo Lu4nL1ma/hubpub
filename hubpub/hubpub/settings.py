@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-swlfypx8o#*1y$**q7li-o0fu^(-p1@p82(qyx^k&3i0&3!ud%
 
 DEBUG = True # Mantenha True enquanto estiver configurando, mude para False depois.
 
-ALLOWED_HOSTS = ['lu4nl1ma.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['lu4nl1ma.pythonanywhere.com', 'localhost', '127.0.0.1', 'www.infinitycursos.site']
 
 # 3. DEFINIÇÃO DE APPS
 INSTALLED_APPS = [
@@ -92,7 +92,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # 8. CORREÇÃO CSRF (Trusted Origins)
 CSRF_TRUSTED_ORIGINS = [
-    'https://lu4nl1ma.pythonanywhere.com',
+    'www.infinitycursos.site',
 ]
 
 # 9. REDIRECIONAMENTOS

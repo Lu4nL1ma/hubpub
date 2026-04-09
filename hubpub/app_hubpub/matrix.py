@@ -20,7 +20,7 @@ DB_CONFIG = {
     'charset': 'utf8mb4'
 }
 
-DOMINIO = 'lu4nl1ma.pythonanywhere.com'
+DOMINIO = 'www.infinitycursos.site'
 CAMINHO_MEDIA_LOCAL = os.path.join(BASE_DIR, 'media')
 BASE_URL_PUBLICA = f"https://{DOMINIO}/media/"
 
