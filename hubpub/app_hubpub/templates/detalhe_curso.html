@@ -16,7 +16,7 @@
 <div class="form-container" style="max-width: 1000px;">
 
     <div class="form-header" style="margin-top: 40px;">
-        <h2>GESTÃO DO <span>{{ curso.curso|upper }}</span></h2>
+        <h2>GESTÃO DO CURSO: <span>{{ curso.curso|upper }}</span></h2>
         <p style="color: var(--cor-suave)">
             <i class="fas fa-clock"></i> Turno: {{ curso.turno }} | 
             <i class="fas fa-calendar-alt"></i> Início: {{ curso.data_inicio|date:"d/m/Y" }}
@@ -51,6 +51,16 @@
             <p style="font-size: 0.8rem; margin: 10px 0;">Exportar dados para análise.</p>
             <button class="btn-submit" style="padding: 12px; font-size: 0.8rem; border-color:#ff0000e7; color: #ff0000e7;">GERAR PDF</button>
         </div>
+
+        <div class="hub-card" style="padding: 25px; border-left: 4px solid var(--cor-acento);">
+            <div class="card-icon" style="width: 50px; height: 50px;">
+                <i class="fas fa-users" style="font-size: 1.5rem;"></i>
+            </div>
+            <h4>ALUNOS</h4>
+            <p style="font-size: 0.8rem; margin: 10px 0;">Gerencie matriculados e frequências.</p>
+            <button class="btn-submit" style="padding: 12px; font-size: 0.8rem;" onclick="window.location.href='{% url "" curso.id %}'"> ACESSAR LISTA </button>
+        </div>
+        
 
     </div>
 
