@@ -297,8 +297,6 @@ def controle_presenca(request, curso_id):
         'hoje': hoje.strftime('%Y-%m-%d')
     })
 
-@login_required
-@professor_do_curso_required
 class MeuLoginView(LoginView):
     # Mantemos o comportamento original, mas mudamos o destino de sucesso
     def get_success_url(self):
