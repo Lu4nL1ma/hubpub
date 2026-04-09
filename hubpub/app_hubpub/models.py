@@ -53,7 +53,7 @@ class  cursos(models.Model):
     professor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Professor Responsável")
 
     def __str__(self):
-        return self.nome
+        return self.curso
 
 class aluno(models.Model):
     # CORREÇÃO: Transformando em ForeignKey para ligar com o model 'cursos'
