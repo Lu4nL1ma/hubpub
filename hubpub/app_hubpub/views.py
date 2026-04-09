@@ -156,6 +156,14 @@ def detalhe_curso(request, curso_id):
     }
     return render(request, 'detalhe_curso.html', context)
 
+def gestao_alunos(request, curso_id):
+    curso_obj = get_object_or_404(cursos, id=curso_id)
+    alunos_count = aluno.objects.filter(curso=curso_obj).count()
+    return render(request, 'gestao_alunos.html', {
+        'curso': curso_obj,
+        'alunos_count': alunos_count
+    })
+
 
 def inserir_aluno(request, curso_id):
     # 1. Busca o curso ou retorna 404

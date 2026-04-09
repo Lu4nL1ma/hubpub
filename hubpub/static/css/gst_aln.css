@@ -1,0 +1,196 @@
+/* --- PADRÃO INFTY PROJ / HUBPUB --- */
+:root {
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --cor-erro: #ff4d4d;
+    --cor-sucesso: #00ff88;
+    --transparencia: rgba(255, 255, 255, 0.05);
+    --sombra: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* --- NAVBAR UNIFICADA (RESPONSIVA) --- */
+.hub-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--cor-secundaria);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid var(--transparencia);
+    margin-bottom: 30px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-link, .nav-link-back {
+    color: var(--cor-acento);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.nav-center { text-align: center; }
+.nav-main-title { font-size: 1.1rem; margin: 0; letter-spacing: 1px; }
+.nav-main-title span { color: var(--cor-acento); }
+.nav-sub-title { font-size: 0.75rem; color: var(--cor-suave); display: block; }
+
+.nav-right { display: flex; gap: 12px; align-items: center; }
+
+/* --- BOTÕES E INPUTS --- */
+.date-box { 
+    background: var(--cor-primaria); 
+    padding: 6px 12px; 
+    border-radius: 8px; 
+    border: 1px solid var(--transparencia); 
+}
+
+.date-input { 
+    background: transparent; 
+    border: none; 
+    color: white; 
+    outline: none; 
+    font-size: 0.85rem; 
+}
+
+.btn-new-small, .btn-save-presenca {
+    padding: 10px 20px;
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-new-small:hover, .btn-save-presenca:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+}
+
+/* --- GRID DE GESTÃO (CENTRAL DO ALUNO) --- */
+.management-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.manage-card {
+    background: var(--cor-secundaria);
+    border: 1px solid var(--transparencia);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.manage-card:hover {
+    border-color: var(--cor-acento);
+    transform: translateX(8px);
+    background: rgba(0, 212, 255, 0.02);
+}
+
+.manage-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--cor-acento);
+    margin-right: 20px;
+}
+
+.manage-info h3 { color: var(--cor-texto); font-size: 1.1rem; margin-bottom: 4px; }
+.manage-info p { color: var(--cor-suave); font-size: 0.85rem; line-height: 1.4; }
+
+.arrow-go { margin-left: auto; color: var(--cor-suave); opacity: 0.3; }
+
+/* --- LISTA DE PRESENÇA (ESTABILIDADE) --- */
+.list-wrapper { 
+    background: var(--cor-secundaria); 
+    border-radius: 12px; 
+    border: 1px solid var(--transparencia); 
+    overflow: hidden; 
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.list-header { 
+    background: rgba(255,255,255,0.02); 
+    padding: 15px 20px; 
+    border-bottom: 1px solid var(--transparencia);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.student-item { display: block; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+.item-content { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+
+.info-group { display: flex; align-items: center; gap: 12px; }
+.avatar-mini { width: 32px; height: 32px; background: rgba(0,212,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--cor-acento); font-size: 0.8rem; }
+
+.name-text { font-weight: 600; font-size: 1rem; }
+
+/* SWITCH (TOGGLE) */
+.hidden-check { display: none; }
+.status-text::after { content: 'FALTOU'; font-size: 0.7rem; font-weight: 800; color: var(--cor-erro); }
+
+.switch { width: 42px; height: 22px; background: #2a2f3b; border-radius: 20px; position: relative; transition: 0.3s; }
+.switch-dot { width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; }
+
+.hidden-check:checked + .item-content .status-text::after { content: 'PRESENTE'; color: var(--cor-sucesso); }
+.hidden-check:checked + .item-content .switch { background: var(--cor-acento); }
+.hidden-check:checked + .item-content .switch-dot { left: 23px; }
+
+/* BADGES */
+.count-badge {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--cor-acento);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid var(--cor-acento);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+    .hub-navbar { flex-direction: column; gap: 15px; }
+    .nav-right { width: 100%; flex-direction: column; }
+    .btn-save-presenca, .date-box { width: 100%; text-align: center; }
+    .manage-card { padding: 15px; }
+    .manage-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+}

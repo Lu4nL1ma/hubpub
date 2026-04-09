@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Alunos | Infty Proj</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/gst_aln.css' %}">
+</head>
+<body class="main-content">
+
+    <nav class="hub-navbar">
+        <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link">
+            <i class="fas fa-arrow-left"></i> VOLTAR
+        </a>
+        
+        <div class="nav-center">
+            <h2 class="nav-main-title">GESTÃO DE <span>ALUNOS</span></h2>
+            <span class="nav-sub-title">{{ curso.curso }}</span>
+        </div>
+
+        <div class="nav-right">
+            <span class="count-badge">{{ alunos_count }} Matriculados</span>
+        </div>
+    </nav>
+
+    <div class="management-grid">
+        <a href="{% url 'controle_presenca' curso.id %}" class="manage-card">
+            <div class="manage-icon">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <div class="manage-info">
+                <h3>Controle de Presença</h3>
+                <p>Realizar a chamada diária e gerenciar faltas dos alunos.</p>
+            </div>
+            <i class="fas fa-chevron-right arrow-go"></i>
+        </a>
+
+        <a href="{% url 'inserir_aluno' curso.id %}" class="manage-card">
+            <div class="manage-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="manage-info">
+                <h3>Incluir Novo Aluno</h3>
+                <p>Cadastrar novos estudantes e matricular nesta turma.</p>
+            </div>
+            <i class="fas fa-chevron-right arrow-go"></i>
+        </a>
+
+        <a href="#" class="manage-card disabled">
+            <div class="manage-icon">
+                <i class="fas fa-list-ul"></i>
+            </div>
+            <div class="manage-info">
+                <h3>Visualizar Lista</h3>
+                <p>Ver dados de contato e informações dos matriculados.</p>
+            </div>
+            <span class="tag-em-breve">Em breve</span>
+        </a>
+    </div>
+
+</body>
+</html>
