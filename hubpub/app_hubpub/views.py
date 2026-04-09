@@ -14,24 +14,28 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from functools import wraps
 
-# --- DECORADOR PERSONALIZADO ---
+# --- DECORADOR PARA VALIDAR SE O PROFESSOR É DONO DO CURSO ---
 def professor_do_curso_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
         curso_id = kwargs.get('curso_id')
-        # Busca o curso e verifica se o user logado é o professor dele ou admin
+        # Tenta buscar o curso; se não existir, dá 404
         curso = get_object_or_404(cursos, id=curso_id)
+
+        # Se não for o professor do curso E não for administrador, barra o acesso
         if curso.professor != request.user and not request.user.is_superuser:
             raise PermissionDenied("Acesso Negado: Não és o responsável por este curso.")
+        
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-# --- VIEWS PÚBLICAS ---
+# --- VIEW PÚBLICA ---
 
 def home(request):
     return render(request, 'home.html')
 
-# --- VIEWS RESTRITAS AO ADMINISTRADOR (SUPERUSER) ---
+# --- VIEWS EXCLUSIVAS DO ADMINISTRADOR (SUPERUSER) ---
+# Professores que tentarem aceder a estas URLs receberão um erro 403.
 
 @login_required
 def staff(request):
@@ -67,15 +71,14 @@ def form_agenda(request):
     tipo = ['Feed', 'Story', 'Mensagem']
     
     if request.method == 'POST':
-        # ... (Lógica de processamento de imagem e salvamento mantida igual)
-        # Nota: Mantive a sua lógica interna de processamento de imagem aqui
+        # ... (Mantivemos a tua lógica de processamento de imagem aqui)
         pass 
 
     return render(request, 'form-agd.html', {'redes': rede, 'tipos': tipo, 'todos_cursos': todos_cursos})
 
 @login_required
 def listar_cursos(request):
-    # Se for professor, mostramos apenas os cursos dele. Se for admin, mostra todos.
+    # Se for professor, vê apenas o dele. Se for admin, vê todos.
     if request.user.is_superuser:
         todos_cursos = cursos.objects.all().order_by('data_inicio')
     else:
@@ -99,7 +102,7 @@ def cadastrar_curso(request):
         return redirect('painel_cursos')
     return render(request, 'form_curso.html')
 
-# --- VIEWS PROTEGIDAS POR CURSO (PARA PROFESSORES) ---
+# --- VIEWS DO CURSO (PROFESSOR PODE ACEDER AO QUE LHE PERTENCE) ---
 
 @login_required
 @professor_do_curso_required
@@ -166,14 +169,22 @@ def controle_presenca(request, curso_id):
         'curso': curso_obj, 'alunos': lista_alunos, 'hoje': hoje.strftime('%Y-%m-%d')
     })
 
-# --- VIEW DE LOGIN PERSONALIZADA ---
+# --- CLASSE DE LOGIN COM REDIRECIONAMENTO INTELIGENTE ---
 
 class MeuLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
+        
+        # Busca o curso onde este utilizador é o professor
         curso_vinculado = cursos.objects.filter(professor=user).first()
+        
         if curso_vinculado:
-            return reverse('controle_presenca', kwargs={'curso_id': curso_vinculado.id})
+            # ENTRADA DIRETA: Vai para a gestão de alunos do seu curso
+            return reverse('gestao_alunos', kwargs={'curso_id': curso_vinculado.id})
+        
+        # Se for administrador puro, vai para o painel Django Admin
         if user.is_staff:
             return '/admin/'
+            
+        # Caso padrão para outros utilizadores
         return reverse('home')
