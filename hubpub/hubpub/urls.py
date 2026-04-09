@@ -11,13 +11,17 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('staff/agenda/', agenda, name='agenda'),
     path('staff/agenda/form-agenda/', form_agenda, name='forms_agenda'),
+
+    #inicia as urls de staff
     path('staff/cursos/', listar_cursos, name='painel_cursos'),
     path('staff/cursos/form/', cadastrar_curso, name='cadastrar_curso'),
     path('staff/cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('staff/cursos/<int:curso_id>/gerenciar-alunos', gestao_alunos, name='gestao_alunos'),
-    path('cursos/<int:curso_id>/gerenciar-alunos/inserir', inserir_aluno, name='inserir_aluno'),
-    path('cursos/<int:curso_id>/excluir-aluno/<int:aluno_id>/', excluir_aluno, name='excluir_aluno'),
-    path('cursos/<int:curso_id>/gerenciar-alunos/cntrl-pres', controle_presenca, name='controle_presenca'),
+    path('staff/cursos/<int:curso_id>/gerenciar-alunos/inserir', inserir_aluno, name='inserir_aluno'),
+    path('staff/cursos/<int:curso_id>/excluir-aluno/<int:aluno_id>/', excluir_aluno, name='excluir_aluno'),
+    path('staff/cursos/<int:curso_id>/gerenciar-alunos/cntrl-pres', controle_presenca, name='controle_presenca'),
+    #end
+    
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('admin/', admin.site.urls),
 ]
