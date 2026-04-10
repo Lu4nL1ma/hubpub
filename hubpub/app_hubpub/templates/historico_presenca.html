@@ -4,56 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico - {{ curso.curso }} | Infty Proj</title>
+    <title>Histórico | Infty Proj</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/hst_pres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}">
 </head>
-<body class="attendance-body"> <div class="attendance-form"> <nav class="hub-navbar">
+<body class="attendance-body">
+
+    <div class="attendance-form">
+        <nav class="hub-navbar">
             <a href="{% url 'gestao_alunos' curso.id %}" class="nav-link-back">
                 <i class="fas fa-chevron-left"></i> VOLTAR
             </a>
-            
             <div class="nav-center">
                 <h2 class="nav-main-title">HISTÓRICO DE <span>PRESENÇA</span></h2>
                 <span class="nav-sub-title">{{ curso.curso }} | {{ curso.turno }}</span>
             </div>
-
             <div class="nav-right">
-                <div style="width: 80px;"></div> 
+                <span class="count-badge">{{ historico.count }} Registros</span>
             </div>
         </nav>
 
         <div class="list-wrapper">
             <div class="list-header">
-                <span><i class="fas fa-clock"></i> Registros Recentes</span>
-                <span class="count-badge">{{ historico.count }} Entradas</span>
+                <span><i class="fas fa-calendar-alt"></i> Linha do Tempo</span>
             </div>
 
             <div class="students-list">
                 {% for registro in historico %}
-                <div class="history-item {% if registro.presente %}is-present{% else %}is-absent{% endif %}">
+                <div class="student-item">
                     <div class="item-content">
                         
                         <div class="info-group">
-                            <div class="avatar-mini">
-                                {% if registro.presente %}
-                                    <i class="fas fa-check"></i>
-                                {% else %}
-                                    <i class="fas fa-times"></i>
-                                {% endif %}
+                            <div class="date-column">
+                                <span class="day">{{ registro.data|date:"d" }}</span>
+                                <span class="month-year">{{ registro.data|date:"M/y"|upper }}</span>
                             </div>
-                            <div class="text-data">
+
+                            <div class="vertical-divider"></div>
+
+                            <div class="student-data">
                                 <span class="name-text">{{ registro.aluno.nome }}</span>
-                                <span class="date-sub-text">{{ registro.data|date:"d/m/Y" }}</span>
+                                <span class="course-tag">Frequência confirmada</span>
                             </div>
                         </div>
 
                         <div class="status-group">
-                            {% if registro.presente %}
-                                <span class="status-badge presente">PRESENTE</span>
-                            {% else %}
-                                <span class="status-badge ausente">FALTOU</span>
-                            {% endif %}
+                            <div class="status-circle {% if registro.presente %}presente{% else %}ausente{% endif %}">
+                                {% if registro.presente %}P{% else %}F{% endif %}
+                            </div>
                         </div>
 
                     </div>
@@ -61,7 +59,7 @@
                 {% empty %}
                 <div class="empty-list">
                     <i class="fas fa-folder-open"></i>
-                    Nenhum registro de presença encontrado.
+                    <p>Nenhum registro encontrado para este curso.</p>
                 </div>
                 {% endfor %}
             </div>

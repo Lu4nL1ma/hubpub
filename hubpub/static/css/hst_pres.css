@@ -1,4 +1,4 @@
-/* --- PADRÃO INFTY PROJ / HUBPUB --- */
+/* --- IDENTIDADE INFTY PROJ --- */
 :root {
     --cor-primaria: #0a0f1e;
     --cor-secundaria: #161d2f;
@@ -8,146 +8,68 @@
     --cor-erro: #ff4d4d;
     --cor-sucesso: #00ff88;
     --transparencia: rgba(255, 255, 255, 0.05);
-    --sombra: 0 15px 35px rgba(0, 0, 0, 0.5);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
-/* Base para páginas de lista (Presença e Histórico) */
-.attendance-body {
-    background-color: var(--cor-primaria);
-    color: var(--cor-texto);
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-}
+body { background-color: var(--cor-primaria); color: var(--cor-texto); padding: 20px; }
 
-/* Container centralizado padrão */
-.attendance-form {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* --- NAVBAR UNIFICADA --- */
+/* --- NAVBAR PADRÃO --- */
 .hub-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--cor-secundaria);
-    padding: 15px 25px;
-    border-radius: 12px;
-    border: 1px solid var(--transparencia);
-    margin-bottom: 25px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--cor-secundaria); padding: 15px 25px;
+    border-radius: 12px; border: 1px solid var(--transparencia);
+    margin-bottom: 25px; max-width: 900px; margin-left: auto; margin-right: auto;
 }
 
 .nav-link-back { color: var(--cor-acento); text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
 .nav-center { text-align: center; }
-.nav-main-title { font-size: 1rem; margin: 0; letter-spacing: 1px; text-transform: uppercase; }
+.nav-main-title { font-size: 1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
 .nav-main-title span { color: var(--cor-acento); }
 .nav-sub-title { font-size: 0.75rem; color: var(--cor-suave); display: block; }
-.nav-right { display: flex; gap: 10px; align-items: center; }
 
-/* --- COMPONENTES DE ESTRUTURA DE LISTA --- */
-.list-wrapper { 
-    background: var(--cor-secundaria); 
-    border-radius: 12px; 
-    border: 1px solid var(--transparencia); 
-    overflow: hidden; 
+/* --- ESTRUTURA DE LISTAS (CHAMADA E HISTÓRICO) --- */
+.attendance-form { max-width: 900px; margin: 0 auto; }
+
+.list-wrapper { background: var(--cor-secundaria); border-radius: 12px; border: 1px solid var(--transparencia); overflow: hidden; }
+
+.list-header { background: rgba(255,255,255,0.02); padding: 15px 20px; border-bottom: 1px solid var(--transparencia); color: var(--cor-suave); font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+
+.student-item { border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; }
+.student-item:hover { background: rgba(255,255,255,0.01); }
+
+.item-content { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; }
+
+/* --- COLUNA DE DATA (EXCLUSIVO HISTÓRICO) --- */
+.date-column { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+.date-column .day { font-size: 1.5rem; font-weight: 900; color: var(--cor-acento); line-height: 1; }
+.date-column .month-year { font-size: 0.65rem; font-weight: 700; color: var(--cor-suave); margin-top: 2px; }
+
+.vertical-divider { width: 1px; height: 35px; background: rgba(255, 255, 255, 0.1); margin: 0 15px; }
+
+.info-group { display: flex; align-items: center; }
+.student-data { display: flex; flex-direction: column; }
+.name-text { font-weight: 600; font-size: 1.05rem; }
+.course-tag { font-size: 0.7rem; color: var(--cor-suave); text-transform: uppercase; }
+
+/* --- STATUS CIRCLE --- */
+.status-circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.8rem;
 }
+.status-circle.presente { background: var(--cor-sucesso); color: var(--cor-primaria); box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+.status-circle.ausente { background: var(--cor-erro); color: #fff; box-shadow: 0 0 10px rgba(255, 77, 77, 0.2); }
 
-.list-header { 
-    background: rgba(255,255,255,0.02); 
-    padding: 15px 20px; 
-    border-bottom: 1px solid var(--transparencia);
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--cor-suave); font-size: 0.9rem;
-}
+/* --- BADGES E EXTRAS --- */
+.count-badge { background: rgba(0, 212, 255, 0.1); color: var(--cor-acento); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid var(--cor-acento); }
 
-/* Item base (usado na presença e adaptado no histórico) */
-.student-item, .history-item { 
-    display: block; 
-    border-bottom: 1px solid rgba(255,255,255,0.03);
-    transition: 0.2s;
-}
-.student-item:last-child, .history-item:last-child { border-bottom: none; }
+.empty-list { text-align: center; padding: 50px; color: var(--cor-suave); }
+.empty-list i { font-size: 2rem; margin-bottom: 15px; display: block; opacity: 0.3; }
 
-.item-content { 
-    display: flex; justify-content: space-between; align-items: center; 
-    padding: 18px 25px; 
-}
-
-.info-group { display: flex; align-items: center; gap: 15px; }
-
-/* Avatar mini genérico */
-.avatar-mini { 
-    width: 36px; height: 36px; 
-    border-radius: 50%; 
-    display: flex; align-items: center; justify-content: center; 
-    font-size: 0.9rem; 
-}
-
-.name-text { font-weight: 600; font-size: 1rem; color: var(--cor-texto); }
-
-/* --- ESTILOS ESPECÍFICOS DO HISTÓRICO --- */
-.history-item.is-present .avatar-mini {
-    background: rgba(0, 255, 136, 0.1);
-    color: var(--cor-sucesso);
-    border: 1px solid rgba(0, 255, 136, 0.2);
-}
-
-.history-item.is-absent .avatar-mini {
-    background: rgba(255, 77, 77, 0.1);
-    color: var(--cor-erro);
-    border: 1px solid rgba(255, 77, 77, 0.2);
-}
-
-.text-data { display: flex; flex-direction: column; }
-.date-sub-text { font-size: 0.8rem; color: var(--cor-acento); font-family: monospace; margin-top: 2px; }
-
-/* Badges de Status (Histórico) */
-.status-badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 800;
-}
-.status-badge.presente { background: var(--cor-sucesso); color: var(--cor-primaria); }
-.status-badge.ausente { background: var(--cor-erro); color: #fff; }
-
-/* --- ESTILOS ESPECÍFICOS DA PRESENÇA (TOGGLE) --- */
-.student-item { cursor: pointer; }
-.student-item .avatar-mini { background: rgba(0,212,255,0.1); color: var(--cor-acento); }
-.status-group { display: flex; align-items: center; gap: 12px; }
-
-/* Lógica do Switch da Presença */
-.hidden-check { display: none; }
-.switch { width: 42px; height: 22px; background: #2a2f3b; border-radius: 20px; position: relative; transition: 0.3s; }
-.switch-dot { width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; }
-
-.hidden-check:checked + .item-content .switch { background: var(--cor-acento); }
-.hidden-check:checked + .item-content .switch-dot { left: 23px; }
-
-/* --- OUTROS COMPONENTES (BADGES, EMPTY) --- */
-.count-badge { background: var(--cor-acento); color: var(--cor-primaria); padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; }
-
-.empty-list {
-    text-align: center;
-    padding: 50px;
-    color: var(--cor-suave);
-    font-style: italic;
-    font-size: 0.9rem;
-    display: flex; flex-direction: column; gap: 15px; align-items: center;
-}
-.empty-list i { font-size: 2rem; opacity: 0.5; }
-
-/* Responsividade Básica */
+/* Responsividade */
 @media (max-width: 600px) {
-    .hub-navbar { flex-direction: column; gap: 15px; padding: 15px; }
-    .item-content { padding: 15px; flex-direction: column; align-items: flex-start; gap: 10px; }
-    .status-group { width: 100%; justify-content: space-between; }
+    .hub-navbar { flex-direction: column; gap: 15px; }
+    .item-content { padding: 15px; }
+    .date-column { min-width: 50px; }
 }
