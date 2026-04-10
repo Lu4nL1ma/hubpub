@@ -105,3 +105,15 @@ INSTA_BUSINESS_ID = '17841467620559548'
 BASE_URL_PUBLICA = 'https://infinitycursos.site/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- CONFIGURAÇÕES DE SESSÃO ---
+
+# 1. Faz com que o login expire assim que o professor fechar o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# 2. (Opcional) Tempo máximo de inatividade (ex: 1 hora = 3600 segundos)
+# Mesmo que ele não feche o browser, após este tempo ele terá de logar de novo.
+SESSION_COOKIE_AGE = 3600
+
+# 3. Garante que o tempo de expiração recomeça a contar a cada clique (evita expulsar quem está a trabalhar)
+SESSION_SAVE_EVERY_REQUEST = True
