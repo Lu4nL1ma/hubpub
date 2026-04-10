@@ -13,25 +13,32 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from functools import wraps
 
-# --- DECORADOR PERSONALIZADO ---
+# --- DECORADOR DE SEGURANÇA ---
 def professor_do_curso_required(view_func):
     @wraps(view_func)
     def _wrapped_view(request, *args, **kwargs):
         curso_id = kwargs.get('curso_id')
         curso = get_object_or_404(cursos, id=curso_id)
 
-        # Validação de posse: se não for o prof do curso e não for admin, chuta pro login
+        # Se não for o professor do curso E não for superusuário, mandamos para o login
         if curso.professor != request.user and not request.user.is_superuser:
             return redirect('login') 
         
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-# --- VIEWS GERAIS (REDIRECIONAM O PROFESSOR) ---
+# --- VIEWS GERAIS (SÓ ADMIN ENTRA) ---
+
+def home(request):
+    return render(request, 'home.html')
 
 @login_required
 def staff(request):
     if not request.user.is_superuser:
+        # Se for professor, tentamos mandar para o curso dele, senão login
+        curso_dele = cursos.objects.filter(professor=request.user).first()
+        if curso_dele:
+            return redirect('gestao_alunos', curso_id=curso_dele.id)
         return redirect('login')
     return render(request, 'staff.html')
 
@@ -42,38 +49,41 @@ def listar_cursos(request):
     todos_cursos = cursos.objects.all().order_by('data_inicio')
     return render(request, 'painel.html', {'cursos': todos_cursos})
 
-# --- VIEWS ESPECÍFICAS DE CURSO ---
+# --- VIEWS ESPECÍFICAS DE CURSO (ÁREA CONFINADA DO PROFESSOR) ---
+
+@login_required
+@professor_do_curso_required
+def gestao_alunos(request, curso_id):
+    curso_obj = get_object_or_404(cursos, id=curso_id)
+    alunos_count = aluno.objects.filter(curso=curso_obj).count()
+    return render(request, 'gestao_alunos.html', {
+        'curso': curso_obj, 
+        'alunos_count': alunos_count
+    })
 
 @login_required
 @professor_do_curso_required
 def detalhe_curso(request, curso_id):
-    # AJUSTE: Se o professor tentar entrar no detalhe do curso, 
-    # nós forçamos ele a voltar para a GESTÃO DE ALUNOS (onde ele deve estar)
+    # Se for professor, ele não vê o detalhe "administrativo", volta para a gestão de alunos
     if not request.user.is_superuser:
         return redirect('gestao_alunos', curso_id=curso_id)
-        
+    
     curso_selecionado = get_object_or_404(cursos, id=curso_id)
     return render(request, 'detalhe_curso.html', {'curso': curso_selecionado})
 
 @login_required
 @professor_do_curso_required
-def gestao_alunos(request, curso_id):
-    # ÚNICA PÁGINA PERMITIDA
-    curso_obj = get_object_or_404(cursos, id=curso_id)
-    alunos_count = aluno.objects.filter(curso=curso_obj).count()
-    return render(request, 'gestao_alunos.html', {'curso': curso_obj, 'alunos_count': alunos_count})
-
-@login_required
-@professor_do_curso_required
 def inserir_aluno(request, curso_id):
-    # Se quiser que ele não consiga nem inserir, adicione o bloqueio "if not is_superuser" aqui também
     curso = get_object_or_404(cursos, id=curso_id)
     if request.method == 'POST':
-        nome = str(request.POST.get('nome_aluno')).title()
+        nome = str(request.POST.get('nome_aluno', '')).title()
         email = request.POST.get('email_aluno')
         cpf = request.POST.get('cpf')
         data_nasc = request.POST.get('data_nascimento') or timezone.now().date()
-        aluno.objects.create(curso=curso, nome=nome, email=email, cpf=cpf, data_nascimento=data_nasc)
+        
+        aluno.objects.create(
+            curso=curso, nome=nome, email=email, cpf=cpf, data_nascimento=data_nasc
+        )
         curso.inscritos += 1
         curso.save()
         return redirect('inserir_aluno', curso_id=curso.id)
@@ -87,6 +97,7 @@ def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     lista_alunos = aluno.objects.filter(curso=curso_obj)
     hoje = date.today()
+
     if request.method == "POST":
         data_selecionada = request.POST.get('data_presenca', hoje)
         for a in lista_alunos:
@@ -95,11 +106,13 @@ def controle_presenca(request, curso_id):
                 aluno=a, curso=curso_obj, data=data_selecionada,
                 defaults={'presente': veio, 'status': 'P' if veio else 'A'}
             )
-        # Redireciona de volta para a gestão de alunos (evitando o detalhe_curso)
+        # Após salvar, volta para a gestão de alunos
         return redirect('gestao_alunos', curso_id=curso_id)
 
     return render(request, 'controle_presenca.html', {
-        'curso': curso_obj, 'alunos': lista_alunos, 'hoje': hoje.strftime('%Y-%m-%d')
+        'curso': curso_obj, 
+        'alunos': lista_alunos, 
+        'hoje': hoje.strftime('%Y-%m-%d')
     })
 
 # --- LOGIN ---
@@ -108,8 +121,12 @@ class MeuLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         curso_vinculado = cursos.objects.filter(professor=user).first()
+        
         if curso_vinculado:
+            # O professor vai direto para a gestão de alunos
             return reverse('gestao_alunos', kwargs={'curso_id': curso_vinculado.id})
+        
         if user.is_staff:
             return '/admin/'
+            
         return reverse('home')
