@@ -60,7 +60,7 @@
         </a>
         {% endif %}
 
-        <a href="#" class="manage-card disabled">
+        <a href="{% url 'historico_presenca' curso.id %}" class="manage-card disabled">
             <div class="manage-icon">
                 <i class="fas fa-list-ul"></i>
             </div>
@@ -68,7 +68,6 @@
                 <h3>Histórico de Presença</h3>
                 <p>Veja a frequência dos Seus Alunos.</p>
             </div>
-            <span class="tag-em-breve">Em breve</span>
         </a>
     </div>
 
