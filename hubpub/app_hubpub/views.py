@@ -169,6 +169,6 @@ class MeuLoginView(LoginView):
             return reverse('gestao_alunos', kwargs={'curso_id': curso_vinculado.id})
         
         if user.is_staff:
-            return '/admin/'
+            return '/staff/'
             
         return reverse('home')

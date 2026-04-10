@@ -11,9 +11,19 @@
 <body class="main-content">
 
     <nav class="hub-navbar">
-        <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link">
-            <i class="fas fa-arrow-left"></i> VOLTAR
-        </a>
+        
+        {% if user.is_superuser %}
+            <a href="{% url 'detalhe_curso' curso.id %}" class="nav-link">
+                <i class="fas fa-arrow-left"></i> VOLTAR
+            </a>
+        {% else %}
+            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout-top">
+                    <i class="fas fa-power-off"></i> SAIR
+                </button>
+            </form>
+        {% endif %}
         
         <div class="nav-center">
             <h2 class="nav-main-title">GESTÃO DE <span>ALUNOS</span></h2>
