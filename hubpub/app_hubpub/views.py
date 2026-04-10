@@ -20,19 +20,14 @@ def professor_do_curso_required(view_func):
         curso_id = kwargs.get('curso_id')
         curso = get_object_or_404(cursos, id=curso_id)
 
-        # Se não for o dono do curso e não for admin, volta para o login
+        # Validação de posse: se não for o prof do curso e não for admin, chuta pro login
         if curso.professor != request.user and not request.user.is_superuser:
             return redirect('login') 
         
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-# --- VIEWS PÚBLICAS ---
-
-def home(request):
-    return render(request, 'home.html')
-
-# --- VIEWS EXCLUSIVAS DO ADMINISTRADOR (REDIRECIONAM SE FOR PROFESSOR) ---
+# --- VIEWS GERAIS (REDIRECIONAM O PROFESSOR) ---
 
 @login_required
 def staff(request):
@@ -41,64 +36,37 @@ def staff(request):
     return render(request, 'staff.html')
 
 @login_required
-def agenda(request):
-    if not request.user.is_superuser:
-        return redirect('login')
-    
-    agendamentos = divulgacao_agend.objects.all()
-    dados_dict = {}
-    for item in agendamentos:
-        if item.data:
-            data_str = item.data.strftime('%Y-%m-%d')
-            if data_str not in dados_dict:
-                dados_dict[data_str] = []
-            texto = f"{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
-            dados_dict[data_str].append(texto)
-
-    db_demandas_json = json.dumps(dados_dict)
-    return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
-
-@login_required
-def form_agenda(request):
-    if not request.user.is_superuser:
-        return redirect('login')
-    # ... (lógica de form_agenda mantida)
-    return render(request, 'form-agd.html')
-
-@login_required
 def listar_cursos(request):
-    # Se um professor tentar listar todos os cursos, mandamos ele para o login
     if not request.user.is_superuser:
         return redirect('login')
-    
     todos_cursos = cursos.objects.all().order_by('data_inicio')
     return render(request, 'painel.html', {'cursos': todos_cursos})
 
-@login_required
-def cadastrar_curso(request):
-    if not request.user.is_superuser:
-        return redirect('login')
-    # ... (lógica de cadastro mantida)
-    return render(request, 'form_curso.html')
+# --- VIEWS ESPECÍFICAS DE CURSO ---
 
-# --- VIEWS DO CURSO (ÁREA DO PROFESSOR) ---
+@login_required
+@professor_do_curso_required
+def detalhe_curso(request, curso_id):
+    # AJUSTE: Se o professor tentar entrar no detalhe do curso, 
+    # nós forçamos ele a voltar para a GESTÃO DE ALUNOS (onde ele deve estar)
+    if not request.user.is_superuser:
+        return redirect('gestao_alunos', curso_id=curso_id)
+        
+    curso_selecionado = get_object_or_404(cursos, id=curso_id)
+    return render(request, 'detalhe_curso.html', {'curso': curso_selecionado})
 
 @login_required
 @professor_do_curso_required
 def gestao_alunos(request, curso_id):
+    # ÚNICA PÁGINA PERMITIDA
     curso_obj = get_object_or_404(cursos, id=curso_id)
     alunos_count = aluno.objects.filter(curso=curso_obj).count()
     return render(request, 'gestao_alunos.html', {'curso': curso_obj, 'alunos_count': alunos_count})
 
 @login_required
 @professor_do_curso_required
-def detalhe_curso(request, curso_id):
-    curso_selecionado = get_object_or_404(cursos, id=curso_id)
-    return render(request, 'detalhe_curso.html', {'curso': curso_selecionado})
-
-@login_required
-@professor_do_curso_required
 def inserir_aluno(request, curso_id):
+    # Se quiser que ele não consiga nem inserir, adicione o bloqueio "if not is_superuser" aqui também
     curso = get_object_or_404(cursos, id=curso_id)
     if request.method == 'POST':
         nome = str(request.POST.get('nome_aluno')).title()
@@ -115,17 +83,6 @@ def inserir_aluno(request, curso_id):
 
 @login_required
 @professor_do_curso_required
-def excluir_aluno(request, curso_id, aluno_id):
-    registro = get_object_or_404(aluno, id=aluno_id, curso=curso_id)
-    curso_obj = get_object_or_404(cursos, id=curso_id)
-    registro.delete()
-    if curso_obj.inscritos > 0:
-        curso_obj.inscritos -= 1
-        curso_obj.save()
-    return redirect('inserir_aluno', curso_id=curso_id)
-
-@login_required
-@professor_do_curso_required
 def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     lista_alunos = aluno.objects.filter(curso=curso_obj)
@@ -138,8 +95,12 @@ def controle_presenca(request, curso_id):
                 aluno=a, curso=curso_obj, data=data_selecionada,
                 defaults={'presente': veio, 'status': 'P' if veio else 'A'}
             )
-        return redirect('detalhe_curso', curso_id=curso_id)
-    return render(request, 'controle_presenca.html', {'curso': curso_obj, 'alunos': lista_alunos, 'hoje': hoje.strftime('%Y-%m-%d')})
+        # Redireciona de volta para a gestão de alunos (evitando o detalhe_curso)
+        return redirect('gestao_alunos', curso_id=curso_id)
+
+    return render(request, 'controle_presenca.html', {
+        'curso': curso_obj, 'alunos': lista_alunos, 'hoje': hoje.strftime('%Y-%m-%d')
+    })
 
 # --- LOGIN ---
 
@@ -147,11 +108,8 @@ class MeuLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         curso_vinculado = cursos.objects.filter(professor=user).first()
-        
         if curso_vinculado:
             return reverse('gestao_alunos', kwargs={'curso_id': curso_vinculado.id})
-        
         if user.is_staff:
             return '/admin/'
-            
         return reverse('home')
