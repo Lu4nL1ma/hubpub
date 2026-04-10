@@ -1,114 +1,172 @@
-/* Paleta e Reset */
+/* --- PADRÃO INFTY PROJ / HUBPUB --- */
 :root {
-    --azul-marinho: #050D35;
-    --cinza-fundo: #f4f7f6;
-    --branco: #ffffff;
-    --texto: #333333;
-    --borda: #e1e1e1;
+    --cor-primaria: #0a0f1e;
+    --cor-secundaria: #161d2f;
+    --cor-acento: #00d4ff;
+    --cor-texto: #ffffff;
+    --cor-suave: #b0b3b8;
+    --cor-erro: #ff4d4d;
+    --cor-sucesso: #00ff88;
+    --transparencia: rgba(255, 255, 255, 0.05);
+    --sombra: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 body {
-    background-color: var(--cinza-fundo);
-    font-family: 'Segoe UI', sans-serif;
-    color: var(--texto);
-    margin: 0;
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.5;
 }
 
-.container-app {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
-
-/* Header */
-.header-padrao {
+/* --- NAVBAR UNIFICADA (Layout Estável) --- */
+.hub-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    background: var(--cor-secundaria);
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid var(--transparencia);
+    margin-bottom: 30px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: var(--sombra);
 }
 
-.titulo-grupo h1 {
-    color: var(--azul-marinho);
-    margin: 0;
-    font-size: 22px;
-}
+.nav-title h2 { font-size: 1.1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+.nav-title span { color: var(--cor-acento); }
+.nav-title small { display: block; color: var(--cor-suave); font-size: 0.75rem; margin-top: 2px; }
 
-.titulo-grupo p {
-    margin: 5px 0 0 0;
-    color: #666;
-    font-size: 14px;
-}
-
-/* Botão Voltar (Igual aos demais layouts) */
-.btn-voltar {
+.nav-link, .btn-voltar, .nav-link-back {
+    color: var(--cor-acento);
     text-decoration: none;
-    color: var(--azul-marinho);
     font-weight: bold;
-    font-size: 13px;
+    font-size: 0.85rem;
+    transition: 0.3s;
     display: flex;
     align-items: center;
-    gap: 5px;
-    border: 1.5px solid var(--azul-marinho);
-    padding: 8px 15px;
-    border-radius: 4px;
-    transition: 0.3s;
+    gap: 8px;
 }
 
-.btn-voltar:hover {
-    background-color: var(--azul-marinho);
-    color: var(--branco);
-}
+.nav-link:hover { opacity: 0.8; transform: translateX(-3px); }
 
-/* Tabela Estilizada */
-.card-tabela {
-    background: var(--branco);
+/* --- BOTÕES --- */
+.btn-new-small, .btn-save-presenca {
+    padding: 10px 20px;
+    background: var(--cor-acento);
+    color: var(--cor-primaria);
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid var(--borda);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-new-small.secondary {
+    background: transparent;
+    border: 1px solid var(--cor-suave);
+    color: var(--cor-suave);
+}
+
+.btn-new-small:hover, .btn-save-presenca:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+}
+
+/* --- GRID DE GESTÃO (Central do Aluno) --- */
+.management-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.manage-card {
+    background: var(--cor-secundaria);
+    border: 1px solid var(--transparencia);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.manage-card:hover {
+    border-color: var(--cor-acento);
+    transform: translateX(8px);
+    background: rgba(0, 212, 255, 0.02);
+}
+
+.manage-icon {
+    width: 50px; height: 50px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: var(--cor-acento);
+    margin-right: 20px;
+}
+
+.manage-info h3 { color: var(--cor-texto); font-size: 1.1rem; margin-bottom: 4px; }
+.manage-info p { color: var(--cor-suave); font-size: 0.85rem; }
+
+/* --- LISTA DE CHAMADA (Toggle Switch) --- */
+.list-wrapper { 
+    background: var(--cor-secundaria); 
+    border-radius: 12px; 
+    border: 1px solid var(--transparencia); 
+    overflow: hidden; 
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.student-item { display: block; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.item-content { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; }
+.info-group { display: flex; align-items: center; gap: 12px; }
+.avatar-mini { width: 36px; height: 36px; background: rgba(0,212,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--cor-acento); }
+
+.hidden-check { display: none; }
+.switch { width: 42px; height: 22px; background: #2a2f3b; border-radius: 20px; position: relative; transition: 0.3s; }
+.switch-dot { width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; }
+
+.hidden-check:checked + .item-content .switch { background: var(--cor-acento); }
+.hidden-check:checked + .item-content .switch-dot { left: 23px; }
+
+/* --- TABELAS DE HISTÓRICO --- */
+.card-tabela-wrapper {
+    background: var(--cor-secundaria);
+    border-radius: 16px;
+    border: 1px solid var(--transparencia);
     overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.tabela-app {
-    width: 100%;
-    border-collapse: collapse;
-}
-
+.tabela-app { width: 100%; border-collapse: collapse; }
 .tabela-app thead th {
-    background-color: var(--azul-marinho);
-    color: var(--branco);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--cor-acento);
     text-align: left;
-    padding: 15px;
-    font-size: 12px;
+    padding: 20px;
+    font-size: 0.75rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.tabela-app tbody td {
-    padding: 12px 15px;
-    border-bottom: 1px solid var(--borda);
-    font-size: 14px;
-}
-
-.font-bold { font-weight: bold; }
-.txt-center { text-align: center; }
-
-/* Status Tags (Simples e Diretas) */
-.status-tag {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-    border-radius: 50%;
-    font-weight: bold;
-    font-size: 11px;
-    color: white;
-}
-
-.presente { background-color: #28a745; } /* Verde para P */
-.ausente { background-color: #dc3545; }  /* Vermelho para F */
-
-.vazio {
-    text-align: center;
-    padding: 30px;
-    color: #999;
-}
+.tabela-app tbody td { padding: 1
