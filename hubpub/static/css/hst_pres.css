@@ -1,123 +1,114 @@
-/* Container Principal */
-.container-gestao {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Paleta e Reset */
+:root {
+    --azul-marinho: #050D35;
+    --cinza-fundo: #f4f7f6;
+    --branco: #ffffff;
+    --texto: #333333;
+    --borda: #e1e1e1;
 }
 
-/* Header e Título */
-.header-acoes {
+body {
+    background-color: var(--cinza-fundo);
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--texto);
+    margin: 0;
+}
+
+.container-app {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header-padrao {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 20px;
+    margin-bottom: 25px;
 }
 
-.titulo-secao h1 {
+.titulo-grupo h1 {
+    color: var(--azul-marinho);
     margin: 0;
-    font-size: 24px;
-    color: #050D35;
+    font-size: 22px;
 }
 
-.subtitulo {
+.titulo-grupo p {
+    margin: 5px 0 0 0;
     color: #666;
     font-size: 14px;
 }
 
-/* Estilo do Botão Voltar (Admin) */
-.nav-link-voltar {
+/* Botão Voltar (Igual aos demais layouts) */
+.btn-voltar {
     text-decoration: none;
-    color: #050D35;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s;
-}
-
-.nav-link-voltar:hover {
-    color: #0056b3;
-}
-
-/* Estilo do Botão Sair (Professor) */
-form { display: inline-block; }
-
-.btn-logout-top {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    color: var(--azul-marinho);
     font-weight: bold;
-    cursor: pointer;
+    font-size: 13px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
+    border: 1.5px solid var(--azul-marinho);
+    padding: 8px 15px;
+    border-radius: 4px;
     transition: 0.3s;
 }
 
-.btn-logout-top:hover {
-    background-color: #c9302c;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.btn-voltar:hover {
+    background-color: var(--azul-marinho);
+    color: var(--branco);
 }
 
-/* Tabela e Container */
-.tabela-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+/* Tabela Estilizada */
+.card-tabela {
+    background: var(--branco);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(--borda);
     overflow: hidden;
 }
 
-.tabela-padrao {
+.tabela-app {
     width: 100%;
     border-collapse: collapse;
 }
 
-.tabela-padrao th {
-    background-color: #050D35;
-    color: white;
-    padding: 15px;
+.tabela-app thead th {
+    background-color: var(--azul-marinho);
+    color: var(--branco);
     text-align: left;
-    font-size: 13px;
+    padding: 15px;
+    font-size: 12px;
     letter-spacing: 1px;
 }
 
-.tabela-padrao td {
-    padding: 15px;
-    border-bottom: 1px solid #f2f2f2;
-    color: #444;
+.tabela-app tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--borda);
+    font-size: 14px;
 }
 
-.data-celula { font-weight: bold; color: #050D35; }
+.font-bold { font-weight: bold; }
+.txt-center { text-align: center; }
 
-/* Badges de Status */
-.badge {
-    padding: 6px 12px;
-    border-radius: 20px;
+/* Status Tags (Simples e Diretas) */
+.status-tag {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 50%;
+    font-weight: bold;
     font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
+    color: white;
 }
 
-.badge-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-.badge-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.presente { background-color: #28a745; } /* Verde para P */
+.ausente { background-color: #dc3545; }  /* Vermelho para F */
 
-.text-center { text-align: center; }
-
-.lista-vazia {
+.vazio {
     text-align: center;
-    padding: 40px !important;
+    padding: 30px;
     color: #999;
-    font-style: italic;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-    .header-acoes { flex-direction: column; align-items: flex-start; gap: 20px; }
-    .botoes-topo { width: 100%; }
-    .btn-logout-top { width: 100%; justify-content: center; }
 }
