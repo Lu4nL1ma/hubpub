@@ -194,3 +194,46 @@ body {
     .manage-card { padding: 15px; }
     .manage-icon { width: 40px; height: 40px; font-size: 1.2rem; }
 }
+
+/* Container do form para não quebrar o alinhamento */
+form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.btn-logout-top {
+    background-color: #d9534f; /* Vermelho harmônico (não muito berrante) */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Efeito ao passar o mouse */
+.btn-logout-top:hover {
+    background-color: #c9302c; /* Vermelho um pouco mais escuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Efeito ao clicar */
+.btn-logout-top:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Ajuste para o ícone FontAwesome dentro do botão */
+.btn-logout-top i {
+    font-size: 16px;
+}
