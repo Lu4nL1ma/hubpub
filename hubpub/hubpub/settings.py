@@ -113,7 +113,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # 2. (Opcional) Tempo máximo de inatividade (ex: 1 hora = 3600 segundos)
 # Mesmo que ele não feche o browser, após este tempo ele terá de logar de novo.
-SESSION_COOKIE_AGE = 3600
+SESSION_COOKIE_AGE = 3600 / 2
 
 # 3. Garante que o tempo de expiração recomeça a contar a cada clique (evita expulsar quem está a trabalhar)
 SESSION_SAVE_EVERY_REQUEST = True
