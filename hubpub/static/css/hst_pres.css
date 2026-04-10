@@ -15,18 +15,25 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-body {
+/* Base para páginas de lista (Presença e Histórico) */
+.attendance-body {
     background-color: var(--cor-primaria);
     color: var(--cor-texto);
-    min-height: 100vh;
+    margin: 0;
     padding: 20px;
-    line-height: 1.5;
+    min-height: 100vh;
 }
 
-/* --- NAVBAR UNIFICADA (Layout Estável) --- */
+/* Container centralizado padrão */
+.attendance-form {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* --- NAVBAR UNIFICADA --- */
 .hub-navbar {
     display: flex;
     justify-content: space-between;
@@ -35,112 +42,89 @@ body {
     padding: 15px 25px;
     border-radius: 12px;
     border: 1px solid var(--transparencia);
-    margin-bottom: 30px;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: var(--sombra);
+    margin-bottom: 25px;
 }
 
-.nav-title h2 { font-size: 1.1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-.nav-title span { color: var(--cor-acento); }
-.nav-title small { display: block; color: var(--cor-suave); font-size: 0.75rem; margin-top: 2px; }
+.nav-link-back { color: var(--cor-acento); text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+.nav-center { text-align: center; }
+.nav-main-title { font-size: 1rem; margin: 0; letter-spacing: 1px; text-transform: uppercase; }
+.nav-main-title span { color: var(--cor-acento); }
+.nav-sub-title { font-size: 0.75rem; color: var(--cor-suave); display: block; }
+.nav-right { display: flex; gap: 10px; align-items: center; }
 
-.nav-link, .btn-voltar, .nav-link-back {
-    color: var(--cor-acento);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.85rem;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-link:hover { opacity: 0.8; transform: translateX(-3px); }
-
-/* --- BOTÕES --- */
-.btn-new-small, .btn-save-presenca {
-    padding: 10px 20px;
-    background: var(--cor-acento);
-    color: var(--cor-primaria);
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: 0.3s;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-new-small.secondary {
-    background: transparent;
-    border: 1px solid var(--cor-suave);
-    color: var(--cor-suave);
-}
-
-.btn-new-small:hover, .btn-save-presenca:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-}
-
-/* --- GRID DE GESTÃO (Central do Aluno) --- */
-.management-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.manage-card {
-    background: var(--cor-secundaria);
-    border: 1px solid var(--transparencia);
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.manage-card:hover {
-    border-color: var(--cor-acento);
-    transform: translateX(8px);
-    background: rgba(0, 212, 255, 0.02);
-}
-
-.manage-icon {
-    width: 50px; height: 50px;
-    background: rgba(0, 212, 255, 0.1);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; color: var(--cor-acento);
-    margin-right: 20px;
-}
-
-.manage-info h3 { color: var(--cor-texto); font-size: 1.1rem; margin-bottom: 4px; }
-.manage-info p { color: var(--cor-suave); font-size: 0.85rem; }
-
-/* --- LISTA DE CHAMADA (Toggle Switch) --- */
+/* --- COMPONENTES DE ESTRUTURA DE LISTA --- */
 .list-wrapper { 
     background: var(--cor-secundaria); 
     border-radius: 12px; 
     border: 1px solid var(--transparencia); 
     overflow: hidden; 
-    max-width: 800px;
-    margin: 0 auto;
 }
 
-.student-item { display: block; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.item-content { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; }
-.info-group { display: flex; align-items: center; gap: 12px; }
-.avatar-mini { width: 36px; height: 36px; background: rgba(0,212,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--cor-acento); }
+.list-header { 
+    background: rgba(255,255,255,0.02); 
+    padding: 15px 20px; 
+    border-bottom: 1px solid var(--transparencia);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--cor-suave); font-size: 0.9rem;
+}
 
+/* Item base (usado na presença e adaptado no histórico) */
+.student-item, .history-item { 
+    display: block; 
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: 0.2s;
+}
+.student-item:last-child, .history-item:last-child { border-bottom: none; }
+
+.item-content { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 18px 25px; 
+}
+
+.info-group { display: flex; align-items: center; gap: 15px; }
+
+/* Avatar mini genérico */
+.avatar-mini { 
+    width: 36px; height: 36px; 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 0.9rem; 
+}
+
+.name-text { font-weight: 600; font-size: 1rem; color: var(--cor-texto); }
+
+/* --- ESTILOS ESPECÍFICOS DO HISTÓRICO --- */
+.history-item.is-present .avatar-mini {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--cor-sucesso);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.history-item.is-absent .avatar-mini {
+    background: rgba(255, 77, 77, 0.1);
+    color: var(--cor-erro);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+.text-data { display: flex; flex-direction: column; }
+.date-sub-text { font-size: 0.8rem; color: var(--cor-acento); font-family: monospace; margin-top: 2px; }
+
+/* Badges de Status (Histórico) */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+.status-badge.presente { background: var(--cor-sucesso); color: var(--cor-primaria); }
+.status-badge.ausente { background: var(--cor-erro); color: #fff; }
+
+/* --- ESTILOS ESPECÍFICOS DA PRESENÇA (TOGGLE) --- */
+.student-item { cursor: pointer; }
+.student-item .avatar-mini { background: rgba(0,212,255,0.1); color: var(--cor-acento); }
+.status-group { display: flex; align-items: center; gap: 12px; }
+
+/* Lógica do Switch da Presença */
 .hidden-check { display: none; }
 .switch { width: 42px; height: 22px; background: #2a2f3b; border-radius: 20px; position: relative; transition: 0.3s; }
 .switch-dot { width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: 0.3s; }
@@ -148,25 +132,22 @@ body {
 .hidden-check:checked + .item-content .switch { background: var(--cor-acento); }
 .hidden-check:checked + .item-content .switch-dot { left: 23px; }
 
-/* --- TABELAS DE HISTÓRICO --- */
-.card-tabela-wrapper {
-    background: var(--cor-secundaria);
-    border-radius: 16px;
-    border: 1px solid var(--transparencia);
-    overflow: hidden;
-    max-width: 1000px;
-    margin: 0 auto;
-}
+/* --- OUTROS COMPONENTES (BADGES, EMPTY) --- */
+.count-badge { background: var(--cor-acento); color: var(--cor-primaria); padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 0.8rem; }
 
-.tabela-app { width: 100%; border-collapse: collapse; }
-.tabela-app thead th {
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--cor-acento);
-    text-align: left;
-    padding: 20px;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.empty-list {
+    text-align: center;
+    padding: 50px;
+    color: var(--cor-suave);
+    font-style: italic;
+    font-size: 0.9rem;
+    display: flex; flex-direction: column; gap: 15px; align-items: center;
 }
+.empty-list i { font-size: 2rem; opacity: 0.5; }
 
-.tabela-app tbody td { padding: 1
+/* Responsividade Básica */
+@media (max-width: 600px) {
+    .hub-navbar { flex-direction: column; gap: 15px; padding: 15px; }
+    .item-content { padding: 15px; flex-direction: column; align-items: flex-start; gap: 10px; }
+    .status-group { width: 100%; justify-content: space-between; }
+}

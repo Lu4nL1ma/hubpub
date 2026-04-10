@@ -4,60 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico - {{ curso.curso }}</title>
+    <title>Histórico - {{ curso.curso }} | Infty Proj</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}"> </head>
-<body class="main-content">
-
-<div class="container-app">
-    <nav class="hub-navbar">
-        <div class="nav-title">
-            <h2><i class="fas fa-history"></i> Histórico de <span>Presença</span></h2>
-            <small>{{ curso.curso }} | {{ curso.turno }}</small>
-        </div>
-
-        <div class="nav-actions">
-            <a href="{% url 'gestao_alunos' curso.id %}" class="btn-new-small secondary">
+    <link rel="stylesheet" href="{% static 'css/hub-style.css' %}">
+</head>
+<body class="attendance-body"> <div class="attendance-form"> <nav class="hub-navbar">
+            <a href="{% url 'gestao_alunos' curso.id %}" class="nav-link-back">
                 <i class="fas fa-chevron-left"></i> VOLTAR
             </a>
-        </div>
-    </nav>
+            
+            <div class="nav-center">
+                <h2 class="nav-main-title">HISTÓRICO DE <span>PRESENÇA</span></h2>
+                <span class="nav-sub-title">{{ curso.curso }} | {{ curso.turno }}</span>
+            </div>
 
-    <div class="card-tabela-wrapper">
-        <table class="tabela-app">
-            <thead>
-                <tr>
-                    <th>DATA</th>
-                    <th>ALUNO</th>
-                    <th class="txt-center">STATUS</th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class="nav-right">
+                <div style="width: 80px;"></div> 
+            </div>
+        </nav>
+
+        <div class="list-wrapper">
+            <div class="list-header">
+                <span><i class="fas fa-clock"></i> Registros Recentes</span>
+                <span class="count-badge">{{ historico.count }} Entradas</span>
+            </div>
+
+            <div class="students-list">
                 {% for registro in historico %}
-                <tr>
-                    <td class="font-date">{{ registro.data|date:"d/m/Y" }}</td>
-                    <td class="font-name">{{ registro.aluno.nome }}</td>
-                    <td class="txt-center">
-                        {% if registro.presente %}
-                        <span class="status-badge presente">
-                            <i class="fas fa-check-circle"></i> PRESENTE
-                        </span>
-                        {% else %}
-                        <span class="status-badge ausente">
-                            <i class="fas fa-times-circle"></i> FALTOU
-                        </span>
-                        {% endif %}
-                    </td>
-                </tr>
+                <div class="history-item {% if registro.presente %}is-present{% else %}is-absent{% endif %}">
+                    <div class="item-content">
+                        
+                        <div class="info-group">
+                            <div class="avatar-mini">
+                                {% if registro.presente %}
+                                    <i class="fas fa-check"></i>
+                                {% else %}
+                                    <i class="fas fa-times"></i>
+                                {% endif %}
+                            </div>
+                            <div class="text-data">
+                                <span class="name-text">{{ registro.aluno.nome }}</span>
+                                <span class="date-sub-text">{{ registro.data|date:"d/m/Y" }}</span>
+                            </div>
+                        </div>
+
+                        <div class="status-group">
+                            {% if registro.presente %}
+                                <span class="status-badge presente">PRESENTE</span>
+                            {% else %}
+                                <span class="status-badge ausente">FALTOU</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
                 {% empty %}
-                <tr>
-                    <td colspan="3" class="vazio">Nenhum registro de presença encontrado para este curso.</td>
-                </tr>
+                <div class="empty-list">
+                    <i class="fas fa-folder-open"></i>
+                    Nenhum registro de presença encontrado.
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
-</div>
 
 </body>
 </html>
