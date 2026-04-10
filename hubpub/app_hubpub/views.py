@@ -20,27 +20,54 @@ def professor_do_curso_required(view_func):
         curso_id = kwargs.get('curso_id')
         curso = get_object_or_404(cursos, id=curso_id)
 
-        # Se não for o professor do curso E não for superusuário, mandamos para o login
+        # Se não for o professor do curso E não for superusuário, volta pro login
         if curso.professor != request.user and not request.user.is_superuser:
             return redirect('login') 
         
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-# --- VIEWS GERAIS (SÓ ADMIN ENTRA) ---
+# --- VIEWS PÚBLICAS (IMPORTANTE PARA O SEU ERRO) ---
 
 def home(request):
     return render(request, 'home.html')
 
+# --- VIEWS EXCLUSIVAS DO ADMINISTRADOR (REDIRECIONAM O PROFESSOR) ---
+
 @login_required
 def staff(request):
     if not request.user.is_superuser:
-        # Se for professor, tentamos mandar para o curso dele, senão login
+        # Tenta mandar o prof pro curso dele em vez de dar erro
         curso_dele = cursos.objects.filter(professor=request.user).first()
         if curso_dele:
             return redirect('gestao_alunos', curso_id=curso_dele.id)
         return redirect('login')
     return render(request, 'staff.html')
+
+@login_required
+def agenda(request):
+    if not request.user.is_superuser:
+        return redirect('login')
+    
+    agendamentos = divulgacao_agend.objects.all()
+    dados_dict = {}
+    for item in agendamentos:
+        if item.data:
+            data_str = item.data.strftime('%Y-%m-%d')
+            if data_str not in dados_dict:
+                dados_dict[data_str] = []
+            texto = f"{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
+            dados_dict[data_str].append(texto)
+
+    db_demandas_json = json.dumps(dados_dict)
+    return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
+
+@login_required
+def form_agenda(request):
+    if not request.user.is_superuser:
+        return redirect('login')
+    # Adicione aqui sua lógica de processamento de imagem se necessário
+    return render(request, 'form-agd.html')
 
 @login_required
 def listar_cursos(request):
@@ -49,7 +76,13 @@ def listar_cursos(request):
     todos_cursos = cursos.objects.all().order_by('data_inicio')
     return render(request, 'painel.html', {'cursos': todos_cursos})
 
-# --- VIEWS ESPECÍFICAS DE CURSO (ÁREA CONFINADA DO PROFESSOR) ---
+@login_required
+def cadastrar_curso(request):
+    if not request.user.is_superuser:
+        return redirect('login')
+    return render(request, 'form_curso.html')
+
+# --- VIEWS DO CURSO (ÁREA CONFINADA DO PROFESSOR) ---
 
 @login_required
 @professor_do_curso_required
@@ -64,7 +97,7 @@ def gestao_alunos(request, curso_id):
 @login_required
 @professor_do_curso_required
 def detalhe_curso(request, curso_id):
-    # Se for professor, ele não vê o detalhe "administrativo", volta para a gestão de alunos
+    # Se o prof tentar o caminho "curto", empurramos ele de volta pra Gestão de Alunos
     if not request.user.is_superuser:
         return redirect('gestao_alunos', curso_id=curso_id)
     
@@ -93,6 +126,17 @@ def inserir_aluno(request, curso_id):
 
 @login_required
 @professor_do_curso_required
+def excluir_aluno(request, curso_id, aluno_id):
+    registro = get_object_or_404(aluno, id=aluno_id, curso=curso_id)
+    curso_obj = get_object_or_404(cursos, id=curso_id)
+    registro.delete()
+    if curso_obj.inscritos > 0:
+        curso_obj.inscritos -= 1
+        curso_obj.save()
+    return redirect('inserir_aluno', curso_id=curso_id)
+
+@login_required
+@professor_do_curso_required
 def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
     lista_alunos = aluno.objects.filter(curso=curso_obj)
@@ -106,7 +150,6 @@ def controle_presenca(request, curso_id):
                 aluno=a, curso=curso_obj, data=data_selecionada,
                 defaults={'presente': veio, 'status': 'P' if veio else 'A'}
             )
-        # Após salvar, volta para a gestão de alunos
         return redirect('gestao_alunos', curso_id=curso_id)
 
     return render(request, 'controle_presenca.html', {
@@ -115,7 +158,7 @@ def controle_presenca(request, curso_id):
         'hoje': hoje.strftime('%Y-%m-%d')
     })
 
-# --- LOGIN ---
+# --- CLASSE DE LOGIN ---
 
 class MeuLoginView(LoginView):
     def get_success_url(self):
@@ -123,7 +166,6 @@ class MeuLoginView(LoginView):
         curso_vinculado = cursos.objects.filter(professor=user).first()
         
         if curso_vinculado:
-            # O professor vai direto para a gestão de alunos
             return reverse('gestao_alunos', kwargs={'curso_id': curso_vinculado.id})
         
         if user.is_staff:
