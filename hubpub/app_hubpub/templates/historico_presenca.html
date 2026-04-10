@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Presença - {{ curso.curso }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/hst_pres.css"> </head>
+<body>
+
+<div class="container-gestao">
+    <div class="header-acoes">
+        <div class="titulo-secao">
+            <i class="fas fa-history"></i>
+            <h1>Histórico de Presença</h1>
+            <span class="subtitulo">{{ curso.curso }} - {{ curso.turno }}</span>
+        </div>
+        
+        <div class="botoes-topo">
+            {% if user.is_superuser %}
+                <a href="{% url 'gestao_alunos' curso.id %}" class="nav-link-voltar">
+                    <i class="fas fa-arrow-left"></i> VOLTAR
+                </a>
+            {% else %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout-top">
+                        <i class="fas fa-power-off"></i> SAIR
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="tabela-container">
+        <table class="tabela-padrao">
+            <thead>
+                <tr>
+                    <th><i class="far fa-calendar-alt"></i> DATA</th>
+                    <th><i class="fas fa-user"></i> ALUNO</th>
+                    <th class="text-center"><i class="fas fa-check-circle"></i> STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in historico %}
+                <tr>
+                    <td class="data-celula">{{ registro.data|date:"d/m/Y" }}</td>
+                    <td class="nome-celula">{{ registro.aluno.nome }}</td>
+                    <td class="text-center">
+                        {% if registro.presente %}
+                            <span class="badge badge-success">Presente</span>
+                        {% else %}
+                            <span class="badge badge-danger">Ausente</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="lista-vazia">
+                        Nenhum registro de presença encontrado para este curso.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -158,6 +158,20 @@ def controle_presenca(request, curso_id):
         'hoje': hoje.strftime('%Y-%m-%d')
     })
 
+@login_required
+@professor_do_curso_required
+def historico_presenca(request, curso_id):
+    curso_obj = get_object_or_404(cursos, id=curso_id)
+    
+    # Busca todas as presenças deste curso, ordenadas pela data mais recente
+    # Usamos prefetch_related para otimizar a busca dos nomes dos alunos
+    historico = presenca.objects.filter(curso=curso_obj).select_related('aluno').order_by('-data', 'aluno__nome')
+
+    return render(request, 'historico_presenca.html', {
+        'curso': curso_obj,
+        'historico': historico
+    })
+
 # --- CLASSE DE LOGIN ---
 
 class MeuLoginView(LoginView):

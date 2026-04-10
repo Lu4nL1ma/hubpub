@@ -1,0 +1,123 @@
+/* Container Principal */
+.container-gestao {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header e Título */
+.header-acoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+}
+
+.titulo-secao h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #050D35;
+}
+
+.subtitulo {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Estilo do Botão Voltar (Admin) */
+.nav-link-voltar {
+    text-decoration: none;
+    color: #050D35;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.nav-link-voltar:hover {
+    color: #0056b3;
+}
+
+/* Estilo do Botão Sair (Professor) */
+form { display: inline-block; }
+
+.btn-logout-top {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.btn-logout-top:hover {
+    background-color: #c9302c;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Tabela e Container */
+.tabela-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.tabela-padrao {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-padrao th {
+    background-color: #050D35;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.tabela-padrao td {
+    padding: 15px;
+    border-bottom: 1px solid #f2f2f2;
+    color: #444;
+}
+
+.data-celula { font-weight: bold; color: #050D35; }
+
+/* Badges de Status */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.badge-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.badge-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+.text-center { text-align: center; }
+
+.lista-vazia {
+    text-align: center;
+    padding: 40px !important;
+    color: #999;
+    font-style: italic;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .header-acoes { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .botoes-topo { width: 100%; }
+    .btn-logout-top { width: 100%; justify-content: center; }
+}
