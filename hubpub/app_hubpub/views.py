@@ -69,7 +69,7 @@ def form_agenda(request):
     # Adicione aqui sua lógica de processamento de imagem se necessário
     redes = ['Instagram', 'Facebook']
     tipos = ['Feed', 'Story']
-    todos_cursos = cursos.abjects.all().order_by('-id')
+    todos_cursos = cursos.objects.all().order_by('-id')
     return render(request, 'form-agd.html', {'redes': redes, 'tipos': tipos, 'todos_cursos': todos_cursos})
 
 @login_required
