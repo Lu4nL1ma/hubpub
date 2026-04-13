@@ -15,22 +15,34 @@ class DivulgacaoAgendAdmin(admin.ModelAdmin):
     # Ordenação padrão (mais recentes primeiro)
     ordering = ('-data',)
 
+
 @admin.register(cursos)
 class CursosAdmin(admin.ModelAdmin):
-    # Colunas que aparecerão na listagem principal
-    list_display = ('id', 'curso', 'turno', 'professor', 'data_inicio')
+    # Colunas que aparecerão na lista principal
+    list_display = ('curso', 'turno', 'vagas', 'inscritos', 'data_inicio', 'professor')
     
-    # Filtros laterais para facilitar a busca
-    list_filter = ('turno', 'data_inicio')
+    # Filtros laterais para facilitar a navegação
+    list_filter = ('turno', 'data_inicio', 'professor')
     
-    # Campos que permitem clicar para entrar na edição
-    list_display_links = ('id', 'curso')
+    # Campos que permitem busca (o campo professor usa __username para buscar pelo nome do usuário)
+    search_fields = ('curso', 'legenda', 'professor__username')
     
-    # Barra de busca (pesquisa pelo nome do curso ou turno)
-    search_fields = ('curso', 'turno')
+    # Permite editar as vagas e inscritos diretamente na lista, sem entrar no registro
+    list_editable = ('vagas', 'inscritos')
     
-    # Ordenação padrão (mais recentes primeiro)
-    ordering = ('-data_inicio',)
+    # Organização do formulário de edição
+    fieldsets = (
+        ('Informações Básicas', {
+            'fields': ('curso', 'turno', 'professor')
+        }),
+        ('Datas e Vagas', {
+            'fields': ('data_inicio', 'vagas', 'inscritos')
+        }),
+        ('Conteúdo e Mídia', {
+            'fields': ('legenda', 'midia_post', 'midia_feed'),
+            'classes': ('collapse',) # Deixa essa seção recolhida por padrão
+        }),
+    )
 
 @admin.register(aluno)
 class AlunoAdmin(admin.ModelAdmin):
