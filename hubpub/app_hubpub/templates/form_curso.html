@@ -41,16 +41,18 @@
                 <label><i class="fas fa-users"></i> Vagas Totais</label>
                 <input type="number" name="vagas" value="0">
             </div>
-
-        <div class="form-group">
-            <label><i class="fas fa-chalkboard-teacher"></i> Professor Responsável</label>
-            <select name="professor">
-                <option value="">Selecione um professor</option>
-                {% for usuario in usuarios %}
-                    <option value="{{ usuario.id }}">{{ usuario.username }}</option>
-                {% endfor %}
-            </select>
+            <div class="form-group">
+                <label><i class="fas fa-chalkboard-teacher"></i> Professor Responsável</label>
+                <select name="professor">
+                    <option value="">Selecione um professor</option>
+                    {% for usuario in usuarios %}
+                        <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
+
+        <input type="hidden" name="inscritos" value="0">
 
         <div class="form-row">
             <div class="form-group">
