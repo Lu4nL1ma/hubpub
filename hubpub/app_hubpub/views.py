@@ -71,12 +71,10 @@ def forms_agenda(request):
         tipo_post = request.POST.get('tipo')
         legenda = request.POST.get('legenda')
         midia = request.POST.get('midia')
-        
-        # Datas e Horas (conforme os names no seu HTML)
         data_escolhida = request.POST.get('data_pub')
         hora_escolhida = request.POST.get('hora_pub')
 
-        # 2. Salva no banco (ultima_publicacao fica vazia conforme o default do Model)
+        # 2. Salva no banco
         nova_divulgacao = divulgacao_agend(
             curso=curso_nome,
             rede_social=rede_social,
@@ -85,47 +83,21 @@ def forms_agenda(request):
             midia=midia,
             data=data_escolhida,
             hora=hora_escolhida
-            # ultima_publicacao não entra aqui, assume o default=None do model
         )
         nova_divulgacao.save()
         
         return redirect('agenda')
 
-    # Lógica do GET (Carregamento dos Selects)
+    # --- Lógica do GET (Executada apenas se não for POST) ---
     todos_cursos = cursos.objects.all()
+    
     context = {
         'todos_cursos': todos_cursos,
-        'redes': ['Instagram', 'Facebook'],
-        'tipos': ['Feed', 'Story'],
-    }
-    return render(request, 'form_divulgacao.html', context)
-
-    # Lógica do GET (certifique-se de enviar os contextos abaixo)
-    todos_cursos = cursos.objects.all()
-    redes = ['Instagram', 'Facebook', 'LinkedIn', 'TikTok']
-    tipos = ['Feed', 'Story', 'Reels']
-    
-    return render(request, 'form_divulgacao.html', {
-        'todos_cursos': todos_cursos,
-        'redes': redes,
-        'tipos': tipos
-    })
-
-    # --- Lógica para carregar o formulário (GET) ---
-    
-    # 1. Busca os nomes dos cursos cadastrados para o select
-    todos_cursos = cursos.objects.all()
-
-    # 2. Define as opções das listas que não estão no banco (Redes e Tipos)
-    lista_redes = ['Instagram', 'Facebook', 'LinkedIn', 'TikTok', 'WhatsApp']
-    lista_tipos = ['Feed', 'Story', 'Reels', 'Carrossel']
-
-    context = {
-        'todos_cursos': todos_cursos,
-        'redes': lista_redes,
-        'tipos': lista_tipos,
+        'redes': ['Instagram', 'Facebook', 'LinkedIn', 'TikTok', 'WhatsApp'],
+        'tipos': ['Feed', 'Story', 'Reels', 'Carrossel'],
     }
 
+    # ATENÇÃO: Verifique se o nome do arquivo é form_agd.html ou form_divulgacao.html
     return render(request, 'form_agd.html', context)
 
 @login_required
