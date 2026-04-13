@@ -5,19 +5,19 @@ from datetime import date
 
 class divulgacao_agend(models.Model):
     #cursos
-    curso = models.CharField(max_length=100, default='Não Especificado')
+    curso = models.CharField(max_length=300, default='')
 
     # Default 'Geral' evita erro em registros antigos
-    rede_social = models.CharField(max_length=100, default='Não Especificada')
+    rede_social = models.CharField(max_length=100, default='')
 
     # Default 'Post' para preencher a coluna tipo_post
-    tipo_post = models.CharField(max_length=100, default='Post Simples')
+    tipo_post = models.CharField(max_length=100, default='')
     
     # blank/null já lidam com o "vazio", mas o default='' garante consistência
     legenda = models.TextField(blank=True, null=True, default='')
 
     # Campos de arquivo não costumam ter default de string, apenas null/blank
-    midia = models.ImageField(upload_to='divulgacao/', null=True, blank=True)
+    midia = models.CharField(max_length=100, default='Não Especificado')
     
     # auto_now_add já define o default como "agora" na criação
     data = models.DateField(auto_now_add=False)
@@ -35,10 +35,10 @@ class divulgacao_agend(models.Model):
 
 class  cursos(models.Model):
     # Default 'Geral' evita erro em registros antigos
-    curso = models.CharField(max_length=100, default='Não Especificado')
+    curso = models.CharField(max_length=100, default='')
 
     # Default 'Post' para preencher a coluna tipo_post
-    turno = models.CharField(max_length=100, default='Não Definido')
+    turno = models.CharField(max_length=100, default='')
     
     # blank/null já lidam com o "vazio", mas o default='' garante consistência
     vagas = models.IntegerField(default=0, blank=True, null=True)
@@ -48,6 +48,15 @@ class  cursos(models.Model):
     
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
+
+    # Campos de arquivo não costumam ter default de string, apenas null/blank
+    midia_post = models.ImageField(upload_to='divulgacao/story', null=True, blank=True)
+
+    # Campos de arquivo não costumam ter default de string, apenas null/blank
+    midia_feed = models.ImageField(upload_to='divulgacao/feed', null=True, blank=True)
+
+    # blank/null já lidam com o "vazio", mas o default='' garante consistência
+    legenda = models.TextField(blank=True, null=True, default='')
 
     # professor 
     professor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Professor Responsável")
@@ -65,9 +74,9 @@ class aluno(models.Model):
         blank=True
     )
 
-    nome = models.CharField(max_length=150, default='Aluno sem Nome')
-    email = models.EmailField(max_length=150, default='contato@exemplo.com')
-    cpf = models.CharField(max_length=14, default='000.000.000-00')
+    nome = models.CharField(max_length=150, default='')
+    email = models.EmailField(max_length=150, default='')
+    cpf = models.CharField(max_length=14, default='')
     data_nascimento = models.DateField(default=timezone.now)
     ativo = models.BooleanField(default=True)
     data_matricula = models.DateTimeField(default=timezone.now)
