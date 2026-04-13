@@ -68,7 +68,7 @@ def form_agenda(request):
         return redirect('login')
     # Adicione aqui sua lógica de processamento de imagem se necessário
     redes = ['Instagram', 'Facebook']
-    return render(request, 'form-agd.html', 'redes': redes)
+    return render(request, 'form-agd.html', {'redes': redes})
 
 @login_required
 def listar_cursos(request):
