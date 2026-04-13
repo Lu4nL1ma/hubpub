@@ -10,6 +10,7 @@ import json
 import io
 import os
 import re
+import uuid
 from PIL import Image
 from django.core.files.base import ContentFile
 from functools import wraps
@@ -117,39 +118,38 @@ def cadastrar_curso(request):
         return redirect('login')
 
     if request.method == 'POST':
-        # Captura os dados do formulário
-        curso_nome = request.POST.get('curso')
-        turno = request.POST.get('turno')
-        vagas = request.POST.get('vagas')
-        inscritos = request.POST.get('inscritos')
-        data_inicio = request.POST.get('data_inicio')
-        legenda = request.POST.get('legenda')
-        professor_id = request.POST.get('professor')
-        
-        # Captura os arquivos (Imagens)
+        # Captura os arquivos
         midia_post = request.FILES.get('midia_post')
         midia_feed = request.FILES.get('midia_feed')
 
-        # Cria o objeto no banco de dados
+        # Se houver ao menos um arquivo, geramos O NOME ÚNICO aqui
+        nome_aleatorio_base = str(uuid.uuid4())
+
+        if midia_post:
+            ext = os.path.splitext(midia_post.name)[1] # Pega .jpg, .png etc
+            midia_post.name = f"{nome_aleatorio_base}{ext}"
+
+        if midia_feed:
+            ext = os.path.splitext(midia_feed.name)[1]
+            midia_feed.name = f"{nome_aleatorio_base}{ext}"
+
+        # Agora criamos o objeto normalmente
         novo_curso = cursos(
-            curso=curso_nome,
-            turno=turno,
-            vagas=vagas,
-            inscritos=inscritos,
-            data_inicio=data_inicio,
-            legenda=legenda,
-            midia_post=midia_post,
-            midia_feed=midia_feed,
-            professor_id=professor_id if professor_id else None
+            curso=request.POST.get('curso'),
+            turno=request.POST.get('turno'),
+            vagas=request.POST.get('vagas'),
+            inscritos=request.POST.get('inscritos'),
+            data_inicio=request.POST.get('data_inicio'),
+            legenda=request.POST.get('legenda'),
+            midia_post=midia_post, # Já vai com o nome alterado
+            midia_feed=midia_feed, # Já vai com o nome alterado
+            professor_id=request.POST.get('professor') if request.POST.get('professor') else None
         )
         novo_curso.save()
         return redirect('painel_cursos')
 
-    # Busca usuários para preencher o <select> de professores
     usuarios = User.objects.all()
     return render(request, 'form_curso.html', {'usuarios': usuarios})
-
-# --- VIEWS DO CURSO (ÁREA CONFINADA DO PROFESSOR) ---
 
 @login_required
 @professor_do_curso_required
