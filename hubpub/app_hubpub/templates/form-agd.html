@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Form-Divulgação</title>
+    <title>Form-Divulgação | Infty Proj</title>
     <link rel="stylesheet" href="{% static 'css/frm-agd.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -24,16 +24,24 @@
 
             <div class="form-group">
                 <label for="curs"> Curso </label>
-                <select name="curs" id="curs">
+                <select name="curs" id="curs" onchange="preencherDadosAutomaticos(this)" required>
+                    <option value="" disabled selected> Selecione um curso </option>
                     {% for tc in todos_cursos %}
-                        <option value="{{ tc.curso }}"> {{ tc.curso }} </option>
+                        <option value="{{ tc.curso }}" 
+                                data-legenda="{{ tc.legenda }}" 
+                                data-midia="{% if tc.midia_post %}{{ tc.midia_post.url }}{% else %}Não Especificado{% endif %}"> 
+                            {{ tc.curso }} 
+                        </option>
                     {% endfor %}
                 </select>
             </div>
+
+            <input type="hidden" id="hidden_legenda" name="legenda">
+            <input type="hidden" id="hidden_midia" name="midia">
             
             <div class="form-group">
                 <label for="rede_social"> Rede Social </label>
-                <select name="rede_social" id="rede_social">
+                <select name="rede_social" id="rede_social" required>
                     {% for r in redes %}
                         <option value="{{ r }}"> {{ r }} </option>
                     {% endfor %}
@@ -42,7 +50,7 @@
 
             <div class="form-group">
                 <label for="tipo"> Tipo de Publicação </label>
-                <select name="tipo" id="tipo">
+                <select name="tipo" id="tipo" required>
                     {% for t in tipos %}
                         <option value="{{ t }}"> {{ t }} </option>
                     {% endfor %}
@@ -68,7 +76,8 @@
                     Agendar uma repetição para outra data?
                 </label>
             </div>
-            <div id="wrapper-repeticao" class="form-group field-animated">
+
+            <div id="wrapper-repeticao" class="form-group field-animated" style="display: none;">
                 <label for="data_rep"> <i class="fas fa-calendar-plus"></i> Nova Data de Repetição </label>
                 <input type="date" id="data_rep" name="data_rep">
             </div>
@@ -97,6 +106,21 @@
                 inputRep.value = '';
             }
         });
+
+        // Lógica para capturar dados do Curso e jogar nos Hidden Inputs
+        function preencherDadosAutomaticos(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+            // Extrai os dados dos atributos "data-"
+            const legenda = selectedOption.getAttribute('data-legenda');
+            const midia = selectedOption.getAttribute('data-midia');
+
+            // Alimenta os inputs hidden que serão enviados no POST
+            document.getElementById('hidden_legenda').value = legenda || '';
+            document.getElementById('hidden_midia').value = midia || 'Não Especificado';
+
+            console.log("Dados do curso carregados com sucesso!");
+        }
     </script>
 </body>
 </html>

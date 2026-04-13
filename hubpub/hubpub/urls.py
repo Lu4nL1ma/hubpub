@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from app_hubpub.views import home, staff, agenda, form_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca
+from app_hubpub.views import home, staff, agenda, forms_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -10,7 +10,7 @@ urlpatterns = [
     path('staff/', staff, name='staff'),
     path('login/', MeuLoginView.as_view(template_name='login.html'), name='login'),
     path('staff/agenda/', agenda, name='agenda'),
-    path('staff/agenda/form-agenda/', form_agenda, name='forms_agenda'),
+    path('staff/agenda/form-agenda/', forms_agenda, name='forms_agenda'),
 
     #inicia as urls de staff
     path('staff/cursos/', listar_cursos, name='painel_cursos'),

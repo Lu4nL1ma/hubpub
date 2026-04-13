@@ -63,14 +63,70 @@ def agenda(request):
     return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
 
 @login_required
-def form_agenda(request):
-    if not request.user.is_superuser:
-        return redirect('login')
-    # Adicione aqui sua lógica de processamento de imagem se necessário
-    redes = ['Instagram', 'Facebook']
-    tipos = ['Feed', 'Story']
-    todos_cursos = cursos.objects.all().order_by('-id')
-    return render(request, 'form-agd.html', {'redes': redes, 'tipos': tipos, 'todos_cursos': todos_cursos})
+def forms_agenda(request):
+    if request.method == 'POST':
+        # 1. Coleta os dados do formulário
+        curso_nome = request.POST.get('curs')
+        rede_social = request.POST.get('rede_social')
+        tipo_post = request.POST.get('tipo')
+        legenda = request.POST.get('legenda')
+        midia = request.POST.get('midia')
+        
+        # Datas e Horas (conforme os names no seu HTML)
+        data_escolhida = request.POST.get('data_pub')
+        hora_escolhida = request.POST.get('hora_pub')
+
+        # 2. Salva no banco (ultima_publicacao fica vazia conforme o default do Model)
+        nova_divulgacao = divulgacao_agend(
+            curso=curso_nome,
+            rede_social=rede_social,
+            tipo_post=tipo_post,
+            legenda=legenda,
+            midia=midia,
+            data=data_escolhida,
+            hora=hora_escolhida
+            # ultima_publicacao não entra aqui, assume o default=None do model
+        )
+        nova_divulgacao.save()
+        
+        return redirect('agenda')
+
+    # Lógica do GET (Carregamento dos Selects)
+    todos_cursos = cursos.objects.all()
+    context = {
+        'todos_cursos': todos_cursos,
+        'redes': ['Instagram', 'Facebook'],
+        'tipos': ['Feed', 'Story'],
+    }
+    return render(request, 'form_divulgacao.html', context)
+
+    # Lógica do GET (certifique-se de enviar os contextos abaixo)
+    todos_cursos = cursos.objects.all()
+    redes = ['Instagram', 'Facebook', 'LinkedIn', 'TikTok']
+    tipos = ['Feed', 'Story', 'Reels']
+    
+    return render(request, 'form_divulgacao.html', {
+        'todos_cursos': todos_cursos,
+        'redes': redes,
+        'tipos': tipos
+    })
+
+    # --- Lógica para carregar o formulário (GET) ---
+    
+    # 1. Busca os nomes dos cursos cadastrados para o select
+    todos_cursos = cursos.objects.all()
+
+    # 2. Define as opções das listas que não estão no banco (Redes e Tipos)
+    lista_redes = ['Instagram', 'Facebook', 'LinkedIn', 'TikTok', 'WhatsApp']
+    lista_tipos = ['Feed', 'Story', 'Reels', 'Carrossel']
+
+    context = {
+        'todos_cursos': todos_cursos,
+        'redes': lista_redes,
+        'tipos': lista_tipos,
+    }
+
+    return render(request, 'form_divulgacao.html', context)
 
 @login_required
 def listar_cursos(request):
