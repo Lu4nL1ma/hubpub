@@ -9,6 +9,7 @@ from datetime import date
 import json
 import io
 import os
+import re
 from PIL import Image
 from django.core.files.base import ContentFile
 from functools import wraps
@@ -74,16 +75,19 @@ def forms_agenda(request):
         data_escolhida = request.POST.get('data_pub')
         hora_escolhida = request.POST.get('hora_pub')
 
+        nome_arquivo = re.search(r'[^/]+$', caminho).group()
+
         # 2. Salva no banco
         nova_divulgacao = divulgacao_agend(
             curso=curso_nome,
             rede_social=rede_social,
             tipo_post=tipo_post,
             legenda=legenda,
-            midia=midia,
+            midia=nome_arquivo,
             data=data_escolhida,
             hora=hora_escolhida
         )
+        
         nova_divulgacao.save()
         
         return redirect('agenda')
