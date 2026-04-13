@@ -102,8 +102,8 @@ def forms_agenda(request):
     
     context = {
         'todos_cursos': todos_cursos,
-        'redes': ['Instagram', 'Facebook', 'LinkedIn', 'TikTok', 'WhatsApp'],
-        'tipos': ['Feed', 'Story', 'Reels', 'Carrossel'],
+        'redes': ['Instagram', 'Facebook'],
+        'tipos': ['Feed', 'Story'],
     }
 
     # ATENÇÃO: Verifique se o nome do arquivo é form_agd.html ou form_divulgacao.html
