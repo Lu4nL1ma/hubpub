@@ -79,7 +79,7 @@ def forms_agenda(request):
         tipo_post = tipo_post.lower()
         nome_arquivo = re.search(r'[^/]+$', midia).group()
 
-        midia_final = f'{tipo_post}/{nome_arquivo}'
+        midia_final = f'divulgacao/{tipo_post}/{nome_arquivo}'
 
 
         # 2. Salva no banco
