@@ -19,7 +19,7 @@ class DivulgacaoAgendAdmin(admin.ModelAdmin):
 @admin.register(cursos)
 class CursosAdmin(admin.ModelAdmin):
     # Colunas que aparecerão na lista principal
-    list_display = ('curso', 'turno', 'vagas', 'inscritos', 'data_inicio', 'professor')
+    list_display = ('curso', 'turno', 'vagas', 'inscritos', 'data_inicio', 'professor', 'midia')
     
     # Filtros laterais para facilitar a navegação
     list_filter = ('turno', 'data_inicio', 'professor')
