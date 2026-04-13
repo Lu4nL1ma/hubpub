@@ -4,7 +4,7 @@ from .models import divulgacao_agend, cursos, aluno, presenca
 @admin.register(divulgacao_agend)
 class DivulgacaoAgendAdmin(admin.ModelAdmin):
     # Colunas que aparecerão na lista do Admin
-    list_display = ('id','rede_social', 'tipo_post', 'data', 'legenda','hora', 'ultima_publicacao')
+    list_display = ('id','rede_social', 'tipo_post', 'data', 'legenda','hora', 'midia', 'ultima_publicacao')
     
     # Filtros na lateral direita
     list_filter = ('id','rede_social', 'tipo_post', 'data', 'legenda','ultima_publicacao')
