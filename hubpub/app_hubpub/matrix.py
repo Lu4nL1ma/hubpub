@@ -107,26 +107,40 @@ try:
     print(f"🚀 {len(rows)} post(s) encontrado(s).")
 
     for row in rows:
-        path_local = os.path.join(CAMINHO_MEDIA_LOCAL, row['midia'])
-        url_img = BASE_URL_PUBLICA + row['midia']
+        # O 'midia' no banco já contém 'divulgacao/story/nome.jpg' ou 'divulgacao/feed/nome.jpg'
+        # Portanto, o os.path.join vai montar: media/ + divulgacao/story/nome.jpg
+        # Isso torna o caminho totalmente dinâmico.
+        
+        midia_limpa = row['midia'].strip() # Remove espaços extras por segurança
+        
+        # 1. Caminho Físico (Para o Facebook que lê o arquivo local)
+        path_local = os.path.join(CAMINHO_MEDIA_LOCAL, midia_limpa)
+        
+        # 2. URL Pública (Para o Instagram que baixa a imagem via Link)
+        url_img = BASE_URL_PUBLICA + midia_limpa
+        
         sucesso = False
 
-        print(f"📸 Processando ID {row['id']} para {row['rede_social']}...")
+        print(f"📸 Processando ID {row['id']} | Curso: {row['curso']}")
+        print(f"🔗 Caminho Detectado: {midia_limpa}")
 
         if row['rede_social'] == 'Facebook':
             sucesso = postar_facebook(path_local, row['legenda'])
+            
         elif row['rede_social'] == 'Instagram':
+            # Passamos o tipo_post para a função decidir se é Story ou Feed
             sucesso = postar_instagram(url_img, row['legenda'], row['tipo_post'])
 
         if sucesso:
+            # Marcar como publicado para não repetir
             cursor.execute("UPDATE app_hubpub_divulgacao_agend SET ultima_publicacao = %s WHERE id = %s", 
                            (dia_atual, row['id']))
             conn.commit()
             print(f"✅ Post {row['id']} publicado com sucesso!")
-            time.sleep(60) 
+            time.sleep(60) # Intervalo para evitar bloqueio das APIs
         else:
-            print(f"❌ Falha ao publicar post {row['id']}.")
-
+            print(f"❌ Falha ao publicar post {row['id']}. Verifique logs da API.")
+            
 except Exception as e:
     print(f"❌ Erro crítico: {e}")
 finally:
