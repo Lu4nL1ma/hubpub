@@ -76,7 +76,11 @@ def forms_agenda(request):
         data_escolhida = request.POST.get('data_pub')
         hora_escolhida = request.POST.get('hora_pub')
 
+        tipo_post = tipo_post.lower()
         nome_arquivo = re.search(r'[^/]+$', midia).group()
+
+        midia_final = f'{tipo_post}/{nome_arquivo}'
+
 
         # 2. Salva no banco
         nova_divulgacao = divulgacao_agend(
@@ -84,7 +88,7 @@ def forms_agenda(request):
             rede_social=rede_social,
             tipo_post=tipo_post,
             legenda=legenda,
-            midia=nome_arquivo,
+            midia=midia_final,
             data=data_escolhida,
             hora=hora_escolhida
         )
