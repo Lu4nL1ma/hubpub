@@ -83,7 +83,39 @@ def listar_cursos(request):
 def cadastrar_curso(request):
     if not request.user.is_superuser:
         return redirect('login')
-    return render(request, 'form_curso.html')
+
+    if request.method == 'POST':
+        # Captura os dados do formulário
+        curso_nome = request.POST.get('curso')
+        turno = request.POST.get('turno')
+        vagas = request.POST.get('vagas')
+        inscritos = request.POST.get('inscritos')
+        data_inicio = request.POST.get('data_inicio')
+        legenda = request.POST.get('legenda')
+        professor_id = request.POST.get('professor')
+        
+        # Captura os arquivos (Imagens)
+        midia_post = request.FILES.get('midia_post')
+        midia_feed = request.FILES.get('midia_feed')
+
+        # Cria o objeto no banco de dados
+        novo_curso = cursos(
+            curso=curso_nome,
+            turno=turno,
+            vagas=vagas,
+            inscritos=inscritos,
+            data_inicio=data_inicio,
+            legenda=legenda,
+            midia_post=midia_post,
+            midia_feed=midia_feed,
+            professor_id=professor_id if professor_id else None
+        )
+        novo_curso.save()
+        return redirect('painel_cursos')
+
+    # Busca usuários para preencher o <select> de professores
+    usuarios = User.objects.all()
+    return render(request, 'form_curso.html', {'usuarios': usuarios})
 
 # --- VIEWS DO CURSO (ÁREA CONFINADA DO PROFESSOR) ---
 
