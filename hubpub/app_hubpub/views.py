@@ -126,7 +126,7 @@ def forms_agenda(request):
         'tipos': lista_tipos,
     }
 
-    return render(request, 'form_divulgacao.html', context)
+    return render(request, 'form_agd.html', context)
 
 @login_required
 def listar_cursos(request):
