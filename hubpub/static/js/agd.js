@@ -1,4 +1,5 @@
 let startDate = new Date();
+// Ajusta para o domingo da semana atual
 startDate.setDate(startDate.getDate() - startDate.getDay());
 
 function render() {
@@ -29,29 +30,33 @@ function render() {
         const demandasDoDia = (typeof dbDemandas !== 'undefined' && dbDemandas[dateStr]) || [];
         
         const card = document.createElement('div');
-        // Adicionando classe 'today' para facilitar estilização se quiser
-        card.className = `day-card ${demandasDoDia.length > 0 ? 'has-course' : ''} ${isToday ? 'is-today' : ''}`;
+        card.className = `day-card ${demandasDoDia.length > 0 ? 'has-course' : ''}`;
         
         let listHtml = '';
-        // Adicionamos o index (idx) para saber qual item excluir
-        demandasDoDia.forEach((texto, idx) => {
+        demandasDoDia.forEach(textoCompleto => {
+            // Separa o ID do conteúdo real (ID|DONE:...)
+            const partes = textoCompleto.split('|');
+            const idBanco = partes[0];
+            const textoOriginal = partes[1];
+
             let icon = '';
             let textoExibicao = '';
+            let statusClass = '';
 
-            if (texto.startsWith("DONE:")) {
-                textoExibicao = texto.replace("DONE:", "");
-                icon = '<i class="fas fa-check-circle" style="color: #00ff88; margin-right: 8px;"></i>';
+            if (textoOriginal.startsWith("DONE:")) {
+                textoExibicao = textoOriginal.replace("DONE:", "");
+                icon = '<i class="fas fa-check-circle" style="color: var(--success); margin-right: 8px;"></i>';
+                statusClass = 'status-done';
             } else {
-                textoExibicao = texto.replace("WAIT:", "");
-                icon = '<i class="fas fa-clock" style="color: #f39c12; margin-right: 8px;"></i>';
+                textoExibicao = textoOriginal.replace("WAIT:", "");
+                icon = '<i class="fas fa-clock" style="color: var(--warning); margin-right: 8px;"></i>';
+                statusClass = 'status-wait';
             }
 
-            // Injetando o botão X dentro de cada item de demanda
             listHtml += `
-                <div class="demand-item">
-                    ${icon} 
-                    <span>${textoExibicao}</span>
-                    <button class="btn-del-item" onclick="excluirDemanda('${dateStr}', ${idx})" title="Excluir">
+                <div class="demand-item ${statusClass}">
+                    ${icon} <span>${textoExibicao}</span>
+                    <button class="btn-del-item" onclick="confirmarExclusao(${idBanco})" title="Excluir">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>`;
@@ -69,22 +74,16 @@ function render() {
     }
 }
 
+function confirmarExclusao(id) {
+    if(confirm("Deseja realmente excluir este agendamento?")) {
+        // Redirecione para sua URL de delete passando o ID
+        window.location.href = `/deletar-agendamento/${id}/`;
+    }
+}
+
 function changeWeek(offset) {
     startDate.setDate(startDate.getDate() + offset);
     render();
-}
-
-// Função para lidar com a exclusão
-function excluirDemanda(data, index) {
-    if (confirm("Deseja realmente excluir esta demanda?")) {
-        console.log(`Excluindo item ${index} do dia ${data}`);
-        
-        /* DICA: Aqui você deve inserir seu código para avisar o Django.
-           Se for apenas visual (temporário):
-           dbDemandas[data].splice(index, 1);
-           render();
-        */
-    }
 }
 
 document.addEventListener('DOMContentLoaded', render);

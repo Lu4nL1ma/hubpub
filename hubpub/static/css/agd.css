@@ -1,141 +1,76 @@
 /* ==========================================================
-   VARIÁVEIS (PALETA INFTY PROJ - DARK MODE)
+   PALETA E ESTRUTURA (PRESERVADAS)
    ========================================================== */
 :root {
-    --primary: #00d4ff;        /* Ciano */
-    --success: #00ff88;        /* Verde */
-    --warning: #f39c12;        /* Laranja */
-    --danger: #BF40BF;         /* Magenta (Hoje) */
-    --dark-bg: #0a0f1e;        /* Fundo Principal */
-    --card-bg: #161d2f;        /* Fundo dos Cards */
-    --white: #ffffff;
-    --border: rgba(255, 255, 255, 0.08);
+    --primary: #00d4ff;        --success: #00ff88;
+    --warning: #f39c12;        --danger: #BF40BF; /* Magenta */
+    --dark-bg: #0a0f1e;        --card-bg: #161d2f;
+    --white: #ffffff;          --border: rgba(255, 255, 255, 0.08);
     --text-muted: #b0b3b8;
 }
 
-/* ==========================================================
-   ESTRUTURA GERAL
-   ========================================================== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: var(--dark-bg);
     color: var(--white);
     margin: 0;
-    overflow-x: hidden;
 }
 
 .hub-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: var(--card-bg);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 30px; background: var(--card-bg);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-.nav-link { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
-.nav-title h2 { margin: 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
-.nav-title span { color: var(--primary); font-weight: 300; }
-.nav-actions { display: flex; align-items: center; gap: 15px; }
-
-.btn-nav-circle {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border);
-    color: white; width: 35px; height: 35px; border-radius: 50%;
-    cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;
-}
-.btn-nav-circle:hover { background: var(--primary); color: var(--dark-bg); }
-
-.btn-new-small {
-    background: var(--primary); color: var(--dark-bg);
-    padding: 8px 15px; border-radius: 5px; text-decoration: none;
-    font-size: 0.8rem; font-weight: bold; transition: 0.3s;
-}
-
-/* ==========================================================
-   GRADE DO CALENDÁRIO
-   ========================================================== */
 .week-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    padding: 20px;
-    width: 100vw;
-    box-sizing: border-box;
-    overflow-x: auto;
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 12px; padding: 20px; width: 100vw; box-sizing: border-box;
 }
 
 .day-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    height: 700px; 
-    display: flex;
-    flex-direction: column;
-    transition: 0.3s;
-    position: relative; /* Necessário para o botão flutuar */
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; height: 700px;
+    display: flex; flex-direction: column; position: relative;
 }
 
 .day-card.has-course { border-top: 3px solid var(--primary); }
-.day-name { font-weight: bold; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
-.day-number { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 5px; }
 
 .today-tag {
-    background: var(--danger);
-    color: white;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 3px;
-    display: inline-block;
-    margin-bottom: 10px;
-    font-weight: bold;
+    background: var(--danger); color: white;
+    font-size: 0.6rem; padding: 2px 6px; border-radius: 3px;
+    display: inline-block; margin-bottom: 10px; font-weight: bold;
 }
 
 /* ==========================================================
-   LISTA DE DEMANDAS E BOTÃO EXCLUIR
+   DEMANDAS E BOTÃO EXCLUIR
    ========================================================== */
 .demand-list {
-    display: flex; flex-direction: column; gap: 8px;
-    flex: 1; overflow-y: auto; padding-right: 5px;
+    flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
 }
 
 .demand-item {
-    display: flex !important;
-    align-items: flex-start !important;
-    background-color: rgba(255, 255, 255, 0.03) !important;
-    padding: 10px;
-    padding-right: 30px !important; /* Espaço para o X */
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--white) !important;
-    line-height: 1.4;
-    position: relative;
+    display: flex; align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 10px; padding-right: 30px; /* Respiro para o X */
+    border-radius: 6px; border: 1px solid var(--border);
+    font-size: 0.75rem; position: relative;
 }
 
-/* Botão de Excluir Item */
 .btn-del-item {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    font-size: 0.7rem;
-    transition: 0.2s;
+    position: absolute; right: 5px; top: 50%;
+    transform: translateY(-50%); background: transparent;
+    border: none; color: rgba(255, 255, 255, 0.1);
+    cursor: pointer; font-size: 0.7rem; transition: 0.2s;
 }
-.btn-del-item:hover { color: #ff4d4d; }
 
-.demand-item i { margin-right: 8px; margin-top: 2px; font-size: 0.9rem; flex-shrink: 0; }
+.demand-item:hover .btn-del-item { color: #ff4d4d; }
+
 .status-done { border-left: 4px solid var(--success) !important; }
 .status-wait { border-left: 4px solid var(--warning) !important; }
 
-/* Scrollbars */
+/* Scrollbar */
 .demand-list::-webkit-scrollbar { width: 4px; }
-.demand-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.demand-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 .week-container::-webkit-scrollbar { height: 8px; }
 .week-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
