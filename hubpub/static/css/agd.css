@@ -99,7 +99,7 @@ body {
     padding: 12px;
     
     /* TAMANHO ESTÁTICO DO CARD */
-    height: 800px; 
+    height: 700px; 
     display: flex;
     flex-direction: column;
     transition: 0.3s;
