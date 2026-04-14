@@ -1,176 +1,120 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS DA AGENDA
+   ========================================================================== */
+
 :root {
-    --primary: #00d4ff;        
-    --bg-main: #0a0f1e;        
-    --bg-card: #161d2f;        
-    --text-main: #ffffff;      
-    --text-muted: #b0b3b8;     
-    --border-subtle: rgba(255, 255, 255, 0.05);
+    --bg-white: #ffffff;
+    --status-green: #27ae60;
+    --status-orange: #f39c12;
+    --text-dark: #333333;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden; /* Evita scroll na página inteira */
+/* Container principal dos dias */
+.week-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
     padding: 20px;
+    min-height: 400px;
 }
 
-/* --- NAVBAR PROFISSIONAL --- */
-.hub-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-card);
-    padding: 15px 30px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    border: 1px solid var(--border-subtle);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.nav-link {
-    color: var(--text-main);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: 0.3s;
-}
-.nav-link:hover { color: var(--primary); }
-
-.nav-title h2 { font-size: 1.3rem; font-weight: 800; }
-.nav-title span { color: var(--primary); }
-
-.nav-actions { display: flex; align-items: center; gap: 12px; }
-
-/* --- BOTÕES DA NAVBAR --- */
-.btn-new-small {
-    padding: 10px 18px;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    font-weight: bold;
-    font-size: 0.8rem;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-.btn-new-small:hover {
-    background: var(--primary);
-    color: var(--bg-main);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-}
-
-.btn-nav-circle {
-    width: 35px; height: 35px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-subtle);
-    color: white; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: 0.3s;
-}
-.btn-nav-circle:hover { background: var(--primary); color: var(--bg-main); }
-
-/* --- GRID DA SEMANA (RESOLVE O ESMAGAMENTO) --- */
-.week-container { 
-    flex: 1; 
-    display: flex; 
-    gap: 15px; 
-    width: 100%; 
-    padding-bottom: 15px;
-    overflow-x: auto; /* Scroll lateral se os cards apertarem */
-    align-items: stretch; 
-}
-
+/* Card de cada dia da semana */
 .day-card {
-    flex: 0 0 13.5%; /* Tenta manter 7 na tela em monitores grandes */
-    min-width: 220px; /* GARANTIA: Nunca esmaga menos que isso */
-    background: var(--bg-card); 
-    border-radius: 15px;
-    border: 1px solid var(--border-subtle); 
-    display: flex; flex-direction: column;
-    padding: 20px 10px;
-    transition: 0.3s;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 200px;
+    border: 1px solid #e0e0e0;
 }
 
-.day-card.has-course { border-color: rgba(0, 212, 255, 0.2); }
-
-.day-name { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
-.day-number { font-size: 2rem; font-weight: 900; margin: 5px 0; }
-
-/* --- LISTA DE DEMANDAS COM SCROLL INTERNO --- */
-.demand-list { 
-    width: 100%; 
-    margin-top: 15px;
-    overflow-y: auto; 
-    max-height: 500px; /* Limite para não esticar o card infinitamente */
-    padding-right: 5px;
+.day-card.has-course {
+    background-color: #f1f4f9;
 }
 
-.demand-item {
-    background: rgba(255, 255, 255, 0.03); 
-    padding: 12px; 
-    border-radius: 8px;
-    margin-bottom: 10px; 
-    border-left: 3px solid var(--primary);
-    color: var(--text-main);
-    font-size: 0.8rem;
-    line-height: 1.4;
-    word-wrap: break-word; /* Quebra texto longo */
-    cursor: pointer;
-    transition: 0.2s;
-}
-.demand-item:hover { background: rgba(0, 212, 255, 0.1); transform: translateX(3px); }
-
-/* SCROLLBARS CUSTOMIZADAS */
-.week-container::-webkit-scrollbar { height: 8px; }
-.week-container::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 10px; border: 2px solid var(--primary); }
-
-.demand-list::-webkit-scrollbar { width: 4px; }
-.demand-list::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 10px; }
-
-/* TAG HOJE */
+/* Tag de "HOJE" */
 .today-tag {
-    background: var(--primary); color: var(--bg-main);
-    padding: 3px 10px; border-radius: 12px;
-    font-size: 0.65rem; font-weight: bold; margin-bottom: 10px;
+    background: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-/* Estilização dos itens de demanda com status */
+.day-name { font-weight: bold; color: #666; }
+.day-number { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; }
+
+/* ==========================================================================
+   ESTILIZAÇÃO DOS ITENS DE DEMANDA (CARDZINHOS)
+   ========================================================================== */
+
 .demand-item {
     display: flex;
-    align-items: center;
-    font-size: 0.75rem; /* Ajustado para caber mais informações */
-    padding: 5px 8px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    align-items: flex-start;      /* Alinha o ícone ao topo se o texto quebrar linha */
+    background-color: var(--bg-white) !important;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    box-shadow: var(--shadow);
+    color: var(--text-dark);
+    opacity: 1 !important;        /* Remove qualquer efeito cinza/desbotado */
+    border-left: 5px solid #ddd;  /* Borda padrão */
+    transition: all 0.2s ease;
+    width: 100%;                  /* Garante que ocupe a largura total do card */
+    box-sizing: border-box;
 }
 
-.demand-item i {
-    flex-shrink: 0; /* Impede que o ícone esmague se o texto for longo */
-}
-
+/* Texto dentro do cardzinho */
 .demand-item span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Corta o texto com ... se for muito grande */
+    white-space: normal !important; /* Permite quebra de linha */
+    word-wrap: break-word;          /* Quebra palavras longas */
+    overflow: visible;              /* Garante que nada suma */
+    line-height: 1.4;
+    display: block;
+    flex: 1;                        /* Ocupa o restante do espaço após o ícone */
 }
 
-/* Diferenciação Visual
-.status-done {
-    border-left: 3px solid #27ae60;
-    opacity: 0.85;
-} */
+/* Ajuste dos Ícones */
+.demand-item i {
+    font-size: 0.95rem;
+    flex-shrink: 0;                 /* Impede o ícone de ser esmagado */
+    margin-top: 2px;                /* Ajuste fino da altura do ícone com a 1ª linha */
+    margin-right: 10px;
+}
 
+/* CORES DOS STATUS */
+
+/* Publicado (Verde) */
+.status-done {
+    border-left-color: var(--status-green) !important;
+}
+
+/* Pendente (Laranja) */
 .status-wait {
-    border-left: 3px solid #f39c12;
+    border-left-color: var(--status-orange) !important;
+}
+
+/* Efeito ao passar o mouse */
+.demand-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ==========================================================================
+   AJUSTES RESPONSIVOS
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .week-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .week-container {
+        grid-template-columns: 1fr;
+    }
 }
