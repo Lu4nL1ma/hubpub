@@ -21,7 +21,7 @@ body {
     background-color: var(--dark-bg);
     color: var(--white);
     margin: 0;
-    overflow-x: hidden; /* Evita rolagem lateral na página inteira */
+    overflow-x: hidden;
 }
 
 .hub-navbar {
@@ -30,7 +30,6 @@ body {
     align-items: center;
     padding: 15px 30px;
     background: var(--card-bg);
-    color: var(--white);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
@@ -49,18 +48,10 @@ body {
     letter-spacing: 1px;
 }
 
-.nav-title span {
-    color: var(--primary);
-    font-weight: 300;
-}
+.nav-title span { color: var(--primary); font-weight: 300; }
 
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+.nav-actions { display: flex; align-items: center; gap: 15px; }
 
-/* Botões de Navegação */
 .btn-nav-circle {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
@@ -75,10 +66,7 @@ body {
     justify-content: center;
 }
 
-.btn-nav-circle:hover {
-    background: var(--primary);
-    color: var(--dark-bg);
-}
+.btn-nav-circle:hover { background: var(--primary); color: var(--dark-bg); }
 
 .btn-new-small {
     background: var(--primary);
@@ -91,21 +79,17 @@ body {
     transition: 0.3s;
 }
 
-.btn-new-small:hover {
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-}
-
 /* ==========================================================
    GRADE DO CALENDÁRIO (OCUPANDO A PÁGINA TODA)
    ========================================================== */
 .week-container {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Mantém os 7 dias */
+    grid-template-columns: repeat(7, 1fr);
     gap: 12px;
     padding: 20px;
-    width: 100vw; /* Ocupa a largura total */
+    width: 100vw;
     box-sizing: border-box;
-    overflow-x: auto; /* Mantém a barra de rolagem se necessário */
+    overflow-x: auto;
 }
 
 .day-card {
@@ -113,27 +97,19 @@ body {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 12px;
-    min-height: 450px; 
+    
+    /* TAMANHO ESTÁTICO DO CARD */
+    height: 500px; 
+    display: flex;
+    flex-direction: column;
     transition: 0.3s;
 }
 
-.day-card.has-course {
-    border-top: 3px solid var(--primary);
-}
+.day-card.has-course { border-top: 3px solid var(--primary); }
 
-.day-name { 
-    font-weight: bold; 
-    color: var(--text-muted); 
-    font-size: 0.8rem; 
-    text-transform: uppercase;
-}
+.day-name { font-weight: bold; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
 
-.day-number { 
-    font-size: 1.5rem; 
-    font-weight: 800; 
-    color: var(--white); 
-    margin-bottom: 15px; 
-}
+.day-number { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 5px; }
 
 .today-tag {
     background: var(--danger);
@@ -142,17 +118,27 @@ body {
     padding: 2px 6px;
     border-radius: 3px;
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 /* ==========================================================
-   CARDS DE DEMANDA
+   CARDS DE DEMANDA COM ROLAGEM INTERNA
    ========================================================== */
 .demand-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    
+    /* ROLAGEM DENTRO DO CARD */
+    flex: 1;
+    overflow-y: auto; 
+    padding-right: 5px;
 }
+
+/* Customização da Barra de Rolagem Interna */
+.demand-list::-webkit-scrollbar { width: 4px; }
+.demand-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.demand-list::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 .demand-item {
     display: flex !important;
@@ -164,11 +150,6 @@ body {
     font-size: 0.75rem;
     color: var(--white) !important;
     line-height: 1.4;
-    transition: 0.2s;
-}
-
-.demand-item:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .demand-item span {
@@ -177,34 +158,16 @@ body {
     flex: 1;
 }
 
-.demand-item i {
-    margin-right: 8px;
-    margin-top: 2px;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-}
+.demand-item i { margin-right: 8px; margin-top: 2px; font-size: 0.9rem; flex-shrink: 0; }
 
-/* Bordas de Status */
-.status-done {
-    border-left: 4px solid var(--success) !important;
-}
+.status-done { border-left: 4px solid var(--success) !important; }
+.status-wait { border-left: 4px solid var(--warning) !important; }
 
-.status-wait {
-    border-left: 4px solid var(--warning) !important;
-}
-
-/* Customização da Barra de Rolagem */
-.week-container::-webkit-scrollbar {
-    height: 8px;
-}
-.week-container::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 10px;
-}
+/* Customização da Barra de Rolagem Global (Grid) */
+.week-container::-webkit-scrollbar { height: 8px; }
+.week-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
 /* Responsividade */
 @media (max-width: 1200px) {
-    .week-container { 
-        grid-template-columns: repeat(7, minmax(160px, 1fr)); 
-    }
+    .week-container { grid-template-columns: repeat(7, minmax(160px, 1fr)); }
 }
