@@ -1,38 +1,38 @@
 /* ==========================================================
-   VARIÁVEIS (PALETA INFTY PROJ)
+   VARIÁVEIS (PALETA INFTY PROJ - DARK MODE)
    ========================================================== */
 :root {
-    --primary: #00d4ff;        /* Ciano Neon */
-    --bg-main: #0a0f1e;        /* Fundo Profundo */
-    --bg-card: #161d2f;        /* Fundo dos Cards */
-    --text-main: #ffffff;      /* Texto Branco */
-    --text-muted: #b0b3b8;     /* Texto Suave */
-    --success: #00ff88;        /* Verde Neon */
-    --warning: #f39c12;        /* Alerta */
-    --danger: #ff4d4d;         /* Erro/Hoje */
-    --border: rgba(255, 255, 255, 0.05);
+    --primary: #00d4ff;        /* Ciano */
+    --success: #00ff88;        /* Verde */
+    --warning: #f39c12;        /* Laranja */
+    --danger: #ff4d4d;         /* Vermelho */
+    --dark-bg: #0a0f1e;        /* Fundo Principal */
+    --card-bg: #161d2f;        /* Fundo dos Cards */
+    --white: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --text-muted: #b0b3b8;
 }
 
 /* ==========================================================
    ESTRUTURA GERAL
    ========================================================== */
 body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--white);
     margin: 0;
-    min-height: 100vh;
+    overflow-x: hidden; /* Evita rolagem lateral na página inteira */
 }
 
-/* NAVBAR UNIFICADA */
 .hub-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: var(--bg-card);
+    background: var(--card-bg);
+    color: var(--white);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .nav-link {
@@ -40,29 +40,29 @@ body {
     text-decoration: none;
     font-weight: bold;
     font-size: 0.9rem;
-    transition: 0.3s;
 }
-
-.nav-link:hover { opacity: 0.7; }
 
 .nav-title h2 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
-.nav-title span { color: var(--primary); }
+.nav-title span {
+    color: var(--primary);
+    font-weight: 300;
+}
 
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
 }
 
-/* Botões de Navegação Circulares */
+/* Botões de Navegação */
 .btn-nav-circle {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
     color: white;
     width: 35px;
@@ -77,26 +77,21 @@ body {
 
 .btn-nav-circle:hover {
     background: var(--primary);
-    color: var(--bg-main);
-    border-color: var(--primary);
+    color: var(--dark-bg);
 }
 
 .btn-new-small {
-    background: transparent;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    padding: 8px 16px;
-    border-radius: 8px;
+    background: var(--primary);
+    color: var(--dark-bg);
+    padding: 8px 15px;
+    border-radius: 5px;
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
     transition: 0.3s;
 }
 
 .btn-new-small:hover {
-    background: var(--primary);
-    color: var(--bg-main);
     box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
 }
 
@@ -105,81 +100,111 @@ body {
    ========================================================== */
 .week-container {
     display: grid;
-    /* Usa frações (1fr) para dividir o espaço igualmente em 7 colunas */
-    grid-template-columns: repeat(7, 1fr); 
-    gap: 10px;
-    padding: 15px;
-    
-    /* Garante que o container ocupe a largura total e altura mínima */
-    width: 100%;
-    min-height: calc(100vh - 80px); /* Desconta a altura da navbar */
+    grid-template-columns: repeat(7, 1fr); /* Mantém os 7 dias */
+    gap: 12px;
+    padding: 20px;
+    width: 100vw; /* Ocupa a largura total */
     box-sizing: border-box;
-    
-    /* Mantém a barra de rolagem horizontal se as colunas ficarem muito espremidas */
-    overflow-x: auto;
-    background-color: var(--bg-main);
+    overflow-x: auto; /* Mantém a barra de rolagem se necessário */
 }
 
 .day-card {
-    background: var(--bg-card);
+    background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 12px;
-    
-    /* Flexbox interno para as demandas respirarem */
-    display: flex;
-    flex-direction: column;
-    
-    /* Largura mínima para os cards não "achatarem" demais em telas médias */
-    min-width: 140px; 
-    transition: 0.3s ease;
+    min-height: 450px; 
+    transition: 0.3s;
 }
 
-.day-card:hover {
-    border-color: rgba(0, 212, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+.day-card.has-course {
+    border-top: 3px solid var(--primary);
+}
+
+.day-name { 
+    font-weight: bold; 
+    color: var(--text-muted); 
+    font-size: 0.8rem; 
+    text-transform: uppercase;
+}
+
+.day-number { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+    color: var(--white); 
+    margin-bottom: 15px; 
+}
+
+.today-tag {
+    background: var(--danger);
+    color: white;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 
 /* ==========================================================
-   SCROLLBAR CUSTOMIZADA (ESTILO CYBERPUNK)
+   CARDS DE DEMANDA
    ========================================================== */
-/* Barra de rolagem da página/container principal */
+.demand-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.demand-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--white) !important;
+    line-height: 1.4;
+    transition: 0.2s;
+}
+
+.demand-item:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.demand-item span {
+    white-space: normal !important; 
+    word-wrap: break-word !important;
+    flex: 1;
+}
+
+.demand-item i {
+    margin-right: 8px;
+    margin-top: 2px;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Bordas de Status */
+.status-done {
+    border-left: 4px solid var(--success) !important;
+}
+
+.status-wait {
+    border-left: 4px solid var(--warning) !important;
+}
+
+/* Customização da Barra de Rolagem */
 .week-container::-webkit-scrollbar {
-    height: 8px; /* Altura da barra horizontal */
-    width: 6px;
+    height: 8px;
 }
-
-.week-container::-webkit-scrollbar-track {
-    background: var(--bg-main);
-}
-
 .week-container::-webkit-scrollbar-thumb {
     background: var(--border);
     border-radius: 10px;
 }
 
-.week-container::-webkit-scrollbar-thumb:hover {
-    background: var(--primary); /* Brilha ciano ao passar o mouse */
-}
-
-/* ==========================================================
-   CARDS DE DEMANDA (AJUSTE DE ALTURA)
-   ========================================================== */
-.demand-list {
-    flex-grow: 1; /* Faz a lista ocupar o espaço restante do card */
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-/* Responsividade: Se a tela for menor que 1200px, 
-   o grid para de espremer e deixa a rolagem lateral agir */
-@media (max-width: 1300px) {
-    .week-container {
-        display: flex; /* Muda para flex para rolagem lateral suave */
-    }
-    .day-card {
-        flex: 0 0 180px; /* Mantém cada card com 180px de largura fixa */
+/* Responsividade */
+@media (max-width: 1200px) {
+    .week-container { 
+        grid-template-columns: repeat(7, minmax(160px, 1fr)); 
     }
 }
