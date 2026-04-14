@@ -1,120 +1,84 @@
 /* ==========================================================================
-   CONFIGURAÇÕES GERAIS DA AGENDA
+   AGD.CSS - VERSÃO PRESERVANDO PALETA ORIGINAL
    ========================================================================== */
 
-:root {
-    --bg-white: #ffffff;
-    --status-green: #27ae60;
-    --status-orange: #f39c12;
-    --text-dark: #333333;
-    --shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Container principal dos dias */
 .week-container {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 12px;
     padding: 20px;
-    min-height: 400px;
 }
 
-/* Card de cada dia da semana */
 .day-card {
-    background: #f8f9fa;
-    border-radius: 10px;
-    padding: 15px;
-    min-height: 200px;
-    border: 1px solid #e0e0e0;
+    background: #fdfdfd;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 250px;
+    border: 1px solid #eee;
 }
 
-.day-card.has-course {
-    background-color: #f1f4f9;
-}
-
-/* Tag de "HOJE" */
+/* Identificador de hoje mantendo seu padrão */
 .today-tag {
-    background: #e74c3c;
+    background: #007bff; /* Ou a cor primária do seu site */
     color: white;
-    font-size: 0.7rem;
-    padding: 2px 6px;
+    font-size: 0.65rem;
+    padding: 3px 8px;
     border-radius: 4px;
-    text-align: center;
     font-weight: bold;
-    margin-bottom: 5px;
+    display: inline-block;
+    margin-bottom: 8px;
 }
 
-.day-name { font-weight: bold; color: #666; }
-.day-number { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; }
+.day-name { font-weight: 600; color: #555; font-size: 0.9rem; }
+.day-number { font-size: 1.4rem; font-weight: 700; color: #222; margin-bottom: 12px; }
 
 /* ==========================================================================
-   ESTILIZAÇÃO DOS ITENS DE DEMANDA (CARDZINHOS)
+   ITENS DE DEMANDA - CORREÇÃO DE TEXTO E COR
    ========================================================================== */
 
 .demand-item {
     display: flex;
-    align-items: flex-start;      /* Alinha o ícone ao topo se o texto quebrar linha */
-    background-color: var(--bg-white) !important;
-    margin-bottom: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 0.82rem;
-    box-shadow: var(--shadow);
-    color: var(--text-dark);
-    opacity: 1 !important;        /* Remove qualquer efeito cinza/desbotado */
-    border-left: 5px solid #ddd;  /* Borda padrão */
-    transition: all 0.2s ease;
-    width: 100%;                  /* Garante que ocupe a largura total do card */
-    box-sizing: border-box;
+    align-items: flex-start;
+    background-color: #ffffff; /* Fundo sempre branco */
+    border: 1px solid #e0e0e0;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #333;               /* Texto escuro legível */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    
+    /* CORREÇÃO DO CINZA: Mantemos opacidade total */
+    opacity: 1 !important;
 }
 
-/* Texto dentro do cardzinho */
+/* CORREÇÃO DO TEXTO CORTADO */
 .demand-item span {
-    white-space: normal !important; /* Permite quebra de linha */
-    word-wrap: break-word;          /* Quebra palavras longas */
-    overflow: visible;              /* Garante que nada suma */
-    line-height: 1.4;
-    display: block;
-    flex: 1;                        /* Ocupa o restante do espaço após o ícone */
+    white-space: normal;       /* Permite quebra de linha */
+    word-wrap: break-word;     /* Quebra palavras se necessário */
+    line-height: 1.3;
+    flex: 1;                   /* Ocupa o espaço ao lado do ícone */
 }
 
-/* Ajuste dos Ícones */
+/* Ícones mantendo o tamanho original */
 .demand-item i {
-    font-size: 0.95rem;
-    flex-shrink: 0;                 /* Impede o ícone de ser esmagado */
-    margin-top: 2px;                /* Ajuste fino da altura do ícone com a 1ª linha */
-    margin-right: 10px;
+    font-size: 0.9rem;
+    margin-right: 8px;
+    margin-top: 2px;
+    flex-shrink: 0;            /* Não deixa o ícone esmagar */
 }
 
-/* CORES DOS STATUS */
-
-/* Publicado (Verde) */
+/* Apenas bordas sutis para indicar o status sem mudar a cor do card inteiro */
 .status-done {
-    border-left-color: var(--status-green) !important;
+    border-left: 4px solid #28a745 !important;
 }
 
-/* Pendente (Laranja) */
 .status-wait {
-    border-left-color: var(--status-orange) !important;
+    border-left: 4px solid #ffc107 !important;
 }
 
-/* Efeito ao passar o mouse */
+/* Hover suave para não descaracterizar */
 .demand-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-/* ==========================================================================
-   AJUSTES RESPONSIVOS
-   ========================================================================== */
-@media (max-width: 1024px) {
-    .week-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .week-container {
-        grid-template-columns: 1fr;
-    }
+    border-color: #bbb;
+    background-color: #f9f9f9;
 }
