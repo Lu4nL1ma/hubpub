@@ -1,84 +1,103 @@
 /* ==========================================================
-   VARIÁVEIS (ROOT)
+   VARIÁVEIS (PALETA INFTY PROJ)
    ========================================================== */
 :root {
-    --primary: #007bff;
-    --success: #27ae60;
-    --warning: #f39c12;
-    --dark: #212529;
-    --light-bg: #f8f9fa;
-    --white: #ffffff;
-    --border: #dee2e6;
+    --primary: #00d4ff;        /* Ciano Neon */
+    --bg-main: #0a0f1e;        /* Fundo Profundo */
+    --bg-card: #161d2f;        /* Fundo dos Cards */
+    --text-main: #ffffff;      /* Texto Branco */
+    --text-muted: #b0b3b8;     /* Texto Suave */
+    --success: #00ff88;        /* Verde Neon */
+    --warning: #f39c12;        /* Alerta */
+    --danger: #ff4d4d;         /* Erro/Hoje */
+    --border: rgba(255, 255, 255, 0.05);
 }
 
 /* ==========================================================
-   ESTRUTURA GERAL E NAVBAR
+   ESTRUTURA GERAL
    ========================================================== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--light-bg);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     margin: 0;
+    min-height: 100vh;
 }
 
+/* NAVBAR UNIFICADA */
 .hub-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: var(--dark);
-    color: var(--white);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 .nav-link {
-    color: var(--white);
+    color: var(--primary);
     text-decoration: none;
     font-weight: bold;
     font-size: 0.9rem;
+    transition: 0.3s;
 }
+
+.nav-link:hover { opacity: 0.7; }
 
 .nav-title h2 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
-.nav-title span {
-    font-weight: 300;
-    opacity: 0.8;
-}
+.nav-title span { color: var(--primary); }
 
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-/* Botões de Navegação */
+/* Botões de Navegação Circulares */
 .btn-nav-circle {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
     color: white;
     width: 35px;
     height: 35px;
     border-radius: 50%;
     cursor: pointer;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-nav-circle:hover {
     background: var(--primary);
+    color: var(--bg-main);
+    border-color: var(--primary);
 }
 
 .btn-new-small {
-    background: var(--primary);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 8px 16px;
+    border-radius: 8px;
     text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.btn-new-small:hover {
+    background: var(--primary);
+    color: var(--bg-main);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
 }
 
 /* ==========================================================
@@ -89,75 +108,77 @@ body {
     grid-template-columns: repeat(7, 1fr);
     gap: 12px;
     padding: 20px;
+    overflow-x: auto; /* Garante que não quebre em telas menores */
 }
 
 .day-card {
-    background: #fdfdfd;
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
-    min-height: 400px; /* Garante espaço para as demandas */
+    border-radius: 12px;
+    padding: 15px;
+    min-height: 450px;
     transition: 0.3s;
 }
 
 .day-card.has-course {
-    background-color: #fff;
     border-top: 3px solid var(--primary);
+    background: rgba(0, 212, 255, 0.02);
 }
 
 .day-name { 
     font-weight: bold; 
-    color: #6c757d; 
-    font-size: 0.8rem; 
+    color: var(--text-muted); 
+    font-size: 0.7rem; 
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .day-number { 
-    font-size: 1.5rem; 
-    font-weight: 800; 
-    color: var(--dark); 
-    margin-bottom: 15px; 
+    font-size: 2rem; 
+    font-weight: 900; 
+    color: var(--text-main); 
+    margin-bottom: 10px; 
 }
 
 .today-tag {
-    background: #e74c3c;
+    background: var(--danger);
     color: white;
     font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 2px 8px;
+    border-radius: 4px;
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
 /* ==========================================================
-   CARDS DE DEMANDA (CORREÇÃO DO TEXTO E COR)
+   CARDS DE DEMANDA (CORREÇÃO E ESTILO)
    ========================================================== */
-
 .demand-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .demand-item {
     display: flex !important;
     align-items: flex-start !important;
-    
-    /* CORREÇÃO DO CINZA: Fundo branco puro e opacidade 100% */
-    background-color: var(--white) !important;
-    opacity: 1 !important;
-    
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
     font-size: 0.75rem;
-    color: #333 !important;
+    color: var(--text-main) !important;
     line-height: 1.4;
+    transition: 0.2s;
+    cursor: pointer;
 }
 
-/* CORREÇÃO DO TEXTO CORTADO: Permite quebra de linha */
+.demand-item:hover {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    transform: translateY(-2px);
+}
+
 .demand-item span {
     white-space: normal !important; 
     word-wrap: break-word !important;
@@ -166,22 +187,39 @@ body {
 
 /* Ícones de Status */
 .demand-item i {
-    margin-right: 8px;
+    margin-right: 10px;
     margin-top: 2px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     flex-shrink: 0;
 }
 
-/* Bordas de Status */
+/* Bordas Laterais de Status */
 .status-done {
     border-left: 4px solid var(--success) !important;
+    color: var(--success) !important;
 }
 
 .status-wait {
     border-left: 4px solid var(--warning) !important;
+    color: var(--warning) !important;
 }
 
-/* Responsividade básica */
-@media (max-width: 1100px) {
-    .week-container { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+/* Scrollbar para a lista de demandas interna se crescer muito */
+.demand-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.demand-list::-webkit-scrollbar { width: 4px; }
+.demand-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .week-container { 
+        display: flex; 
+        overflow-x: auto; 
+        padding-bottom: 30px;
+    }
+    .day-card { min-width: 250px; }
 }
