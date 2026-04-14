@@ -1,5 +1,4 @@
 let startDate = new Date();
-// Ajusta para o domingo da semana atual
 startDate.setDate(startDate.getDate() - startDate.getDay());
 
 function render() {
@@ -7,17 +6,12 @@ function render() {
     const display = document.getElementById('monthDisplay');
     
     if (!container || !display) return;
-
     container.innerHTML = '';
     
     const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    const months = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
+    const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     
     display.innerText = `${months[startDate.getMonth()]} ${startDate.getFullYear()}`;
-    
     let current = new Date(startDate);
 
     for (let i = 0; i < 7; i++) {
@@ -34,7 +28,6 @@ function render() {
         
         let listHtml = '';
         demandasDoDia.forEach(textoCompleto => {
-            // Separa o ID do conteúdo real (ID|DONE:...)
             const partes = textoCompleto.split('|');
             const idBanco = partes[0];
             const textoOriginal = partes[1];
@@ -74,10 +67,11 @@ function render() {
     }
 }
 
+// ESTA É A FUNÇÃO QUE RESOLVE O 404
 function confirmarExclusao(id) {
     if(confirm("Deseja realmente excluir este agendamento?")) {
-        // Redirecione para sua URL de delete passando o ID
-        window.location.href = `/deletar-agendamento/${id}/`;
+        // Redireciona para o caminho EXATO que aparece no seu erro do Django
+        window.location.href = `/staff/agenda/deletar/${id}/`;
     }
 }
 
