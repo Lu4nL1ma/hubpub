@@ -165,11 +165,11 @@ body {
     text-overflow: ellipsis; /* Corta o texto com ... se for muito grande */
 }
 
-/* Diferenciação Visual */
+/* Diferenciação Visual
 .status-done {
     border-left: 3px solid #27ae60;
     opacity: 0.85;
-}
+} */
 
 .status-wait {
     border-left: 3px solid #f39c12;
