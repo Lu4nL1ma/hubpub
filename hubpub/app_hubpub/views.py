@@ -76,7 +76,7 @@ def deletar_agendamento(request, pk):
         return redirect('login')
     
     # Busca o agendamento ou retorna 404 se não existir
-    agendamento = get_object_or_404(divulugacao_agend, pk=pk)
+    agendamento = get_object_or_404(divulgacao_agend, pk=pk)
     agendamento.delete()
     
     return redirect('agenda') # Volta para a página da agenda
