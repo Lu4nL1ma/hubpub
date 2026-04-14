@@ -142,3 +142,35 @@ body {
     padding: 3px 10px; border-radius: 12px;
     font-size: 0.65rem; font-weight: bold; margin-bottom: 10px;
 }
+
+/* Estilização dos itens de demanda com status */
+.demand-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem; /* Ajustado para caber mais informações */
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.demand-item i {
+    flex-shrink: 0; /* Impede que o ícone esmague se o texto for longo */
+}
+
+.demand-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Corta o texto com ... se for muito grande */
+}
+
+/* Diferenciação Visual */
+.status-done {
+    border-left: 3px solid #27ae60;
+    opacity: 0.85;
+}
+
+.status-wait {
+    border-left: 3px solid #f39c12;
+}

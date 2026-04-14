@@ -33,14 +33,14 @@
         </div>
     </nav>
 
-    <div class="week-container" id="weekContainer">
-        </div>
+    <div class="week-container" id="weekContainer"></div>
 
     <script id="planner-data" type="application/json">
         {{ db_demandas_json|safe }}
     </script>
 
     <script>
+        // Captura os dados da tag acima
         const dbDemandas = JSON.parse(document.getElementById('planner-data').textContent) || {};
     </script>
 

@@ -53,12 +53,18 @@ def agenda(request):
     
     agendamentos = divulgacao_agend.objects.all()
     dados_dict = {}
+    
     for item in agendamentos:
         if item.data:
             data_str = item.data.strftime('%Y-%m-%d')
             if data_str not in dados_dict:
                 dados_dict[data_str] = []
-            texto = f"{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
+            
+            # Marcador técnico para o JavaScript identificar o status
+            status_prefix = "DONE:" if item.ultima_publicacao else "WAIT:"
+            
+            # Montamos o texto preservando a ordem original, mas com o prefixo
+            texto = f"{status_prefix}{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
             dados_dict[data_str].append(texto)
 
     db_demandas_json = json.dumps(dados_dict)

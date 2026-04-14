@@ -8,7 +8,6 @@ function render() {
     const container = document.getElementById('weekContainer');
     const display = document.getElementById('monthDisplay');
     
-    // Verifica se os elementos existem no DOM
     if (!container || !display) return;
 
     container.innerHTML = '';
@@ -19,24 +18,17 @@ function render() {
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
     
-    // Atualiza o topo da agenda com Mês e Ano
     display.innerText = `${months[startDate.getMonth()]} ${startDate.getFullYear()}`;
     
     let current = new Date(startDate);
 
     for (let i = 0; i < 7; i++) {
-        // --- CORREÇÃO DE FUSO HORÁRIO ---
-        // Criamos a string YYYY-MM-DD baseada na data LOCAL
         const year = current.getFullYear();
-        const month = String(current.getMonth() + 1).padStart(2, '0'); // Meses no JS começam em 0
+        const month = String(current.getMonth() + 1).padStart(2, '0');
         const day = String(current.getDate()).padStart(2, '0');
         const dateStr = `${year}-${month}-${day}`;
-        // --------------------------------
 
         const isToday = new Date().toDateString() === current.toDateString();
-        
-        // Busca no objeto dbDemandas (injetado pelo Django no HTML)
-        // Opcional: Garante que dbDemandas existe para não quebrar o script
         const demandasDoDia = (typeof dbDemandas !== 'undefined' && dbDemandas[dateStr]) || [];
         
         const card = document.createElement('div');
@@ -44,7 +36,22 @@ function render() {
         
         let listHtml = '';
         demandasDoDia.forEach(texto => {
-            listHtml += `<div class="demand-item">${texto}</div>`;
+            let icon = '';
+            let itemClass = '';
+            let textoExibicao = '';
+
+            // Lógica para definir ícone e classe baseada no prefixo da View
+            if (texto.startsWith("DONE:")) {
+                icon = '<i class="fas fa-check-circle" style="color: #27ae60; margin-right: 5px;"></i>';
+                itemClass = 'status-done';
+                textoExibicao = texto.replace("DONE:", "");
+            } else {
+                icon = '<i class="fas fa-clock" style="color: #f39c12; margin-right: 5px;"></i>';
+                itemClass = 'status-wait';
+                textoExibicao = texto.replace("WAIT:", "");
+            }
+
+            listHtml += `<div class="demand-item ${itemClass}">${icon} <span>${textoExibicao}</span></div>`;
         });
 
         card.innerHTML = `
@@ -55,20 +62,13 @@ function render() {
         `;
         
         container.appendChild(card);
-        
-        // Incrementa o dia para a próxima iteração do loop
         current.setDate(current.getDate() + 1);
     }
 }
 
-/**
- * Altera a semana visualizada
- * @param {number} offset - Quantidade de dias (ex: 7 para próxima semana, -7 para anterior)
- */
 function changeWeek(offset) {
     startDate.setDate(startDate.getDate() + offset);
     render();
 }
 
-// Inicializa a renderização quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', render);
