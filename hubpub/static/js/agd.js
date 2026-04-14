@@ -1,5 +1,3 @@
-// agd.js
-
 let startDate = new Date();
 // Ajusta para o domingo da semana atual
 startDate.setDate(startDate.getDate() - startDate.getDay());
@@ -37,21 +35,19 @@ function render() {
         let listHtml = '';
         demandasDoDia.forEach(texto => {
             let icon = '';
-            let itemClass = '';
             let textoExibicao = '';
 
-            // Lógica para definir ícone e classe baseada no prefixo da View
             if (texto.startsWith("DONE:")) {
-                icon = '<i class="fas fa-check-circle" style="color: #27ae60; margin-right: 5px;"></i>';
-                itemClass = 'status-done';
+                // Remove o prefixo e adiciona o check verde
                 textoExibicao = texto.replace("DONE:", "");
+                icon = '<i class="fas fa-check-circle" style="color: #27ae60; margin-right: 8px;"></i>';
             } else {
-                icon = '<i class="fas fa-clock" style="color: #f39c12; margin-right: 5px;"></i>';
-                itemClass = 'status-wait';
+                // Remove o prefixo e adiciona o relógio laranja
                 textoExibicao = texto.replace("WAIT:", "");
+                icon = '<i class="fas fa-clock" style="color: #f39c12; margin-right: 8px;"></i>';
             }
 
-            listHtml += `<div class="demand-item ${itemClass}">${icon} <span>${textoExibicao}</span></div>`;
+            listHtml += `<div class="demand-item">${icon} <span>${textoExibicao}</span></div>`;
         });
 
         card.innerHTML = `

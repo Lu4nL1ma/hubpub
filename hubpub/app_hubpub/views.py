@@ -60,10 +60,10 @@ def agenda(request):
             if data_str not in dados_dict:
                 dados_dict[data_str] = []
             
-            # Marcador técnico para o JavaScript identificar o status
+            # Marcadores para o JavaScript processar
             status_prefix = "DONE:" if item.ultima_publicacao else "WAIT:"
             
-            # Montamos o texto preservando a ordem original, mas com o prefixo
+            # Texto enviado para o JSON
             texto = f"{status_prefix}{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
             dados_dict[data_str].append(texto)
 
