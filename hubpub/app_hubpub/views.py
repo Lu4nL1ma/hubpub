@@ -71,6 +71,17 @@ def agenda(request):
     return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
 
 @login_required
+def deletar_agendamento(request, pk):
+    if not request.user.is_superuser:
+        return redirect('login')
+    
+    # Busca o agendamento ou retorna 404 se não existir
+    agendamento = get_object_or_404(divulugacao_agend, pk=pk)
+    agendamento.delete()
+    
+    return redirect('agenda') # Volta para a página da agenda
+
+@login_required
 def forms_agenda(request):
     if request.method == 'POST':
         # 1. Coleta os dados do formulário

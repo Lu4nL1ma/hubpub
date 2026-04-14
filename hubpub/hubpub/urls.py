@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/', MeuLoginView.as_view(template_name='login.html'), name='login'),
     path('staff/agenda/', agenda, name='agenda'),
     path('staff/agenda/form-agenda/', forms_agenda, name='forms_agenda'),
+    path('staff/agenda/deletar/<int:pk>/', views.deletar_agendamento, name='deletar_agendamento'),
 
     #inicia as urls de staff
     path('staff/cursos/', listar_cursos, name='painel_cursos'),
