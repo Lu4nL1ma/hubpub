@@ -1,5 +1,4 @@
 let startDate = new Date();
-// Ajusta para o domingo da semana atual
 startDate.setDate(startDate.getDate() - startDate.getDay());
 
 function render() {
@@ -30,24 +29,32 @@ function render() {
         const demandasDoDia = (typeof dbDemandas !== 'undefined' && dbDemandas[dateStr]) || [];
         
         const card = document.createElement('div');
-        card.className = `day-card ${demandasDoDia.length > 0 ? 'has-course' : ''}`;
+        // Adicionando classe 'today' para facilitar estilização se quiser
+        card.className = `day-card ${demandasDoDia.length > 0 ? 'has-course' : ''} ${isToday ? 'is-today' : ''}`;
         
         let listHtml = '';
-        demandasDoDia.forEach(texto => {
+        // Adicionamos o index (idx) para saber qual item excluir
+        demandasDoDia.forEach((texto, idx) => {
             let icon = '';
             let textoExibicao = '';
 
             if (texto.startsWith("DONE:")) {
-                // Remove o prefixo e adiciona o check verde
                 textoExibicao = texto.replace("DONE:", "");
-                icon = '<i class="fas fa-check-circle" style="color: #27ae60; margin-right: 8px;"></i>';
+                icon = '<i class="fas fa-check-circle" style="color: #00ff88; margin-right: 8px;"></i>';
             } else {
-                // Remove o prefixo e adiciona o relógio laranja
                 textoExibicao = texto.replace("WAIT:", "");
                 icon = '<i class="fas fa-clock" style="color: #f39c12; margin-right: 8px;"></i>';
             }
 
-            listHtml += `<div class="demand-item">${icon} <span>${textoExibicao}</span></div>`;
+            // Injetando o botão X dentro de cada item de demanda
+            listHtml += `
+                <div class="demand-item">
+                    ${icon} 
+                    <span>${textoExibicao}</span>
+                    <button class="btn-del-item" onclick="excluirDemanda('${dateStr}', ${idx})" title="Excluir">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>`;
         });
 
         card.innerHTML = `
@@ -65,6 +72,19 @@ function render() {
 function changeWeek(offset) {
     startDate.setDate(startDate.getDate() + offset);
     render();
+}
+
+// Função para lidar com a exclusão
+function excluirDemanda(data, index) {
+    if (confirm("Deseja realmente excluir esta demanda?")) {
+        console.log(`Excluindo item ${index} do dia ${data}`);
+        
+        /* DICA: Aqui você deve inserir seu código para avisar o Django.
+           Se for apenas visual (temporário):
+           dbDemandas[data].splice(index, 1);
+           render();
+        */
+    }
 }
 
 document.addEventListener('DOMContentLoaded', render);

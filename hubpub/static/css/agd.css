@@ -5,7 +5,7 @@
     --primary: #00d4ff;        /* Ciano */
     --success: #00ff88;        /* Verde */
     --warning: #f39c12;        /* Laranja */
-    --danger: #BF40BF;         /* hj */
+    --danger: #BF40BF;         /* Magenta (Hoje) */
     --dark-bg: #0a0f1e;        /* Fundo Principal */
     --card-bg: #161d2f;        /* Fundo dos Cards */
     --white: #ffffff;
@@ -34,53 +34,27 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-.nav-link {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.nav-title h2 {
-    margin: 0;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
+.nav-link { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+.nav-title h2 { margin: 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
 .nav-title span { color: var(--primary); font-weight: 300; }
-
 .nav-actions { display: flex; align-items: center; gap: 15px; }
 
 .btn-nav-circle {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: white; width: 35px; height: 35px; border-radius: 50%;
+    cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;
 }
-
 .btn-nav-circle:hover { background: var(--primary); color: var(--dark-bg); }
 
 .btn-new-small {
-    background: var(--primary);
-    color: var(--dark-bg);
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
-    transition: 0.3s;
+    background: var(--primary); color: var(--dark-bg);
+    padding: 8px 15px; border-radius: 5px; text-decoration: none;
+    font-size: 0.8rem; font-weight: bold; transition: 0.3s;
 }
 
 /* ==========================================================
-   GRADE DO CALENDÁRIO (OCUPANDO A PÁGINA TODA)
+   GRADE DO CALENDÁRIO
    ========================================================== */
 .week-container {
     display: grid;
@@ -97,18 +71,15 @@ body {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 12px;
-    
-    /* TAMANHO ESTÁTICO DO CARD */
     height: 700px; 
     display: flex;
     flex-direction: column;
     transition: 0.3s;
+    position: relative; /* Necessário para o botão flutuar */
 }
 
 .day-card.has-course { border-top: 3px solid var(--primary); }
-
 .day-name { font-weight: bold; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
-
 .day-number { font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 5px; }
 
 .today-tag {
@@ -119,55 +90,55 @@ body {
     border-radius: 3px;
     display: inline-block;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 /* ==========================================================
-   CARDS DE DEMANDA COM ROLAGEM INTERNA
+   LISTA DE DEMANDAS E BOTÃO EXCLUIR
    ========================================================== */
 .demand-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    
-    /* ROLAGEM DENTRO DO CARD */
-    flex: 1;
-    overflow-y: auto; 
-    padding-right: 5px;
+    display: flex; flex-direction: column; gap: 8px;
+    flex: 1; overflow-y: auto; padding-right: 5px;
 }
-
-/* Customização da Barra de Rolagem Interna */
-.demand-list::-webkit-scrollbar { width: 4px; }
-.demand-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-.demand-list::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 .demand-item {
     display: flex !important;
     align-items: flex-start !important;
     background-color: rgba(255, 255, 255, 0.03) !important;
     padding: 10px;
+    padding-right: 30px !important; /* Espaço para o X */
     border-radius: 6px;
     border: 1px solid var(--border);
     font-size: 0.75rem;
     color: var(--white) !important;
     line-height: 1.4;
+    position: relative;
 }
 
-.demand-item span {
-    white-space: normal !important; 
-    word-wrap: break-word !important;
-    flex: 1;
+/* Botão de Excluir Item */
+.btn-del-item {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    font-size: 0.7rem;
+    transition: 0.2s;
 }
+.btn-del-item:hover { color: #ff4d4d; }
 
 .demand-item i { margin-right: 8px; margin-top: 2px; font-size: 0.9rem; flex-shrink: 0; }
-
 .status-done { border-left: 4px solid var(--success) !important; }
 .status-wait { border-left: 4px solid var(--warning) !important; }
 
-/* Customização da Barra de Rolagem Global (Grid) */
+/* Scrollbars */
+.demand-list::-webkit-scrollbar { width: 4px; }
+.demand-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 .week-container::-webkit-scrollbar { height: 8px; }
 .week-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-/* Responsividade */
 @media (max-width: 1200px) {
     .week-container { grid-template-columns: repeat(7, minmax(160px, 1fr)); }
 }

@@ -60,12 +60,14 @@ def agenda(request):
             if data_str not in dados_dict:
                 dados_dict[data_str] = []
             
-            # Marcadores para o JavaScript processar
             status_prefix = "DONE:" if item.ultima_publicacao else "WAIT:"
-            
-            # Texto enviado para o JSON
             texto = f"{status_prefix}{item.hora} - {item.rede_social} - {item.tipo_post} - {item.curso}"
-            dados_dict[data_str].append(texto)
+            
+            # AGORA ENVIAMOS UM DICIONÁRIO COM O ID DO BANCO
+            dados_dict[data_str].append({
+                'id': item.id,
+                'texto': texto
+            })
 
     db_demandas_json = json.dumps(dados_dict)
     return render(request, 'agenda.html', {'db_demandas_json': db_demandas_json})
