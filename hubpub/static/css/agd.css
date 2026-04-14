@@ -101,125 +101,85 @@ body {
 }
 
 /* ==========================================================
-   GRADE DO CALENDÁRIO (WEEK CONTAINER)
+   GRADE DO CALENDÁRIO (OCUPANDO A PÁGINA TODA)
    ========================================================== */
 .week-container {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    padding: 20px;
-    overflow-x: auto; /* Garante que não quebre em telas menores */
+    /* Usa frações (1fr) para dividir o espaço igualmente em 7 colunas */
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 10px;
+    padding: 15px;
+    
+    /* Garante que o container ocupe a largura total e altura mínima */
+    width: 100%;
+    min-height: calc(100vh - 80px); /* Desconta a altura da navbar */
+    box-sizing: border-box;
+    
+    /* Mantém a barra de rolagem horizontal se as colunas ficarem muito espremidas */
+    overflow-x: auto;
+    background-color: var(--bg-main);
 }
 
 .day-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 15px;
-    min-height: 450px;
-    transition: 0.3s;
+    border-radius: 10px;
+    padding: 12px;
+    
+    /* Flexbox interno para as demandas respirarem */
+    display: flex;
+    flex-direction: column;
+    
+    /* Largura mínima para os cards não "achatarem" demais em telas médias */
+    min-width: 140px; 
+    transition: 0.3s ease;
 }
 
-.day-card.has-course {
-    border-top: 3px solid var(--primary);
-    background: rgba(0, 212, 255, 0.02);
-}
-
-.day-name { 
-    font-weight: bold; 
-    color: var(--text-muted); 
-    font-size: 0.7rem; 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.day-number { 
-    font-size: 2rem; 
-    font-weight: 900; 
-    color: var(--text-main); 
-    margin-bottom: 10px; 
-}
-
-.today-tag {
-    background: var(--danger);
-    color: white;
-    font-size: 0.6rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 8px;
-    font-weight: bold;
+.day-card:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* ==========================================================
-   CARDS DE DEMANDA (CORREÇÃO E ESTILO)
+   SCROLLBAR CUSTOMIZADA (ESTILO CYBERPUNK)
+   ========================================================== */
+/* Barra de rolagem da página/container principal */
+.week-container::-webkit-scrollbar {
+    height: 8px; /* Altura da barra horizontal */
+    width: 6px;
+}
+
+.week-container::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+.week-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.week-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary); /* Brilha ciano ao passar o mouse */
+}
+
+/* ==========================================================
+   CARDS DE DEMANDA (AJUSTE DE ALTURA)
    ========================================================== */
 .demand-list {
+    flex-grow: 1; /* Faz a lista ocupar o espaço restante do card */
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 10px;
 }
 
-.demand-item {
-    display: flex !important;
-    align-items: flex-start !important;
-    background-color: rgba(255, 255, 255, 0.03) !important;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    font-size: 0.75rem;
-    color: var(--text-main) !important;
-    line-height: 1.4;
-    transition: 0.2s;
-    cursor: pointer;
-}
-
-.demand-item:hover {
-    background-color: rgba(255, 255, 255, 0.07) !important;
-    transform: translateY(-2px);
-}
-
-.demand-item span {
-    white-space: normal !important; 
-    word-wrap: break-word !important;
-    flex: 1;
-}
-
-/* Ícones de Status */
-.demand-item i {
-    margin-right: 10px;
-    margin-top: 2px;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-}
-
-/* Bordas Laterais de Status */
-.status-done {
-    border-left: 4px solid var(--success) !important;
-    color: var(--success) !important;
-}
-
-.status-wait {
-    border-left: 4px solid var(--warning) !important;
-    color: var(--warning) !important;
-}
-
-/* Scrollbar para a lista de demandas interna se crescer muito */
-.demand-list {
-    max-height: 350px;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-.demand-list::-webkit-scrollbar { width: 4px; }
-.demand-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-/* Responsividade */
-@media (max-width: 1200px) {
-    .week-container { 
-        display: flex; 
-        overflow-x: auto; 
-        padding-bottom: 30px;
+/* Responsividade: Se a tela for menor que 1200px, 
+   o grid para de espremer e deixa a rolagem lateral agir */
+@media (max-width: 1300px) {
+    .week-container {
+        display: flex; /* Muda para flex para rolagem lateral suave */
     }
-    .day-card { min-width: 250px; }
+    .day-card {
+        flex: 0 0 180px; /* Mantém cada card com 180px de largura fixa */
+    }
 }
