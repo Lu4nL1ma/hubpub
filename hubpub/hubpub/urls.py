@@ -14,7 +14,7 @@ urlpatterns = [
     path('staff/agenda/deletar/<int:pk>/', deletar_agendamento, name='deletar_agendamento'),
 
     #inicia as urls de staff
-    path('staff/<str:eixo_nome>/', eixo, name='eix'),
+    path('staff/eixo/', eixo, name='eixo'),
     path('staff/<str:eixo_nome>/cursos/', listar_cursos, name='painel_cursos'),
     path('staff/cursos/form/', cadastrar_curso, name='cadastrar_curso'),
     path('staff/cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
