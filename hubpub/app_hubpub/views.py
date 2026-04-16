@@ -140,8 +140,7 @@ def listar_cursos(request, eixo_nome): # Adicionamos o parâmetro eixo_nome aqui
         return redirect('login')
     
     # Filtramos os cursos baseados no nome do eixo recebido pela URL
-    # Usamos 'eixo__eixo' porque 'eixo' é a FK e 'eixo' (o segundo) é o campo string no model eixo_tematico
-    todos_cursos = cursos.objects.filter(eixo__eixo=eixo_nome).order_by('data_inicio')
+    todos_cursos = cursos.objects.filter(eixo=eixo_nome).order_by('data_inicio')
     
     # Passamos também o eixo_nome para o template caso queira exibir um título dinâmico
     return render(request, 'painel.html', {
