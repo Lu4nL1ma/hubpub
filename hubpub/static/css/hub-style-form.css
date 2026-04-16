@@ -176,6 +176,38 @@ textarea {
     box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
 
+/* BOTÃO VOLTAR */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary, #00d4ff);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+
+.btn-back:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+    transform: translateX(-5px);
+}
+
+/* Ajuste no form-container para não ficar colado no topo */
+.form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #161d2f; /* var(--card-bg) */
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 600px) {
     body { padding: 20px; padding-top: 80px; }

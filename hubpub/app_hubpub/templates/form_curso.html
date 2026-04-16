@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/hub-style-form.css' %}">
 </head>
 <body>
-    <a href="{% url 'eixo' %}" class="btn-back">
-        <i class="fas fa-arrow-left"></i> VOLTAR
-    </a>
 
 <div class="form-container">
+    <a href="{% url 'eixo' %}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> VOLTAR PARA EIXOS
+    </a>
+
     <div class="form-header">
         <h2>CADASTRO DE <span>CURSO</span></h2>
     </div>
@@ -20,9 +21,21 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
-        <div class="form-group">
-            <label><i class="fas fa-book"></i> Nome do Curso</label>
-            <input type="text" name="curso" placeholder="Ex: Power BI Avançado" required>
+        <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+                <label><i class="fas fa-book"></i> Nome do Curso</label>
+                <input type="text" name="curso" placeholder="Ex: Power BI Avançado" required>
+            </div>
+
+            <div class="form-group" style="flex: 1;">
+                <label><i class="fas fa-layer-group"></i> Eixo Temático</label>
+                <select name="eixo" required>
+                    <option value="" disabled selected>Selecione</option>
+                    {% for e in eixos %}
+                        <option value="{{ e.eixo }}">{{ e.eixo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
 
         <div class="form-row">

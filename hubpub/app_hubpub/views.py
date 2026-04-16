@@ -154,38 +154,47 @@ def cadastrar_curso(request):
         return redirect('login')
 
     if request.method == 'POST':
-        # Captura os arquivos
         midia_post = request.FILES.get('midia_post')
         midia_feed = request.FILES.get('midia_feed')
+        
+        # CAPTURA O EIXO DO POST (Crucial para o redirect e para o banco)
+        eixo_escolhido = request.POST.get('eixo')
 
-        # Se houver ao menos um arquivo, geramos O NOME ÚNICO aqui
         nome_aleatorio_base = str(uuid.uuid4())
 
         if midia_post:
-            ext = os.path.splitext(midia_post.name)[1] # Pega .jpg, .png etc
+            ext = os.path.splitext(midia_post.name)[1]
             midia_post.name = f"{nome_aleatorio_base}{ext}"
 
         if midia_feed:
             ext = os.path.splitext(midia_feed.name)[1]
             midia_feed.name = f"{nome_aleatorio_base}{ext}"
 
-        # Agora criamos o objeto normalmente
+        # Criamos o objeto incluindo o campo 'eixo'
         novo_curso = cursos(
             curso=request.POST.get('curso'),
+            eixo=eixo_escolhido,  # Adicionado aqui
             turno=request.POST.get('turno'),
             vagas=request.POST.get('vagas'),
             inscritos=request.POST.get('inscritos'),
             data_inicio=request.POST.get('data_inicio'),
             legenda=request.POST.get('legenda'),
-            midia_post=midia_post, # Já vai com o nome alterado
-            midia_feed=midia_feed, # Já vai com o nome alterado
+            midia_post=midia_post,
+            midia_feed=midia_feed,
             professor_id=request.POST.get('professor') if request.POST.get('professor') else None
         )
         novo_curso.save()
-        return redirect('painel_cursos')
 
+        # AJUSTE DO REDIRECT: Passamos o nome do eixo para preencher a URL <str:eixo_nome>
+        return redirect('painel_cursos', eixo_nome=eixo_escolhido)
+
+    # No GET, enviamos também os eixos para o formulário
     usuarios = User.objects.all()
-    return render(request, 'form_curso.html', {'usuarios': usuarios})
+    eixos_disponiveis = eixo_tematico.objects.all()
+    return render(request, 'form_curso.html', {
+        'usuarios': usuarios,
+        'eixos': eixos_disponiveis
+    })
 
 @login_required
 @professor_do_curso_required
