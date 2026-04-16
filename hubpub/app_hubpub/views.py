@@ -135,11 +135,19 @@ def eixo(request):
     return render(request, 'eixos.html', {'eixos': eixos})
 
 @login_required
-def listar_cursos(request):
+def listar_cursos(request, eixo_nome): # Adicionamos o parâmetro eixo_nome aqui
     if not request.user.is_superuser:
         return redirect('login')
-    todos_cursos = cursos.objects.all().order_by('data_inicio')
-    return render(request, 'painel.html', {'cursos': todos_cursos})
+    
+    # Filtramos os cursos baseados no nome do eixo recebido pela URL
+    # Usamos 'eixo__eixo' porque 'eixo' é a FK e 'eixo' (o segundo) é o campo string no model eixo_tematico
+    todos_cursos = cursos.objects.filter(eixo__eixo=eixo_nome).order_by('data_inicio')
+    
+    # Passamos também o eixo_nome para o template caso queira exibir um título dinâmico
+    return render(request, 'painel.html', {
+        'cursos': todos_cursos, 
+        'eixo_selecionado': eixo_nome
+    })
 
 @login_required
 def cadastrar_curso(request):
