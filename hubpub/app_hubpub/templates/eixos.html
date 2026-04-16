@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/eixos.css' %}">
+    <title>Eixos Temáticos | Infty Proj</title>
+</head>
+<body>
+
+    <nav class="hub-navbar">
+        <a href="{% url 'staff' %}" class="nav-link">
+            <i class="fas fa-arrow-left"></i> VOLTAR
+        </a>
+        
+        <div class="nav-title">
+            <h2>EIXOS <span>TEMÁTICOS</span></h2>
+        </div>
+
+        <div class="nav-actions">
+            <a href="#" class="btn-new-small">
+                <i class="fas fa-plus"></i> NOVO EIXO
+            </a>
+        </div>
+    </nav>
+
+    <main class="eixos-container">
+        <div class="eixos-grid">
+            {% for eixo in eixos %}
+            <a href="{% url 'painel_cursos' %}?eixo={{ eixo.id }}" class="eixo-card">
+                <div class="eixo-glow"></div>
+                <div class="eixo-content">
+                    <div class="eixo-icon">
+                        {% if "ENFERMAGEM" in eixo.nome|upper %}
+                            <i class="fas fa-user-nurse"></i>
+                        {% elif "FISIOTERAPIA" in eixo.nome|upper %}
+                            <i class="fas fa-briefcase-medical"></i>
+                        {% else %}
+                            <i class="fas fa-layer-group"></i>
+                        {% endif %}
+                    </div>
+                    <div class="eixo-info">
+                        <h3>{{ eixo.nome }}</h3>
+                        <p>Gerenciar cursos e turmas desta área</p>
+                    </div>
+                    <div class="eixo-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <p>Nenhum eixo temático cadastrado ainda.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+</body>
+</html>

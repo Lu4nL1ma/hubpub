@@ -1,0 +1,139 @@
+/* ==========================================================
+   VARIÁVEIS INFTY PROJ
+   ========================================================== */
+:root {
+    --primary: #00d4ff;        /* Ciano Neon */
+    --dark-bg: #0a0f1e;        /* Azul Marinho Profundo */
+    --card-bg: #161d2f;        /* Azul Card */
+    --white: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --text-muted: #b0b3b8;
+    --magenta: #BF40BF;        /* Cor do "Hoje" */
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--white);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
+.hub-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.nav-link { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.8rem; }
+.nav-title h2 { margin: 0; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; }
+.nav-title span { color: var(--primary); font-weight: 300; }
+
+.btn-new-small {
+    background: var(--primary);
+    color: var(--dark-bg);
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+/* GRID DE EIXOS */
+.eixos-container {
+    padding: 40px 10%;
+    min-height: calc(100vh - 80px);
+}
+
+.eixos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* CARD DO EIXO */
+.eixo-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 25px;
+    text-decoration: none;
+    color: white;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+}
+
+.eixo-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15);
+}
+
+/* Efeito de brilho no fundo ao passar o mouse */
+.eixo-glow {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at top right, rgba(0, 212, 255, 0.1), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.eixo-card:hover .eixo-glow { opacity: 1; }
+
+.eixo-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+}
+
+.eixo-icon {
+    width: 55px;
+    height: 55px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-right: 20px;
+}
+
+.eixo-info { flex: 1; }
+.eixo-info h3 { margin: 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
+.eixo-info p { margin: 5px 0 0; font-size: 0.8rem; color: var(--text-muted); }
+
+.eixo-arrow {
+    font-size: 1rem;
+    color: var(--border);
+    transition: 0.3s;
+}
+
+.eixo-card:hover .eixo-arrow {
+    color: var(--primary);
+    transform: translateX(5px);
+}
+
+/* Estado Vazio */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px;
+    color: var(--text-muted);
+}
+.empty-state i { font-size: 3rem; margin-bottom: 20px; opacity: 0.3; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .eixos-container { padding: 20px 5%; }
+    .eixos-grid { grid-template-columns: 1fr; }
+}

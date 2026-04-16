@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from app_hubpub.views import home, staff, agenda, forms_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca, deletar_agendamento
+from app_hubpub.views import home, staff, agenda, forms_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca, deletar_agendamento, eixo
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,7 +14,8 @@ urlpatterns = [
     path('staff/agenda/deletar/<int:pk>/', deletar_agendamento, name='deletar_agendamento'),
 
     #inicia as urls de staff
-    path('staff/cursos/', listar_cursos, name='painel_cursos'),
+    path('staff/<str:eixo_nome>/', eixo, name='eix'),
+    path('staff/<str:eixo_nome>/cursos/', listar_cursos, name='painel_cursos'),
     path('staff/cursos/form/', cadastrar_curso, name='cadastrar_curso'),
     path('staff/cursos/<int:curso_id>/', detalhe_curso, name='detalhe_curso'),
     path('staff/cursos/<int:curso_id>/gerenciar-alunos', gestao_alunos, name='gestao_alunos'),

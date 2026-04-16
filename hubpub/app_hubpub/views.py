@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
-from .models import divulgacao_agend, cursos, aluno, presenca
+from .models import divulgacao_agend, cursos, aluno, presenca, eixo_tematico
 from django.utils import timezone
 from datetime import date
 import json
@@ -125,6 +125,14 @@ def forms_agenda(request):
 
     # ATENÇÃO: Verifique se o nome do arquivo é form_agd.html ou form_divulgacao.html
     return render(request, 'form_agd.html', context)
+
+
+@login_required
+def eixo(request):
+    if not request.user.is_superuser:
+        return redirect('login')
+    eixos = eixo_tematico.objects.all().order_by('-id')
+    return render(request, 'eixos.html', {'eixos': eixos})
 
 @login_required
 def listar_cursos(request):
