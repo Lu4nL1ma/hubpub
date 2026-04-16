@@ -112,3 +112,14 @@ class presenca(models.Model):
 
     def __str__(self):
         return f"{self.aluno.nome} - {self.data}"
+
+
+class  eixo_tematico(models.Model):
+    # Default 'Geral' evita erro em registros antigos
+    eixo = models.CharField(max_length=100, default='')
+
+    # auto_now_add já define o default como "agora" na criação
+    data_criacao = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.eixo
