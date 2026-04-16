@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import divulgacao_agend, cursos, aluno, presenca
+from .models import divulgacao_agend, cursos, aluno, presenca, eixo_tematico
 
 @admin.register(divulgacao_agend)
 class DivulgacaoAgendAdmin(admin.ModelAdmin):
@@ -14,6 +14,36 @@ class DivulgacaoAgendAdmin(admin.ModelAdmin):
     
     # Ordenação padrão (mais recentes primeiro)
     ordering = ('-data',)
+
+
+@admin.register(eixo_tematico)
+class EixoTematicoAdmin(admin.ModelAdmin):
+    # Campos que aparecerão na lista do painel
+    list_display = ('id', 'eixo', 'data_criacao')
+    
+    # Adiciona uma barra de pesquisa pelo nome do eixo
+    search_fields = ('eixo',)
+    
+    # Adiciona um filtro lateral por data
+    list_filter = ('data_criacao',)
+    
+    # Ordenação padrão ao abrir o admin (do mais novo para o mais antigo)
+    ordering = ('-id',)
+    
+    # Como 'data_criacao' tem auto_now_add=True, o Django o esconde por padrão.
+    # Esta linha permite que você o veja dentro do formulário de edição (apenas leitura).
+    readonly_fields = ('data_criacao',)
+
+    # Configuração estética (opcional)
+    fieldsets = (
+        ('Informações do Eixo', {
+            'fields': ('eixo',)
+        }),
+        ('Metadados', {
+            'fields': ('data_criacao',),
+            'classes': ('collapse',), # Deixa essa parte colapsada por padrão
+        }),
+    )
 
 
 @admin.register(cursos)
