@@ -35,6 +35,9 @@ class divulgacao_agend(models.Model):
 
 class  cursos(models.Model):
     # Default 'Geral' evita erro em registros antigos
+    eixo = models.CharField(max_length=100, default='')
+
+    # Default 'Geral' evita erro em registros antigos
     curso = models.CharField(max_length=100, default='')
 
     # Default 'Post' para preencher a coluna tipo_post
