@@ -49,7 +49,7 @@ class EixoTematicoAdmin(admin.ModelAdmin):
 @admin.register(cursos)
 class CursosAdmin(admin.ModelAdmin):
     # Colunas que aparecerão na lista principal
-    list_display = ('eixo','curso', 'turno', 'vagas', 'inscritos', 'data_inicio', 'professor', 'midia_feed', 'midia_post')
+    list_display = ('id','eixo','curso', 'turno', 'vagas', 'inscritos', 'data_inicio', 'professor', 'midia_feed', 'midia_post')
     
     # Filtros laterais para facilitar a navegação
     list_filter = ('turno', 'data_inicio', 'professor')
@@ -58,7 +58,7 @@ class CursosAdmin(admin.ModelAdmin):
     search_fields = ('curso', 'legenda', 'professor__username')
     
     # Permite editar as vagas e inscritos diretamente na lista, sem entrar no registro
-    list_editable = ('vagas', 'inscritos')
+    list_editable = ('eixo','vagas', 'inscritos')
     
     # Organização do formulário de edição
     fieldsets = (
