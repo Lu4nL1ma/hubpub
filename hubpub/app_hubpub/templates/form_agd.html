@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Form-Divulgação | Infty Proj</title>
+    
     <link rel="stylesheet" href="{% static 'css/frm-agd.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -22,15 +25,17 @@
         <form action="{% url 'forms_agenda' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-
             <div class="form-group">
                 <label for="curs"><i class="fas fa-search"></i> Pesquisar ou Selecionar Curso</label>
-                <input list="cursos-list" name="curs" id="curs" oninput="verificarDatalist(this)" placeholder="Digite para filtrar..." required>
-                <datalist id="cursos-list">
-                    {% for tc in todos_cursos %}
-                        <option value="{{ tc.curso }}">
+                <select name="curs" id="curs" required>
+                    <option value=""></option> {% for tc in todos_cursos %}
+                        <option value="{{ tc.curso }}" 
+                                data-legenda="{{ tc.legenda }}" 
+                                data-midia="{% if tc.midia_post %}{{ tc.midia_post.url }}{% else %}Não Especificado{% endif %}"> 
+                            {{ tc.curso }} 
+                        </option>
                     {% endfor %}
-                </datalist>
+                </select>
             </div>
 
             <input type="hidden" id="hidden_legenda" name="legenda">
@@ -69,7 +74,6 @@
             <div class="form-group" style="margin-top: 10px;">
                 <label class="checkbox-container">
                     <input type="checkbox" id="check-repetir">
-                    <span class="checkmark"></span>
                     Agendar uma repetição para outra data?
                 </label>
             </div>
@@ -87,8 +91,25 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
-        // Lógica para mostrar/esconder o campo de repetição
+        $(document).ready(function() {
+            // Inicializa o Select2 corretamente fora de funções
+            $('#curs').select2({
+                placeholder: "Pesquisar curso...",
+                allowClear: true,
+                width: '100%'
+            });
+
+            // Dispara a função de preencher quando o Select2 mudar
+            $('#curs').on('select2:select', function (e) {
+                preencherDadosAutomaticos(this);
+            });
+        });
+
+        // Lógica da Repetição
         const checkbox = document.getElementById('check-repetir');
         const wrapper = document.getElementById('wrapper-repeticao');
         const inputRep = document.getElementById('data_rep');
@@ -104,19 +125,16 @@
             }
         });
 
-        // Lógica para capturar dados do Curso e jogar nos Hidden Inputs
+        // Lógica de Captura de Dados
         function preencherDadosAutomaticos(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
-
-            // Extrai os dados dos atributos "data-"
             const legenda = selectedOption.getAttribute('data-legenda');
             const midia = selectedOption.getAttribute('data-midia');
 
-            // Alimenta os inputs hidden que serão enviados no POST
             document.getElementById('hidden_legenda').value = legenda || '';
             document.getElementById('hidden_midia').value = midia || 'Não Especificado';
 
-            console.log("Dados do curso carregados com sucesso!");
+            console.log("Dados carregados: ", legenda);
         }
     </script>
 </body>
