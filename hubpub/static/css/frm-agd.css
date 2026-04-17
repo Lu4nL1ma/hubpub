@@ -302,3 +302,29 @@ input::-webkit-calendar-picker-indicator {
 .btn-submit {
     margin-top: 20px;
 }
+
+/* Customização para o Select2 "conversar" com seu CSS */
+.select2-container--default .select2-selection--single {
+    background-color: var(--cor-primaria) !important;
+    border: 1px solid var(--transparencia) !important;
+    height: 50px !important;
+    border-radius: 10px !important;
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--cor-texto) !important;
+}
+
+.select2-dropdown {
+    background-color: var(--cor-secundaria) !important;
+    border: 1px solid var(--cor-acento) !important;
+    color: var(--cor-texto) !important;
+}
+
+.select2-search__field {
+    background-color: var(--cor-primaria) !important;
+    color: var(--cor-texto) !important;
+    border: 1px solid var(--transparencia) !important;
+}
