@@ -75,10 +75,10 @@
                     onclick="return confirm('Deseja mesmo remover {{ aluno.nome }}?')">
                     <i class="fas fa-trash-alt"></i>
                     </a>
-                    <label class="switch" title="Alternar Status">
+                    <label class="switch" title="Status do Aluno">
                     <input type="checkbox" {% if aluno.ativo %}checked{% endif %} 
-                    onchange="window.location.href='{% url 'staff' %}'">
-                    <span class="slider round"></span>
+                        onchange="window.location.href='{% url 'alternar_status_aluno' curso.id aluno.id %}'">
+                    <span class="slider"></span>
                     </label>
                 </td>
                 </tr>
