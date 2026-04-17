@@ -6,6 +6,7 @@
     --cor-suave: #b0b3b8;
     --cor-texto: #ffffff;
     --cor-erro: #ff4d4d;
+    --cor-sucesso: #28a745;
     --transparencia: rgba(255, 255, 255, 0.05);
     --sombra: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
@@ -80,7 +81,7 @@ body {
     border-radius: 15px;
     border: 1px solid var(--transparencia);
     display: grid;
-    grid-template-columns: 2fr 1.2fr 1fr 1.5fr 60px; /* Ajuste para o botão compacto */
+    grid-template-columns: 2fr 1.2fr 1fr 1.5fr 60px;
     gap: 15px;
     align-items: flex-end;
     margin-bottom: 30px;
@@ -126,6 +127,7 @@ input:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 45px;
 }
 
 .btn-submit:hover {
@@ -162,6 +164,7 @@ td {
     padding: 14px 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     font-size: 0.9rem;
+    vertical-align: middle;
 }
 
 tr:hover {
@@ -176,10 +179,67 @@ tr:hover {
     margin: 0 5px;
     cursor: pointer;
     transition: 0.3s;
+    text-decoration: none;
 }
 
 .btn-action.edit:hover { color: var(--cor-acento); }
 .btn-action.delete:hover { color: var(--cor-erro); }
+
+/* --- BOTÃO TOGGLE (ROLL) CORRIGIDO --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+/* Esconde o checkbox real */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+/* O corpo do slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333; /* Cinza escuro combinando com o tema */
+    transition: .4s;
+    border-radius: 34px;
+    border: 1px solid var(--transparencia);
+}
+
+/* A bolinha */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* CORRIGIDO: Seletor específico para o estado checado */
+.switch input:checked + .slider {
+    background-color: var(--cor-sucesso);
+}
+
+/* Movimento da bolinha */
+.switch input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* Foco */
+.switch input:focus + .slider {
+    box-shadow: 0 0 8px var(--cor-sucesso);
+}
 
 /* --- FOOTER --- */
 .form-footer {
@@ -188,64 +248,6 @@ tr:hover {
     font-size: 0.8rem;
     color: var(--cor-suave);
     opacity: 0.7;
-}
-
-/* O container do switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 22px;
-  vertical-align: middle;
-  margin: 0 5px;
-}
-
-/* Esconde o checkbox padrão */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* O "corpo" do slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 34px;
-}
-
-/* A bolinha que corre */
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-/* Cor quando estiver Ativo (Checked) */
-input:checked + .slider {
-  background-color: #28a745;
-}
-
-/* Movimento da bolinha */
-input:checked + .slider:before {
-  transform: translateX(18px);
-}
-
-/* Sombra suave ao focar */
-input:focus + .slider {
-  box-shadow: 0 0 1px #28a745;
 }
 
 /* --- RESPONSIVIDADE --- */
