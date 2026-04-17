@@ -37,30 +37,33 @@ body {
     width: 100%;
     max-width: 550px;
     position: relative;
+    margin-top: 40px; /* Espaço para o botão superior */
 }
 
 /* --- BOTÃO VOLTAR --- */
 .btn-back {
     position: absolute;
-    top: 25px;
-    left: 25px;
+    top: -60px; /* Posiciona acima do container */
+    left: 0;
     color: var(--cor-texto);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     transition: all 0.3s ease;
     z-index: 10;
     background: rgba(255, 255, 255, 0.03);
-    padding: 12px 20px;
+    padding: 10px 18px;
     border-radius: 10px;
     border: 1px solid var(--transparencia);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-back i {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--cor-acento);
 }
 
@@ -75,7 +78,6 @@ body {
 .form-header {
     text-align: center;
     margin-bottom: 35px;
-    margin-top: 10px;
 }
 
 .form-header h2 {
@@ -90,13 +92,13 @@ body {
 
 /* --- ESTRUTURA DE GRUPOS E LINHAS --- */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .form-row {
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .form-row .form-group {
@@ -108,8 +110,10 @@ body {
     display: block;
     color: var(--cor-suave);
     margin-bottom: 10px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group label i {
@@ -124,7 +128,7 @@ input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 textarea,
-select { /* ADICIONADO SELECT AQUI */
+select {
     width: 100%;
     padding: 14px 15px;
     background: var(--cor-primaria);
@@ -137,7 +141,6 @@ select { /* ADICIONADO SELECT AQUI */
     outline: none;
 }
 
-/* Ajuste específico para as opções do select no modo escuro */
 select option {
     background-color: var(--cor-secundaria);
     color: var(--cor-texto);
@@ -145,10 +148,10 @@ select option {
 
 input:focus, 
 textarea:focus,
-select:focus { /* ADICIONADO SELECT FOCUS AQUI */
+select:focus {
     border-color: var(--cor-acento);
-    background: rgba(0, 212, 255, 0.02);
-    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+    background: rgba(0, 212, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
 }
 
 textarea {
@@ -183,13 +186,13 @@ input[type="file"]::file-selector-button {
 input::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 /* --- BOTÃO DE ENVIO --- */
 .btn-submit {
     width: 100%;
-    padding: 22px; 
+    padding: 20px; 
     font-size: 1.1rem; 
     background: transparent;
     border: 2px solid var(--cor-acento);
@@ -201,70 +204,29 @@ input::-webkit-calendar-picker-indicator {
     letter-spacing: 3px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     margin-top: 25px;
-    display: block;
 }
 
 .btn-submit:hover {
     background: var(--cor-acento);
     color: var(--cor-primaria);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+    transform: translateY(-3px);
 }
 
-/* --- FOOTER --- */
-.form-footer {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 0.8rem;
-    color: var(--cor-suave);
-    opacity: 0.7;
-}
-
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 480px) {
-    .form-container {
-        padding: 25px;
-        padding-top: 60px;
-    }
-
-    .btn-back {
-        top: 15px;
-        left: 20px;
-        padding: 8px 15px;
-        font-size: 1rem;
-    }
-
-    .form-row {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .form-header h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* --- Mantenha todo o seu código anterior e adicione/ajuste estas partes --- */
-
-/* Estilo para o Checkbox Customizado */
+/* --- CHECKBOX CUSTOMIZADO --- */
 .checkbox-container {
     display: flex;
     align-items: center;
-    position: relative;
-    padding-left: 0;
-    margin-bottom: 12px;
     cursor: pointer;
     font-size: 0.9rem;
     color: var(--cor-suave);
-    user-select: none;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .checkbox-container input {
     margin-right: 12px;
-    width: 18px !important;
-    height: 18px !important;
-    cursor: pointer;
+    width: 18px;
+    height: 18px;
     accent-color: var(--cor-acento);
 }
 
@@ -272,38 +234,22 @@ input::-webkit-calendar-picker-indicator {
     color: var(--cor-acento);
 }
 
-/* Container do Campo Extra com borda de destaque */
 #wrapper-repeticao {
     display: none;
     padding: 15px;
     background: rgba(0, 212, 255, 0.03);
     border-left: 3px solid var(--cor-acento);
     border-radius: 0 10px 10px 0;
-    margin-top: 5px;
-}
-
-/* Animação suave ao aparecer */
-.field-animated {
+    margin-top: 10px;
     animation: fadeInSlide 0.4s ease forwards;
 }
 
 @keyframes fadeInSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Ajuste de espaçamento para o botão submit quando houver repetição */
-.btn-submit {
-    margin-top: 20px;
-}
-
-/* Customização para o Select2 "conversar" com seu CSS */
+/* --- CUSTOMIZAÇÃO SELECT2 (DARK MODE) --- */
 .select2-container--default .select2-selection--single {
     background-color: var(--cor-primaria) !important;
     border: 1px solid var(--transparencia) !important;
@@ -315,16 +261,53 @@ input::-webkit-calendar-picker-indicator {
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: var(--cor-texto) !important;
+    line-height: 50px !important;
+    padding-left: 15px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: var(--cor-acento) transparent transparent transparent !important;
 }
 
 .select2-dropdown {
     background-color: var(--cor-secundaria) !important;
     border: 1px solid var(--cor-acento) !important;
     color: var(--cor-texto) !important;
+    z-index: 9999;
 }
 
 .select2-search__field {
     background-color: var(--cor-primaria) !important;
     color: var(--cor-texto) !important;
     border: 1px solid var(--transparencia) !important;
+    border-radius: 5px !important;
+    outline: none !important;
+}
+
+.select2-results__option--highlighted[aria-selected] {
+    background-color: var(--cor-acento) !important;
+    color: var(--cor-primaria) !important;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 25px;
+        margin-top: 80px;
+    }
+
+    .btn-back {
+        top: -65px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-header h2 {
+        font-size: 1.4rem;
+    }
 }
