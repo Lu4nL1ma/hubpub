@@ -121,7 +121,14 @@ body {
     color: var(--cor-acento);
 }
 
-.form-footer{display: center;}
+/* --- CORREÇÃO DO FOOTER --- */
+.form-footer {
+    display: flex;             /* Ativa o modo Flexbox */
+    justify-content: center;    /* Centraliza o conteúdo horizontalmente */
+    align-items: center;        /* Centraliza o conteúdo verticalmente (se houver altura) */
+    margin-top: 20px;           /* Adiciona um espaço entre os campos e o footer */
+    width: 100%;                /* Garante que ocupe toda a largura do container */
+}
 
 /* --- ESTILIZAÇÃO DE INPUTS E SELECT --- */
 input[type="text"],
