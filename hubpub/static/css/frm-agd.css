@@ -121,7 +121,7 @@ body {
     color: var(--cor-acento);
 }
 
-.form-footer{display: block;}
+.form-footer{display: center;}
 
 /* --- ESTILIZAÇÃO DE INPUTS E SELECT --- */
 input[type="text"],
