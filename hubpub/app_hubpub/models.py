@@ -52,6 +52,9 @@ class  cursos(models.Model):
     # auto_now_add já define o default como "agora" na criação
     data_inicio = models.DateField(auto_now_add=False)
 
+    # Default 'Geral' evita erro em registros antigos
+    dia_semana = models.CharField(max_length=100, default='')
+
     # Campos de arquivo não costumam ter default de string, apenas null/blank
     midia_post = models.ImageField(upload_to='divulgacao/story', null=True, blank=True)
 
@@ -63,6 +66,8 @@ class  cursos(models.Model):
 
     # professor 
     professor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Professor Responsável")
+
+
 
     def __str__(self):
         return self.curso
