@@ -287,7 +287,7 @@ def historico_presenca(request, curso_id):
 
 def alternar_status_aluno(request, curso_id, aluno_id):
     # 1. Busca o aluno ou retorna 404 se não existir
-    aluno = get_object_or_404(Aluno, pk=aluno_id)
+    aluno = get_object_or_404(aluno, pk=aluno_id)
     
     # 2. Inverte o status (se era True vira False, e vice-versa)
     aluno.ativo = not aluno.ativo 
