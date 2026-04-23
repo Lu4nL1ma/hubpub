@@ -286,18 +286,16 @@ def historico_presenca(request, curso_id):
 
 
 def alternar_status_aluno(request, curso_id, aluno_id):
-    # 1. Busque o aluno FORA do IF (assim ele sempre existe na função)
-    aluno = get_object_or_404(Aluno, pk=aluno_id)
-    
-    # 2. Se você quer que a mudança só ocorra via POST (mais seguro):
-    if request.method == 'POST':
-        aluno.ativo = not aluno.ativo
-        aluno.save()
-        return redirect('inserir_aluno', curso_id=curso_id)
 
-    # 3. Se cair aqui via GET, ele apenas volta sem dar erro
-    return redirect('inserir_aluno', curso_id=curso_id)
+    instancia = get_object_or_404(aluno, pk=aluno_id)
     
+    # Inverte o status (verifique se o campo no banco é 'ativo' ou 'status')
+    instancia.ativo = not instancia.ativo
+    instancia.save()
+    
+    # Volta para a tela de inserção que você quer
+    return redirect('inserir_aluno', curso_id=curso_id)
+
 # --- CLASSE DE LOGIN ---
 
 class MeuLoginView(LoginView):
