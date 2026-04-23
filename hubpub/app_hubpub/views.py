@@ -284,6 +284,12 @@ def historico_presenca(request, curso_id):
         'historico': historico
     })
 
+def alternar_status_aluno(request, curso_id, aluno_id,):
+    curso = get_object_or_404(cursos, id=curso_id)
+    aluno = get_object_or_404(aluno, id=aluno_id)
+
+    return rende(request, 'gestao_alunos.html')
+
 # --- CLASSE DE LOGIN ---
 
 class MeuLoginView(LoginView):

@@ -1,19 +1,23 @@
 from django.contrib import admin
 from django.urls import path, include
-from app_hubpub.views import home, staff, agenda, forms_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca, deletar_agendamento, eixo
+from app_hubpub.views import home, staff, agenda, forms_agenda, listar_cursos, cadastrar_curso, detalhe_curso, inserir_aluno, excluir_aluno, controle_presenca, gestao_alunos, MeuLoginView, historico_presenca, deletar_agendamento, eixo, alternar_status_aluno
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    #url do site
     path('', home, name='home'),
-    path('staff/', staff, name='staff'),
     path('login/', MeuLoginView.as_view(template_name='login.html'), name='login'),
+
+    #url de agenda
     path('staff/agenda/', agenda, name='agenda'),
     path('staff/agenda/form-agenda/', forms_agenda, name='forms_agenda'),
     path('staff/agenda/deletar/<int:pk>/', deletar_agendamento, name='deletar_agendamento'),
 
     #inicia as urls de staff
+    
+    path('staff/', staff, name='staff'),
     path('staff/eixo/', eixo, name='eixo'),
     path('staff/<str:eixo_nome>/cursos/', listar_cursos, name='painel_cursos'),
     path('staff/cursos/form/', cadastrar_curso, name='cadastrar_curso'),
@@ -23,6 +27,8 @@ urlpatterns = [
     path('staff/cursos/<int:curso_id>/excluir-aluno/<int:aluno_id>/', excluir_aluno, name='excluir_aluno'),
     path('staff/cursos/<int:curso_id>/gerenciar-alunos/cntrl-pres', controle_presenca, name='controle_presenca'),
     path('staff/cursos/<int:curso_id>/gerenciar-alunos/hist-pres', historico_presenca, name='historico_presenca'),
+    path('staff/cursos/<int:curso_id>/<int:aluno_id>/alternar_status_aluno', alternar_status_aluno, name='alternar_status_aluno'),
+    
     #end
 
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
