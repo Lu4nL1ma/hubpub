@@ -77,7 +77,7 @@
                     </a>
                     <label class="switch" title="Status do Aluno">
                     <input type="checkbox" {% if aluno.ativo %}checked{% endif %} 
-                        onchange="window.location.href='{% url 'gestao_alunos' curso.id aluno.id %}'">
+                        onchange="window.location.href='{% url 'alternar_status_aluno' curso.id aluno.id %}'">
                     <span class="slider"></span>
                     </label>
                 </td>
