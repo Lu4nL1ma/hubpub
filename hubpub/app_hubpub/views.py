@@ -289,12 +289,12 @@ def alternar_status_aluno(request, curso_id, aluno_id):
         aluno = get_object_or_404(Aluno, pk=aluno_id)
         aluno.status = not aluno.status
         aluno.save()
-        return redirect('gestao_alunos', curso_id=curso_id) # Retorno dentro do IF
+        return redirect('inserir_aluno', curso_id=curso_id) # Retorno dentro do IF
     
     # Caso alguém tente acessar via GET, você precisa de um retorno padrão
-    return redirect('gestao_alunos', curso_id=curso_id)
+    return redirect('inserir_aluno', curso_id=curso_id)
 
-    
+
 # --- CLASSE DE LOGIN ---
 
 class MeuLoginView(LoginView):
