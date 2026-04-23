@@ -284,16 +284,18 @@ def historico_presenca(request, curso_id):
         'historico': historico
     })
 
-def alternar_status_aluno(request, curso_id, aluno_id):
-    if request.method == 'POST':
-        aluno = get_object_or_404(Aluno, pk=aluno_id)
-        aluno.status = not aluno.status
-        aluno.save()
-        return redirect('inserir_aluno', curso_id=curso_id) # Retorno dentro do IF
-    
-    # Caso alguém tente acessar via GET, você precisa de um retorno padrão
-    return redirect('inserir_aluno', curso_id=curso_id)
 
+def alternar_status_aluno(request, curso_id, aluno_id):
+    # 1. Busca o aluno ou retorna 404 se não existir
+    aluno = get_object_or_404(Aluno, pk=aluno_id)
+    
+    # 2. Inverte o status (se era True vira False, e vice-versa)
+    aluno.ativo = not aluno.ativo 
+    aluno.save()
+    
+    # 3. Redireciona de volta para a página de inserir
+    # Note que passamos apenas o curso_id, pois a URL 'inserir_aluno' só pede ele
+    return redirect('inserir_aluno', curso_id=curso_id)
 
 # --- CLASSE DE LOGIN ---
 
