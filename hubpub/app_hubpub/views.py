@@ -251,7 +251,10 @@ def excluir_aluno(request, curso_id, aluno_id):
 @professor_do_curso_required
 def controle_presenca(request, curso_id):
     curso_obj = get_object_or_404(cursos, id=curso_id)
-    lista_alunos = aluno.objects.filter(curso=curso_obj)
+    
+    # Adicionei o filtro 'ativo=True' aqui:
+    lista_alunos = aluno.objects.filter(curso=curso_obj, ativo=True)
+    
     hoje = date.today()
 
     if request.method == "POST":
@@ -269,7 +272,7 @@ def controle_presenca(request, curso_id):
         'alunos': lista_alunos, 
         'hoje': hoje.strftime('%Y-%m-%d')
     })
-
+    
 @login_required
 @professor_do_curso_required
 def historico_presenca(request, curso_id):
